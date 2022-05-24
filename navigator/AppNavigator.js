@@ -33,8 +33,24 @@ const Navigator = () => {
 
                         />;
                     },
-                    tabBarActiveTintColor: 'blue',
+                    headerShown: false,
+                    tabBarStyle: {
+                        height: 80,
+                        position: 'absolute',
+                        // bottom: 16,
+                        backgroundColor: 'rgb(255,255,255)',
+                        shadowColor: '#000000',
+                        shadowOffset: {
+                            width: 0,
+                            height: 1
+                        },
+                        shadowRadius: 5,
+                        shadowOpacity: 0.2
+
+                    },
+                    tabBarActiveTintColor: 'rgb(73,139,134)',
                     tabBarInactiveTintColor: 'gray',
+                    tabBarShowLabel: false,
                 })}
             >
                 <Tab.Screen name="Transactions" component={TransactionScreen} />
@@ -49,8 +65,8 @@ const Navigator = () => {
 const styles = StyleSheet.create({
     icon: {
         // tintColor: 'gray',
-        height: 25,
-        width: 25,
+        height: 32,
+        width: 32,
     }
 });
 
