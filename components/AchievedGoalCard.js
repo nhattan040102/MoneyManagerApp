@@ -10,11 +10,11 @@ const CompleteBar = () => {
         </View>
     );
 }
-const AchievedGoalCard = props => {
+const AchievedGoalCard = ({ title }) => {
     return (
         <TouchableOpacity style={styles.container}>
             <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>Mua quà cho mẹ</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{title}</Text>
             </View>
             <View style={{ padding: 5 }}>
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>1,600,00 VND</Text>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         borderRadius: 15,
-        width: '90%',
+        // width: '95%',
         padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 3,
         shadowOpacity: 0.6,
-        elevation: 0.6
+        elevation: 0.6,
+        marginBottom: 10,
     }
 });
 
