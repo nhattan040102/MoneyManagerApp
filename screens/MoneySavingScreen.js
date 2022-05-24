@@ -1,10 +1,9 @@
 import { React } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
-import * as Progress from 'react-native-progress';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
-
+import AchievedGoalCard from '../components/AchievedGoalCard';
 
 
 const SavingScreen = props => {
@@ -31,7 +30,7 @@ const SavingScreen = props => {
                 <View style={styles.title}>
                     <Text style={styles.titleText}>DONE</Text>
                 </View>
-                <SavingGoalCard />
+                <AchievedGoalCard />
             </View>
         </SafeAreaView>
     );

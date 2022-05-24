@@ -12,8 +12,9 @@ const SavingGoalCard = props => {
             <View style={{ padding: 5 }}>
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>10,000,000 VND</Text>
             </View>
-            <View style={{ paddingHorizontal: 5, paddingVertical: 10 }}>
-                <Progress.Bar progress={0.3} width={320} unfilledColor={'grey'} height={15} />
+            <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
+                <Progress.Bar progress={0.2325} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />
+                <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>23.25%</Text>
             </View>
             <View style={{ padding: 5 }}>
                 <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>Tiến độ: 2,325,000 VND / 10,000,000 VND</Text>
