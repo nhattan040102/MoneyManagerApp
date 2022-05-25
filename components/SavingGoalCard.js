@@ -5,7 +5,7 @@ import * as Progress from 'react-native-progress';
 
 const SavingGoalCard = props => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>Vacation</Text>
             </View>

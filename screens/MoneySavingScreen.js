@@ -50,7 +50,8 @@ const SavingScreen = props => {
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
                     <SavingInputModal
                         onClose={() => setModalVisible(false)}
-                        onCreate={() => setModalVisible(false)} />
+                        onCreate={() => setModalVisible(false)}
+                    />
                 </View>
             </Modal>
 
@@ -60,7 +61,7 @@ const SavingScreen = props => {
                 <View style={styles.title}>
                     <Text style={styles.titleText}>CURRENT GOAL</Text>
                 </View>
-                <SavingGoalCard />
+                <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} />
             </View>
 
             {/* View for displaying your saving goal that have been achieved  */}

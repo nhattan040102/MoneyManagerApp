@@ -1,10 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image, StyleSheet } from 'react-native';
 import MoneyLimitScreen from '../screens/MoneyLimitScreen';
 import SavingScreen from '../screens/MoneySavingScreen';
 import ReportScreen from '../screens/ReportScreen';
 import TransactionScreen from '../screens/TransactionScreen';
+import SavingDetailScreen from '../screens/MoneySavingDetail';
+import { SavingStackNavigator, ExpenseControlStackNavigator, ReportStackNavigator, TransactionsStackNavigator } from './StackNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -33,6 +36,8 @@ const Navigator = () => {
 
                         />;
                     },
+
+
                     headerShown: false,
                     tabBarStyle: {
                         height: 100,
@@ -51,17 +56,20 @@ const Navigator = () => {
 
                     },
                     tabBarActiveTintColor: 'rgb(73,139,134)',
-                    tabBarInactiveTintColor: 'gray',
+                    tabBarInactiveTintColor: 'rgb(200,200,200)',
                     tabBarLabelStyle: {
                         fontSize: 16
-                    }
-                    // tabBarShowLabel: false,
+                    },
                 })}
             >
-                <Tab.Screen name="Transactions" component={TransactionScreen} />
-                <Tab.Screen name="Report" component={ReportScreen} />
-                <Tab.Screen name="Saving" component={SavingScreen} />
-                <Tab.Screen name="Expense limit" component={MoneyLimitScreen} />
+
+                {/* Add tab navigator here!! */}
+                <Tab.Screen name="Transactions" component={TransactionsStackNavigator} />
+                <Tab.Screen name="Report" component={ReportStackNavigator} />
+                <Tab.Screen name="Saving" component={SavingStackNavigator} />
+                <Tab.Screen name="Expense limit" component={ExpenseControlStackNavigator} />
+
+
             </Tab.Navigator>
         </NavigationContainer>
     );
