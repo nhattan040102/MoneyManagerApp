@@ -1,9 +1,10 @@
 import { React, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
+import SavingInputModal from '../components/SavingInputModal';
 
 const DATA = [
     {
@@ -26,7 +27,7 @@ const SavingScreen = props => {
         <AchievedGoalCard title={item.title} />
     );
 
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(true);
 
     return (
         <SafeAreaView style={styles.screen}>
@@ -40,6 +41,19 @@ const SavingScreen = props => {
                 </View>
 
             </View>
+
+            {/* Modal View */}
+            <Modal
+                animationType={"slide"}
+                transparent={false}
+                visible={modalVisible}
+            // onRequestClose={setModalVisible(false)}
+            >
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
+                    <SavingInputModal />
+                </View>
+            </Modal>
+
 
             {/* View for displaying current saving goal info */}
             <View style={styles.CurrentGoalView}>
@@ -63,8 +77,6 @@ const SavingScreen = props => {
                         keyExtractor={item => item.id}
                     />
                 </View>
-
-
 
             </View>
         </SafeAreaView>

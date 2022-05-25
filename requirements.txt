@@ -3,3 +3,4 @@
 # npm install @react-navigation/bottom-tabs
 # npm install react-navigation-tabs
 # npm i react-native-progress
+# npm i react-native-date-picker
