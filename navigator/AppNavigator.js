@@ -55,6 +55,7 @@ const Navigator = () => {
                         paddingRight: 2,
 
                     },
+
                     tabBarActiveTintColor: 'rgb(73,139,134)',
                     tabBarInactiveTintColor: 'rgb(200,200,200)',
                     tabBarLabelStyle: {
