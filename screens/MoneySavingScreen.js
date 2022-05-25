@@ -27,18 +27,16 @@ const SavingScreen = props => {
         <AchievedGoalCard title={item.title} />
     );
 
-    const [modalVisible, setModalVisible] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <SafeAreaView style={styles.screen}>
             {/* View for adding new saving goal */}
             <View style={styles.AddGoalView}>
                 <View style={styles.GoalBtn}>
-                    <AddGoalBtn></AddGoalBtn>
+                    <AddGoalBtn onPress={() => setModalVisible(true)}></AddGoalBtn>
                 </View>
-                <View style={{ width: '70%', height: '80%', marginLeft: 20, padding: 5 }}>
-                    <Text style={{ fontSize: FONTSIZE.title, textAlign: 'center', fontWeight: 'bold', color: 'rgb(55,152,140)' }}>ADD YOUR SAVING GOAL HERE!</Text>
-                </View>
+
 
             </View>
 
@@ -52,7 +50,7 @@ const SavingScreen = props => {
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
                     <SavingInputModal
                         onClose={() => setModalVisible(false)}
-                        onCreate={() => setModalVisible(true)} />
+                        onCreate={() => setModalVisible(false)} />
                 </View>
             </Modal>
 

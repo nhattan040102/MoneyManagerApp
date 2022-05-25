@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const AddGoalBtn = props => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <Text style={styles.text}>+</Text>
         </TouchableOpacity>
     );
