@@ -50,7 +50,9 @@ const SavingScreen = props => {
             // onRequestClose={setModalVisible(false)}
             >
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
-                    <SavingInputModal />
+                    <SavingInputModal
+                        onClose={() => setModalVisible(false)}
+                        onCreate={() => setModalVisible(true)} />
                 </View>
             </Modal>
 

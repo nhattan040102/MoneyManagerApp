@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, TextInput, Image, Button } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const SavingInputModal = () => {
-    const [date, setDate] = useState(new Date())
+const SavingInputModal = props => {
+    const [date, setDate] = useState(new Date());
+
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center', }}>
@@ -38,8 +39,8 @@ const SavingInputModal = () => {
 
 
             <View style={styles.buttonContainer}>
-                <Button title='HỦY' color={'red'}></Button>
-                <Button title='TẠO'></Button>
+                <Button title='HỦY' color={'red'} onPress={() => props.onClose()}></Button>
+                <Button title='TẠO' onPress={() => props.onCreate()}></Button>
 
             </View>
         </View>
