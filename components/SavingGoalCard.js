@@ -2,6 +2,7 @@ import { React } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import * as Progress from 'react-native-progress';
+import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 const SavingGoalCard = props => {
     return (
@@ -9,18 +10,21 @@ const SavingGoalCard = props => {
             <View style={{ padding: 5 }}>
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>Vacation</Text>
             </View>
-            <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>10,000,000 VND</Text>
+            <View style={{ padding: 5, paddingVertical: 10, flexDirection: 'row' }}>
+                <FontAwesome5 name="money-bill-alt" size={24} color="black" />
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> 10,000,000 VND</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <Progress.Bar progress={0.2325} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />
                 <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>23.25%</Text>
             </View>
-            <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>Tiến độ: 2,325,000 VND / 10,000,000 VND</Text>
+            <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
+                <MaterialCommunityIcons name="percent-outline" size={24} color="black" />
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Tiến độ: 2,325,000 VND / 10,000,000 VND</Text>
             </View>
-            <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>Ngày kết thúc: 18/10/2022</Text>
+            <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
+                <MaterialIcons name="access-time" size={24} color="black" />
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: 18/10/2022</Text>
             </View>
         </TouchableOpacity>
     );

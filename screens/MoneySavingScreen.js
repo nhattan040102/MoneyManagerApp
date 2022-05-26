@@ -32,12 +32,8 @@ const SavingScreen = props => {
     return (
         <SafeAreaView style={styles.screen}>
             {/* View for adding new saving goal */}
-            <View style={styles.AddGoalView}>
-                <View style={styles.GoalBtn}>
-                    <AddGoalBtn onPress={() => setModalVisible(true)}></AddGoalBtn>
-                </View>
-
-
+            <View style={styles.GoalBtn}>
+                <AddGoalBtn onPress={() => setModalVisible(true)}></AddGoalBtn>
             </View>
 
             {/* Modal View */}
@@ -109,35 +105,36 @@ const styles = StyleSheet.create({
 
     GoalBtn: {
         alignItems: 'flex-end',
-        marginRight: 15,
+        position: 'absolute',
+        right: 15,
+        top: 10,
+        zIndex: 3,
     },
 
-    AddGoalView: {
-        height: '10%',
-        width: '100%',
-        justifyContent: 'space-between',
-        flexDirection: 'row-reverse',
-        alignItems: 'center',
-        // backgroundColor: 'red'
-    },
+    // AddGoalView: {
+    //     height: '10%',
+    //     width: '100%',
+    //     justifyContent: 'space-between',
+    //     flexDirection: 'row-reverse',
+    //     alignItems: 'center',
+    //     // backgroundColor: 'red'
+    // },
 
     CurrentGoalView: {
         height: '30%',
         width: '100%',
         alignItems: 'center',
         paddingTop: 15,
+
     },
 
     PastGoalView: {
-        borderTopWidth: 2,
-        borderTopEndRadius: 80,
-        borderTopStartRadius: 80,
-        borderTopColor: 'black',
         marginTop: 15,
         flex: 1,
         width: '100%',
         paddingTop: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+
     }
 })
 
