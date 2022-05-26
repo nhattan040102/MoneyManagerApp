@@ -1,11 +1,10 @@
 import { React } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import LoginScreen, { SocialButton } from "react-native-login-screen";
 
-const LoginScreen = props => {
+const LogInScreen = props => {
     return (
-        <View style={styles.screen}>
-            <Text>Login Screen</Text>
-        </View>
+        <View></View>
     );
 }
 
@@ -18,4 +17,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LoginScreen;
+export default LogInScreen;
