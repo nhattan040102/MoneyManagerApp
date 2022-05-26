@@ -24,7 +24,7 @@ const DATA = [
 
 const SavingScreen = props => {
     const renderItem = ({ item }) => (
-        <AchievedGoalCard title={item.title} />
+        <AchievedGoalCard title={item.title} onPress={() => props.navigation.navigate('Chi tiết')} />
     );
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -41,7 +41,6 @@ const SavingScreen = props => {
                 animationType={"slide"}
                 transparent={false}
                 visible={modalVisible}
-            // onRequestClose={setModalVisible(false)}
             >
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
                     <SavingInputModal
@@ -110,15 +109,6 @@ const styles = StyleSheet.create({
         top: 10,
         zIndex: 3,
     },
-
-    // AddGoalView: {
-    //     height: '10%',
-    //     width: '100%',
-    //     justifyContent: 'space-between',
-    //     flexDirection: 'row-reverse',
-    //     alignItems: 'center',
-    //     // backgroundColor: 'red'
-    // },
 
     CurrentGoalView: {
         height: '30%',

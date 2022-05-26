@@ -7,7 +7,7 @@ import SavingScreen from '../screens/MoneySavingScreen';
 import ReportScreen from '../screens/ReportScreen';
 import TransactionScreen from '../screens/TransactionScreen';
 import SavingDetailScreen from '../screens/MoneySavingDetail';
-import { MaterialIcons } from '@expo/vector-icons';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -28,7 +28,6 @@ function SavingStackNavigator() {
             <Stack.Screen
                 name="Chi tiết"
                 component={SavingDetailScreen}
-
             />
         </Stack.Navigator>
     );

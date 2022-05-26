@@ -1,7 +1,7 @@
 import { React } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
-import * as Progress from 'react-native-progress';
+import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 const CompleteBar = () => {
     return (
@@ -10,21 +10,23 @@ const CompleteBar = () => {
         </View>
     );
 }
-const AchievedGoalCard = ({ title }) => {
+const AchievedGoalCard = (props) => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{title}</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{props.title}</Text>
             </View>
-            <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>1,600,00 VND</Text>
+            <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome5 name="money-bill-alt" size={24} color="black" />
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> 1,600,00 VND</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <CompleteBar />
                 <Image source={require('../icon/congrats.png')} style={{ height: 40, width: 40 }} />
             </View>
-            <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>Ngày kết thúc: 18/10/2022</Text>
+            <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
+                <MaterialIcons name="access-time" size={24} color="black" />
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Ngày kết thúc: 18/10/2022</Text>
             </View>
         </TouchableOpacity>
     );

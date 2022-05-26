@@ -9,7 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 const SavingDetailScreen = props => {
     const [currentState, setCurrentState] = useState('GOAL');
 
-    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord />
+    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Chi tiết')} />
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
