@@ -82,7 +82,10 @@ const GoalRecord = props => {
             <View style={{ width: '100%', height: '10%', justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity
                     style={{ backgroundColor: '#006E7F', padding: 12, margin: 10, borderRadius: 10, }}
-                    onPress={() => props.onPress()}
+                    onPress={() => {
+                        console.log(props);
+                        props.onPress();
+                    }}
                 >
                     <Text style={{ fontSize: FONTSIZE.body, color: 'white' }}>Xem chi tiết thống kê</Text>
                 </TouchableOpacity>

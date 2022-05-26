@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import * as Progress from 'react-native-progress';
 import GoalDeTail from '../components/GoalDetail';
-import GoalRecord from '../components/GoalRecord';
 import { MaterialIcons } from '@expo/vector-icons';
+import GoalRecord from '../components/GoalRecord';
 
 const SavingDetailScreen = props => {
     const [currentState, setCurrentState] = useState('GOAL');
 
-    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Chi tiết')} />
+    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Thống kê')} />
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -50,6 +50,7 @@ const SavingDetailScreen = props => {
             </View>
 
             {CurrentScreen}
+
         </View >
     );
 }

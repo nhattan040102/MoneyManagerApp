@@ -21,18 +21,6 @@ const screenOptionStyle = {
 };
 
 
-function SavingStackNavigator() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Chế độ tiết kiệm" component={SavingScreen} />
-            <Stack.Screen
-                name="Chi tiết"
-                component={SavingDetailScreen}
-            />
-        </Stack.Navigator>
-    );
-}
-
 
 function TransactionsStackNavigator() {
     return (
@@ -42,6 +30,18 @@ function TransactionsStackNavigator() {
     );
 }
 
+function SavingStackNavigator() {
+    return (
+        <Stack.Navigator screenOptions={screenOptionStyle}>
+            <Stack.Screen name="Chế độ tiết kiệm" component={SavingScreen} />
+            <Stack.Screen
+                name="Chi tiết"
+                component={SavingDetailScreen}
+            />
+            <Stack.Screen name="Thống kê" component={ReportScreen} />
+        </Stack.Navigator>
+    );
+}
 
 function ReportStackNavigator() {
     return (
