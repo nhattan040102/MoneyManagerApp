@@ -3,11 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Progress from 'react-native-progress';
+import CountDown from '../components/CountDown';
 
 const Card = props => {
     return (
         <View style={styles.card}>
-            <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '400' }}>{props.title}</Text>
+            <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '400', color: '#006E7F' }}>{props.title}</Text>
             <View style={{ flexDirection: 'row' }}>
                 <MaterialIcons name="attach-money" size={24} color="black" />
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '500' }}>{props.value}</Text>
@@ -23,8 +24,11 @@ const GoalDeTail = props => {
             <View style={{ height: '35%', paddingVertical: 20, justifyContent: 'center', alignItems: 'center' }}>
                 <Progress.Circle size={250} progress={0.6} color={'#006E7F'} thickness={5} unfilledColor={'white'} borderColor={'white'} />
                 <Image source={require('../icon/goal.png')} style={styles.img} />
+                <View style={{ backgroundColor: '#F8CB2E', padding: 8, borderRadius: 5 }}>
+                    <Text style={{ fontSize: FONTSIZE.header2, color: '#006E7F', fontWeight: '500' }}>60%</Text>
+                </View>
             </View>
-            <View style={{ height: '25%' }}>
+            <View style={{ height: '22%' }}>
                 <View style={{ height: '50%', justifyContent: 'center', alignItems: 'center' }}>
                     <Card title="SAVED" value="2,000,000 VND" />
                 </View>
@@ -34,12 +38,13 @@ const GoalDeTail = props => {
                 </View>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={{ backgroundColor: '#EE5007', padding: 10, borderRadius: 5 }}>
-                    <Text>TARGET ON 25/05/2023</Text>
+                <View style={{ backgroundColor: '#EE5007', padding: 10, borderRadius: 5, justifyContent: 'center', alignItems: 'center', flexDirection: 'row-reverse' }}>
+                    <MaterialIcons name="date-range" size={28} color="black" />
+                    <Text style={{ fontSize: FONTSIZE.header2, padding: 10, color: 'white' }}>TARGET ON 25/05/2023</Text>
                 </View>
 
                 <View style={{ padding: 10, borderRadius: 5 }}>
-                    <Text style={{ fontSize: FONTSIZE.header1, padding: 10, }}>4 Months 12 Days To Go</Text>
+                    <CountDown />
                 </View>
             </View>
         </View >

@@ -1,11 +1,25 @@
-import { React, useState } from 'react';
+import { React, useState, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import * as Progress from 'react-native-progress';
 import GoalDeTail from '../components/GoalDetail';
+import GoalRecord from '../components/GoalRecord';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const SavingDetailScreen = props => {
     const [currentState, setCurrentState] = useState('GOAL');
+
+    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord />
+
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={() => console.log("Remove goal")}>
+                    <MaterialIcons name="delete" size={30} color="white" />
+                </TouchableOpacity>
+            )
+        });
+    }, [props.navigation]);
 
     return (
         <View style={styles.screen}>
@@ -13,7 +27,7 @@ const SavingDetailScreen = props => {
                 <TouchableOpacity
                     style={[styles.category,
                     {
-                        boderColor: currentState == 'GOAL' ? 'black' : 'white',
+                        boderColor: currentState == 'GOAL' ? 'red' : 'white',
                         borderBottomWidth: currentState == 'GOAL' ? 2 : 0
                     }
                     ]}
@@ -25,7 +39,7 @@ const SavingDetailScreen = props => {
                 <TouchableOpacity
                     style={[styles.category,
                     {
-                        boderColor: currentState == 'RECORD' ? 'black' : 'white',
+                        boderColor: currentState == 'RECORD' ? 'red' : 'white',
                         borderBottomWidth: currentState == 'RECORD' ? 2 : 0
                     }
                     ]}
@@ -35,7 +49,7 @@ const SavingDetailScreen = props => {
                 </TouchableOpacity>
             </View>
 
-            <GoalDeTail />
+            {CurrentScreen}
         </View >
     );
 }

@@ -1,12 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import MoneyLimitScreen from '../screens/MoneyLimitScreen';
 import SavingScreen from '../screens/MoneySavingScreen';
 import ReportScreen from '../screens/ReportScreen';
 import TransactionScreen from '../screens/TransactionScreen';
-import SavingDetailScreen from '../screens/MoneySavingDetail'
+import SavingDetailScreen from '../screens/MoneySavingDetail';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +25,11 @@ function SavingStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Chế độ tiết kiệm" component={SavingScreen} />
-            <Stack.Screen name="Chi tiết" component={SavingDetailScreen} />
+            <Stack.Screen
+                name="Chi tiết"
+                component={SavingDetailScreen}
+
+            />
         </Stack.Navigator>
     );
 }
