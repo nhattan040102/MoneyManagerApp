@@ -14,7 +14,7 @@ const SavingDetailScreen = props => {
     useLayoutEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
-                <TouchableOpacity onPress={() => console.log("Remove goal")}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Chế độ tiết kiệm', { status: false, random: 1 })}>
                     <MaterialIcons name="delete" size={30} color="white" />
                 </TouchableOpacity>
             )

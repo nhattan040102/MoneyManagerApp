@@ -1,5 +1,5 @@
-import { React, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
+import { React, useState, useEffect } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal, Alert } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
@@ -24,11 +24,52 @@ const DATA = [
 
 
 const SavingScreen = props => {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [goalState, setGoalState] = useState(false);
+
     const renderItem = ({ item }) => (
+
         <AchievedGoalCard title={item.title} onPress={() => props.navigation.navigate('Chi tiết')} />
     );
 
-    const [modalVisible, setModalVisible] = useState(false);
+    useEffect(() => {
+        if (props.route.params && goalState == true) {
+            Alert.alert(
+                "Tin nhắn hệ thống",
+                "Bạn có chắc muốn hủy mục tiêu tiết kiệm hiện tại hay không?",
+                [
+                    {
+                        text: "Hủy bỏ",
+                        onPress: () => console.log("Cancel Pressed"),
+                    },
+                    {
+                        text: "Chấp nhận", onPress: () => {
+                            console.log("OK Pressed");
+                            setGoalState(props.route.params.status);
+                        }
+                    }
+                ]
+            );
+            console.log(props.route.params);
+
+        }
+    }, [props.route.params]);
+
+    console.log(props.route.params);
+
+    const closeHandler = () => {
+        setModalVisible(false);
+    }
+
+    const createHandler = () => {
+        setModalVisible(false);
+        setGoalState(true);
+    }
+
+    const GoalComponent = goalState == true ? <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
+
+    // console.log(props.route);
+
 
     return (
         <SafeAreaView style={styles.screen}>
@@ -45,8 +86,8 @@ const SavingScreen = props => {
             >
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
                     <SavingInputModal
-                        onClose={() => setModalVisible(false)}
-                        onCreate={() => setModalVisible(false)}
+                        onClose={() => closeHandler()}
+                        onCreate={() => createHandler()}
                     />
                 </View>
             </Modal>
@@ -57,8 +98,9 @@ const SavingScreen = props => {
                 <View style={styles.title}>
                     <Text style={styles.titleText}>CURRENT GOAL</Text>
                 </View>
-                {/* <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} /> */}
-                <NoGoalCard />
+                {GoalComponent}
+
+
             </View>
 
             {/* View for displaying your saving goal that have been achieved  */}

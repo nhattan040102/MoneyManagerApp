@@ -1,17 +1,29 @@
-import { React, useState } from 'react';
+import { React, useState, } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, Button } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
+
 const SavingInputModal = props => {
     const [date, setDate] = useState(new Date());
+    const [goalName, setGoalName] = useState('');
+    const [savingValue, setSavingValue] = useState(null);
+    const [minValue, setMinValue] = useState(null);
+
+    const onChanged = (text, value) => {
+        text = text.replace(/[^0-9]/g, '');
+        if (value == "savingValue")
+            setSavingValue(text);
+        else
+            setMinValue(text);
+    }
 
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center', }}>
                 <Text style={{ fontSize: FONTSIZE.title, fontWeight: 'bold' }}>CREATE NEW GOAL</Text>
             </View>
-
             <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
                 <Image source={require('../icon/piggy-bank.png')} />
             </View>
@@ -21,7 +33,11 @@ const SavingInputModal = props => {
                     <Image source={require('../icon/goal-2.png')} />
                     <Text style={styles.inputTitle}>Mục tiêu</Text>
                 </View>
-                <TextInput title="Mục tiêu" placeholder='Tên mục tiêu' style={styles.textInput} ></TextInput>
+                <TextInput
+                    title="Mục tiêu"
+                    placeholder='Tên mục tiêu'
+                    maxLength={30}
+                    style={styles.textInput} ></TextInput>
             </View>
 
             <View style={styles.input}>
@@ -29,7 +45,13 @@ const SavingInputModal = props => {
                     <Image source={require('../icon/money.png')} />
                     <Text style={styles.inputTitle}>Tiết kiệm</Text>
                 </View>
-                <TextInput title="Mục tiêu" placeholder='Số tiền cần tiết kiệm' style={styles.textInput}></TextInput>
+                <TextInput
+                    title="Mục tiêu"
+                    placeholder='Số tiền cần tiết kiệm'
+                    keyboardType='numeric'
+                    onChangeText={text => { onChanged(text, "savingValue") }}
+                    value={savingValue}
+                    style={styles.textInput} />
             </View>
 
             <View style={styles.input}>
@@ -37,7 +59,13 @@ const SavingInputModal = props => {
                     <Image source={require('../icon/wage.png')} />
                     <Text style={styles.inputTitle}>Tiết kiệm tối thiểu</Text>
                 </View>
-                <TextInput title="Min" placeholder='Số tiền tối thiếu để dành trong 1 ngày' style={styles.textInput} ></TextInput>
+                <TextInput
+                    title="Min"
+                    placeholder='Số tiền tối thiếu để dành trong 1 ngày'
+                    keyboardType='numeric'
+                    onChangeText={text => { onChanged(text, "minValue") }}
+                    value={minValue}
+                    style={styles.textInput} ></TextInput>
             </View>
 
             <View style={styles.input}>
