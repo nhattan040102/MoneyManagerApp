@@ -5,6 +5,7 @@ import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
+import NoGoalCard from '../components/NoGoalCard';
 
 const DATA = [
     {
@@ -56,7 +57,8 @@ const SavingScreen = props => {
                 <View style={styles.title}>
                     <Text style={styles.titleText}>CURRENT GOAL</Text>
                 </View>
-                <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} />
+                {/* <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} /> */}
+                <NoGoalCard />
             </View>
 
             {/* View for displaying your saving goal that have been achieved  */}
@@ -111,7 +113,6 @@ const styles = StyleSheet.create({
     },
 
     CurrentGoalView: {
-        height: '30%',
         width: '100%',
         alignItems: 'center',
         paddingTop: 15,
