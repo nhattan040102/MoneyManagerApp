@@ -37,6 +37,8 @@ const SavingInputModal = props => {
                     title="Mục tiêu"
                     placeholder='Tên mục tiêu'
                     maxLength={30}
+                    value={goalName}
+                    onChangeText={input => setGoalName(input)}
                     style={styles.textInput} ></TextInput>
             </View>
 
@@ -79,7 +81,7 @@ const SavingInputModal = props => {
 
             <View style={styles.buttonContainer}>
                 <Button title='HỦY' color={'red'} onPress={() => props.onClose()} ></Button>
-                <Button title='TẠO' style={{ marginLeft: 5, backgroundColor: 'red' }} onPress={() => props.onCreate()}></Button>
+                <Button title='TẠO' style={{ marginLeft: 5, backgroundColor: 'red' }} onPress={() => props.onCreate({ goalName, savingValue, minValue, date })}></Button>
 
             </View>
         </View>

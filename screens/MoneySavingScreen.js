@@ -26,6 +26,7 @@ const DATA = [
 const SavingScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
     const [goalState, setGoalState] = useState(false);
+    const [currentGoalInput, setCurrentGoalInput] = useState(null);
 
     const renderItem = ({ item }) => (
 
@@ -50,20 +51,38 @@ const SavingScreen = props => {
                     }
                 ]
             );
-            console.log(props.route.params);
+
 
         }
     }, [props.route.params]);
 
-    console.log(props.route.params);
 
     const closeHandler = () => {
         setModalVisible(false);
     }
 
-    const createHandler = () => {
+    const createHandler = (input) => {
         setModalVisible(false);
+        setCurrentGoalInput(input)
         setGoalState(true);
+    }
+
+    const addGoalHandler = () => {
+        if (goalState == true) {
+            Alert.alert(
+                "Tin nhắn hệ thống",
+                "Đã tồn tại chế độ tiết kiệm, không thể cùng lúc đặt quá một mục tiêu!",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                    },
+                ]
+            );
+            return;
+        }
+
+        setModalVisible(true);
     }
 
     const GoalComponent = goalState == true ? <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
@@ -75,7 +94,7 @@ const SavingScreen = props => {
         <SafeAreaView style={styles.screen}>
             {/* View for adding new saving goal */}
             <View style={styles.GoalBtn}>
-                <AddGoalBtn onPress={() => setModalVisible(true)}></AddGoalBtn>
+                <AddGoalBtn onPress={() => addGoalHandler()}></AddGoalBtn>
             </View>
 
             {/* Modal View */}
@@ -87,7 +106,8 @@ const SavingScreen = props => {
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
                     <SavingInputModal
                         onClose={() => closeHandler()}
-                        onCreate={() => createHandler()}
+                        onCreate={input => createHandler(input)}
+
                     />
                 </View>
             </Modal>
