@@ -17,21 +17,32 @@ const SavingInputModal = props => {
             </View>
 
             <View style={styles.input}>
-                <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
+                    <Image source={require('../icon/goal-2.png')} />
                     <Text style={styles.inputTitle}>Mục tiêu</Text>
                 </View>
                 <TextInput title="Mục tiêu" placeholder='Tên mục tiêu' style={styles.textInput} ></TextInput>
             </View>
 
             <View style={styles.input}>
-                <View>
-                    <Text style={styles.inputTitle}>Số tiền cần tiết kiệm</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
+                    <Image source={require('../icon/money.png')} />
+                    <Text style={styles.inputTitle}>Tiết kiệm</Text>
                 </View>
                 <TextInput title="Mục tiêu" placeholder='Số tiền cần tiết kiệm' style={styles.textInput}></TextInput>
             </View>
 
             <View style={styles.input}>
-                <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
+                    <Image source={require('../icon/wage.png')} />
+                    <Text style={styles.inputTitle}>Tiết kiệm tối thiểu</Text>
+                </View>
+                <TextInput title="Min" placeholder='Số tiền tối thiếu để dành trong 1 ngày' style={styles.textInput} ></TextInput>
+            </View>
+
+            <View style={styles.input}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
+                    <Image source={require('../icon/calendar.png')} />
                     <Text style={styles.inputTitle}>Ngày kết thúc</Text>
                 </View>
                 <DateTimePicker mode="date" value={date} />
@@ -39,8 +50,8 @@ const SavingInputModal = props => {
 
 
             <View style={styles.buttonContainer}>
-                <Button title='HỦY' color={'red'} onPress={() => props.onClose()}></Button>
-                <Button title='TẠO' onPress={() => props.onCreate()}></Button>
+                <Button title='HỦY' color={'red'} onPress={() => props.onClose()} ></Button>
+                <Button title='TẠO' style={{ marginLeft: 5, backgroundColor: 'red' }} onPress={() => props.onCreate()}></Button>
 
             </View>
         </View>
@@ -51,7 +62,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         width: '80%',
-        height: '60%',
+        height: '70%',
         padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
@@ -66,7 +77,7 @@ const styles = StyleSheet.create({
 
     input: {
         backgroundColor: 'white',
-        height: 80,
+        height: 90,
         borderRadius: 8,
         padding: 5,
         marginBottom: 10,
@@ -76,7 +87,8 @@ const styles = StyleSheet.create({
     inputTitle: {
         fontSize: FONTSIZE.header2,
         marginBottom: 5,
-        fontWeight: '600'
+        fontWeight: '600',
+        marginLeft: 5,
     },
 
     textInput: {
