@@ -1,5 +1,5 @@
 import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SavingInputModal = props => {
     const [date, setDate] = useState(new Date());
-    const [goalName, setGoalName] = useState('');
+    const [goalName, setGoalName] = useState(null);
     const [savingValue, setSavingValue] = useState(null);
     const [minValue, setMinValue] = useState(null);
 
@@ -81,7 +81,26 @@ const SavingInputModal = props => {
 
             <View style={styles.buttonContainer}>
                 <Button title='HỦY' color={'red'} onPress={() => props.onClose()} ></Button>
-                <Button title='TẠO' style={{ marginLeft: 5, backgroundColor: 'red' }} onPress={() => props.onCreate({ goalName, savingValue, minValue, date })}></Button>
+                <Button
+                    title='TẠO'
+                    style={{ marginLeft: 5, backgroundColor: 'red' }}
+                    onPress={() => {
+                        if (goalName && savingValue && minValue)
+                            props.onCreate({ goalName, savingValue, minValue, date });
+                        else {
+                            Alert.alert(
+                                "Tin nhắn hệ thống",
+                                "Vui lòng nhập đầy đủ thông tin",
+                                [
+                                    {
+                                        text: "OK",
+                                        onPress: () => console.log("OK Pressed"),
+                                    },
+                                ]
+                            );
+                        }
+
+                    }}></Button>
 
             </View>
         </View>
