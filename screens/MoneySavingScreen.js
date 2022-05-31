@@ -63,7 +63,8 @@ const SavingScreen = props => {
 
     const createHandler = (input) => {
         setModalVisible(false);
-        setCurrentGoalInput(input)
+        setCurrentGoalInput(input);
+        console.log(input);
         setGoalState(true);
     }
 
@@ -85,7 +86,7 @@ const SavingScreen = props => {
         setModalVisible(true);
     }
 
-    const GoalComponent = goalState == true ? <SavingGoalCard onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
+    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
 
     // console.log(props.route);
 

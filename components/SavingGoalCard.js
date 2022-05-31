@@ -8,23 +8,23 @@ const SavingGoalCard = props => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>Vacation</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{props.item.goalName}</Text>
             </View>
             <View style={{ padding: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <FontAwesome5 name="money-bill-alt" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> 10,000,000 VND</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> {props.item.savingValue}</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
-                <Progress.Bar progress={0.2325} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />
-                <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>23.25%</Text>
+                <Progress.Bar progress={0} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />
+                <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>0%</Text>
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialCommunityIcons name="percent-outline" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Tiến độ: 2,325,000 VND / 10,000,000 VND</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Tiến độ: 0 / {props.item.savingValue} VND</Text>
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="access-time" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: 18/10/2022</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: {props.item.date.getDate()}/{props.item.date.getMonth()}/{props.item.date.getFullYear()}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,
-            height: 2
+            height: 1
         },
-        shadowRadius: 3,
-        shadowOpacity: 0.6,
-        elevation: 0.6
+        shadowRadius: 2,
+        shadowOpacity: 0.3,
+        elevation: 0.3,
     }
 });
 
