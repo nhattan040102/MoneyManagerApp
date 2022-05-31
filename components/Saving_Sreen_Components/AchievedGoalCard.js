@@ -1,6 +1,6 @@
 import { React } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { FONTSIZE } from '../constants/constants';
+import FONTSIZE from '../constants/constants.js';
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 const CompleteBar = () => {

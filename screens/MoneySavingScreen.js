@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal, Alert } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
-import SavingGoalCard from '../components/SavingGoalCard';
-import AddGoalBtn from '../components/AddGoalBtn';
-import AchievedGoalCard from '../components/AchievedGoalCard';
-import SavingInputModal from '../components/SavingInputModal';
-import NoGoalCard from '../components/NoGoalCard';
+import SavingGoalCard from '../components/Saving_Sreen_Components/SavingGoalCard';
+import AddGoalBtn from '../components/Saving_Sreen_Components/AddGoalBtn';
+import AchievedGoalCard from '../components/Saving_Sreen_Components/AchievedGoalCard';
+import SavingInputModal from '../components/Saving_Sreen_Components/SavingInputModal';
+import NoGoalCard from '../components/Saving_Sreen_Components/NoGoalCard';
 
 const DATA = [
     {

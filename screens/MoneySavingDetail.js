@@ -2,9 +2,9 @@ import { React, useState, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import * as Progress from 'react-native-progress';
-import GoalDeTail from '../components/GoalDetail';
+import GoalDeTail from '../components/Saving_Sreen_Components/GoalDetail';
 import { MaterialIcons } from '@expo/vector-icons';
-import GoalRecord from '../components/GoalRecord';
+import GoalRecord from '../components/Saving_Sreen_Components/GoalRecord';
 
 const SavingDetailScreen = props => {
     const [currentState, setCurrentState] = useState('GOAL');

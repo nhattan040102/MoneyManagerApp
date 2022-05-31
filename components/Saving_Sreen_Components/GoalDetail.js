@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Progress from 'react-native-progress';
-import CountDown from '../components/CountDown';
+import CountDown from '../Saving_Sreen_Components/CountDown'
 
 const Card = props => {
     return (
