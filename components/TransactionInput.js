@@ -1,8 +1,10 @@
 import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import TransactionCategory from '../components/TransactionCategory';
+import WalletType from '../components/WalletType'
 
 const formatMoney = (money) => {
     return Number(money)
@@ -14,13 +16,14 @@ const TransactionInput = props => {
     const [date, setDate] = useState(new Date());
     const [money, setMoney] = useState(null);
     const [displayMoney, setDisplayMoney] = useState(null);
+    const [cateModal, setCateModal] = useState(false);
+    const [walletModal, setWalletModal] = useState(false);
 
     const onChanged = (text) => {
         text = text.replace(/[^0-9]/g, '');
         setMoney(text);
         setDisplayMoney(formatMoney(text));
     }
-
 
 
     return (
@@ -35,7 +38,7 @@ const TransactionInput = props => {
                     value={money}
                     style={styles.textInput} ></TextInput>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setCateModal(true)}>
                 <View style={styles.input}>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
@@ -53,7 +56,16 @@ const TransactionInput = props => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity>
+            <Modal animationType={"slide"}
+                transparent={true}
+                visible={cateModal} >
+                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                    <TransactionCategory onClose={() => setCateModal(false)} />
+                </View>
+
+            </Modal>
+
+            <TouchableOpacity onPress={() => setWalletModal(true)}>
                 <View style={styles.input}>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
@@ -71,12 +83,20 @@ const TransactionInput = props => {
                 </View>
             </TouchableOpacity>
 
+            <Modal animationType={"slide"}
+                transparent={true}
+                visible={walletModal} >
+                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                    <WalletType onClose={() => setWalletModal(false)} />
+                </View>
+
+            </Modal>
+
             <View style={styles.input}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
                     <Image source={require('../icon/calendar.png')} />
                     <Text style={styles.inputTitle}>Ngày tháng</Text>
                 </View>
-
                 <DateTimePicker mode="date" value={date} />
             </View>
 
@@ -94,9 +114,17 @@ const TransactionInput = props => {
                     style={styles.textInput} />
             </View>
 
+            <View style={styles.buttonContainer}>
+                <Button title='HỦY' color={'red'} onPress={() => props.onClose()}></Button>
+                <Button
+                    title='TẠO'
+                    style={{ marginLeft: 5, backgroundColor: 'red' }}
+                    onPress={() => props.onCreate()}
+                ></Button>
+
+            </View>
 
         </View>
-
     )
 };
 
@@ -105,7 +133,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '10%',
         backgroundColor: 'white',
-        width: '100%',
+        width: '95%',
         padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
@@ -143,6 +171,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: 'gray'
     },
+
+    buttonContainer: {
+        flexDirection: 'row',
+        marginBottom: 10,
+        marginTop: 20,
+        flex: 1,
+        width: '100%',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    }
 
 
 });

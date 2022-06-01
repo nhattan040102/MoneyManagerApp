@@ -5,6 +5,14 @@ import TransactionInput from '../components/TransactionInput';
 
 const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
+    const closeHandler = () => {
+        setModalVisible(false);
+    }
+
+    const createHandler = (input) => {
+        setModalVisible(false);
+
+    }
 
     return (
         <View style={styles.screen}>
@@ -17,7 +25,7 @@ const TransactionScreen = props => {
                 transparent={false}
                 visible={modalVisible} >
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
-                    <TransactionInput />
+                    <TransactionInput onClose={() => closeHandler()} onCreate={() => createHandler()} />
                 </View>
             </Modal>
 
