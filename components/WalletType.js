@@ -1,10 +1,18 @@
 import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, FlatList } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import CategoryCard from './CategoryCard';
+import { IN_CARD_DATA, IN_CASH_DATA } from '../model/data';
+
+
 
 const WalletType = props => {
     const [cateType, setCateType] = useState('TIỀN MẶT');
+    const DATA = cateType == 'TIỀN MẶT' ? IN_CASH_DATA : IN_CARD_DATA;
+    const renderItem = ({ item }) => {
+        console.log(item);
+        return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem()} />;
+    }
 
     return (
 
@@ -30,6 +38,15 @@ const WalletType = props => {
                     </Text>
                 </TouchableOpacity>
             </View>
+
+            <View>
+                <FlatList
+                    contentContainerStyle={{ paddingBottom: 50 }}
+                    data={DATA}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            </View>
         </View>
     )
 };
@@ -40,7 +57,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '40%',
         // height: 100,
-        padding: 10,
+        // padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,

@@ -25,6 +25,14 @@ const TransactionInput = props => {
         setDisplayMoney(formatMoney(text));
     }
 
+    const choseCategory = () => {
+        setCateModal(false);
+    }
+
+    const choseWallet = () => {
+        setWalletModal(false);
+    }
+
 
     return (
         <View style={styles.container}>
@@ -60,7 +68,7 @@ const TransactionInput = props => {
                 transparent={true}
                 visible={cateModal} >
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <TransactionCategory onClose={() => setCateModal(false)} />
+                    <TransactionCategory onClose={() => setCateModal(false)} choseItem={() => choseCategory()} />
                 </View>
 
             </Modal>
@@ -87,7 +95,7 @@ const TransactionInput = props => {
                 transparent={true}
                 visible={walletModal} >
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <WalletType onClose={() => setWalletModal(false)} />
+                    <WalletType onClose={() => setWalletModal(false)} choseItem={() => choseWallet()} />
                 </View>
 
             </Modal>

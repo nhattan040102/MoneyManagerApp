@@ -1,16 +1,20 @@
 import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, FlatList } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
-import DateTimePicker from '@react-native-community/datetimepicker';
-
-
+import CategoryCard from '../components/CategoryCard';
+import { EXPENSE_DATA, INCOME_DATA } from '../model/data';
+import { SAVING_DATA } from '../model/data';
 
 
 const TransactionCategory = props => {
     const [cateType, setCateType] = useState('CHI TIÊU');
+    const DATA = cateType == "CHI TIÊU" ? EXPENSE_DATA : (cateType == "TIẾT KIỆM" ? SAVING_DATA : INCOME_DATA);
+    const renderItem = ({ item }) => {
+        console.log(item);
+        return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem()} />;
+    }
 
     return (
-
         <View style={styles.container}>
             <View style={{ position: 'absolute', right: 0, top: -20 }}>
                 <Button title="X" onPress={() => props.onClose()}></Button>
@@ -40,6 +44,16 @@ const TransactionCategory = props => {
                     </Text>
                 </TouchableOpacity>
             </View>
+
+            <View>
+                <FlatList
+                    contentContainerStyle={{ paddingBottom: 50 }}
+                    data={DATA}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            </View>
+
         </View>
     )
 };
@@ -50,7 +64,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '40%',
         // height: 100,
-        padding: 10,
+        // padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,
