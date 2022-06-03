@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal, Alert } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal, Alert, ScrollView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
@@ -93,6 +93,7 @@ const SavingScreen = props => {
 
     return (
         <SafeAreaView style={styles.screen}>
+
             {/* View for adding new saving goal */}
             <View style={styles.GoalBtn}>
                 <AddGoalBtn onPress={() => addGoalHandler()}></AddGoalBtn>
@@ -132,7 +133,7 @@ const SavingScreen = props => {
 
                 <View style={{ width: '90%' }}>
                     <FlatList
-                        style={{ padding: 5, }}
+                        contentContainerStyle={{ paddingBottom: 120 }}
                         data={DATA}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
@@ -140,6 +141,7 @@ const SavingScreen = props => {
                 </View>
 
             </View>
+
         </SafeAreaView>
     );
 }

@@ -10,7 +10,11 @@ const CategoryCard = props => {
             </View>
 
             <View style={styles.title}>
-                <Text style={{ fontSize: FONTSIZE.header2 }}>{props.title}</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '400' }}>{props.title}</Text>
+            </View>
+
+            <View style={styles.money}>
+                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '600', color: props.type == "-" ? '#FF6363' : "#2FA4FF" }}>{props.moneyValue}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -19,7 +23,6 @@ const CategoryCard = props => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        marginBottom: 5,
         flexDirection: 'row',
         backgroundColor: 'white',
         shadowColor: '#000000',
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
         elevation: 0.2,
         paddingHorizontal: 5,
         paddingVertical: 10,
-        borderRadius: 5,
+        borderBottomWidth: 0.3,
     },
 
     icon: {
@@ -43,10 +46,17 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        width: '90%',
+        width: '40%',
         justifyContent: 'center',
         // alignItems: 'center',
     },
+
+    money: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        padding: 10,
+    }
 })
 
 export default CategoryCard;

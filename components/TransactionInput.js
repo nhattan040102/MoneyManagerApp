@@ -15,22 +15,24 @@ const formatMoney = (money) => {
 const TransactionInput = props => {
     const [date, setDate] = useState(new Date());
     const [money, setMoney] = useState(null);
-    const [displayMoney, setDisplayMoney] = useState(null);
     const [cateModal, setCateModal] = useState(false);
     const [walletModal, setWalletModal] = useState(false);
+    const [categoryValue, setCategoryValue] = useState(null);
+    const [walletValue, setWalletValue] = useState(null);
 
     const onChanged = (text) => {
         text = text.replace(/[^0-9]/g, '');
         setMoney(text);
-        setDisplayMoney(formatMoney(text));
     }
 
-    const choseCategory = () => {
+    const choseCategory = (item) => {
         setCateModal(false);
+        setCategoryValue(item);
     }
 
-    const choseWallet = () => {
+    const choseWallet = (item) => {
         setWalletModal(false);
+        setWalletValue(item);
     }
 
 
@@ -57,7 +59,7 @@ const TransactionInput = props => {
                         title="Mục tiêu"
                         placeholder='Chọn hạng mục'
                         // onChangeText={text => { onChanged(text, "savingValue") }}
-                        // value={"Chọn hạng mục"}
+                        value={categoryValue}
                         editable={false}
                         style={styles.textInput} />
 
@@ -68,7 +70,7 @@ const TransactionInput = props => {
                 transparent={true}
                 visible={cateModal} >
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <TransactionCategory onClose={() => setCateModal(false)} choseItem={() => choseCategory()} />
+                    <TransactionCategory onClose={() => setCateModal(false)} choseItem={(item) => choseCategory(item)} />
                 </View>
 
             </Modal>
@@ -84,7 +86,7 @@ const TransactionInput = props => {
                         title="Mục tiêu"
                         placeholder='Chọn ví'
                         // onChangeText={text => { onChanged(text, "savingValue") }}
-                        // value={"Chọn hạng mục"}
+                        value={walletValue}
                         editable={false}
                         style={styles.textInput} />
 
@@ -95,7 +97,7 @@ const TransactionInput = props => {
                 transparent={true}
                 visible={walletModal} >
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <WalletType onClose={() => setWalletModal(false)} choseItem={() => choseWallet()} />
+                    <WalletType onClose={() => setWalletModal(false)} choseItem={(item) => choseWallet(item)} />
                 </View>
 
             </Modal>

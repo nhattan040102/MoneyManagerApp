@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { View, Text, StyleSheet, Modal } from 'react-native';
 import AddTransactionBtn from '../components/AddTransactionBtn';
 import TransactionInput from '../components/TransactionInput';
+import TransactionCard from '../components/TransactionCard';
 
 const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -19,6 +20,8 @@ const TransactionScreen = props => {
             <View style={styles.addView}>
                 <AddTransactionBtn onPress={() => setModalVisible(true)} />
             </View>
+
+            <TransactionCard />
 
             <Modal
                 animationType={"slide"}

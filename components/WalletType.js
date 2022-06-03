@@ -11,7 +11,7 @@ const WalletType = props => {
     const DATA = cateType == 'TIỀN MẶT' ? IN_CASH_DATA : IN_CARD_DATA;
     const renderItem = ({ item }) => {
         console.log(item);
-        return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem()} />;
+        return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem(item.title)} />;
     }
 
     return (

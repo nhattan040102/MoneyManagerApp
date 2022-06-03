@@ -11,7 +11,7 @@ const TransactionCategory = props => {
     const DATA = cateType == "CHI TIÊU" ? EXPENSE_DATA : (cateType == "TIẾT KIỆM" ? SAVING_DATA : INCOME_DATA);
     const renderItem = ({ item }) => {
         console.log(item);
-        return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem()} />;
+        return <CategoryCard img={item.img} title={item.title} type={item.type} onPress={() => props.choseItem(item.title)} />;
     }
 
     return (
