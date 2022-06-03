@@ -15,9 +15,11 @@ const Stack = createNativeStackNavigator();
 const screenOptionStyle = {
     headerStyle: {
         backgroundColor: "#rgb(45,139, 126)",
+
     },
     headerTintColor: "white",
     headerBackTitle: "Quay lại",
+    headerShadowVisible: false,
 };
 
 

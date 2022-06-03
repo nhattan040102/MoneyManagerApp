@@ -25,27 +25,19 @@ const SavingDetailScreen = props => {
         <View style={styles.screen}>
             <View style={styles.headerBar}>
                 <TouchableOpacity
-                    style={[styles.category,
-                    {
-                        boderColor: currentState == 'GOAL' ? 'red' : 'white',
-                        borderBottomWidth: currentState == 'GOAL' ? 2 : 0
-                    }
-                    ]}
+                    style={styles.category}
                     onPress={() => setCurrentState('GOAL')}
                 >
-                    <Text style={styles.cate_text}>GOAL</Text>
+                    <Text style={[styles.cate_text]}>GOAL</Text>
+                    <View style={{ width: '100%', borderWidth: currentState == "GOAL" ? 3 : 0, borderColor: '#EFFFFD', position: 'absolute', bottom: -2 }}></View>
                 </TouchableOpacity>
                 <View style={{ width: 0.25, backgroundColor: 'white' }}></View>
                 <TouchableOpacity
-                    style={[styles.category,
-                    {
-                        boderColor: currentState == 'RECORD' ? 'red' : 'white',
-                        borderBottomWidth: currentState == 'RECORD' ? 2 : 0
-                    }
-                    ]}
+                    style={styles.category}
                     onPress={() => setCurrentState('RECORD')}
                 >
-                    <Text style={styles.cate_text}>RECORD</Text>
+                    <Text style={[styles.cate_text]}>RECORD</Text>
+                    <View style={{ width: '100%', borderWidth: currentState == "RECORD" ? 3 : 0, borderColor: '#EFFFFD', position: 'absolute', bottom: -2 }}></View>
                 </TouchableOpacity>
             </View>
 
@@ -74,6 +66,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+
     cate_text: {
         fontSize: FONTSIZE.header1,
         fontWeight: '500',
