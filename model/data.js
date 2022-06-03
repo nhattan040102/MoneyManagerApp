@@ -3,54 +3,63 @@ export const EXPENSE_DATA = [
         id: "e1",
         title: "Ăn uống",
         img: require('../icon/meal.png'),
+        type: "-"
     },
 
     {
         id: "e2",
         title: "Quần áo",
         img: require('../icon/male-clothes.png'),
+        type: "-"
     },
 
     {
         id: "e3",
         title: "Mua sắm",
         img: require('../icon/online-shopping.png'),
+        type: "-"
     },
 
     {
         id: "e4",
         title: "Nhà ở",
         img: require('../icon/rent.png'),
+        type: "-"
     },
 
     {
         id: "e5",
         title: "Giải trí",
         img: require('../icon/leisure.png'),
+        type: "-"
     },
 
     {
         id: "e6",
         title: "Sức khỏe",
         img: require('../icon/health-insurance.png'),
+        type: "-"
     },
 
     {
         id: "e7",
         title: "Di chuyển",
         img: require('../icon/car.png'),
+        type: "-"
     },
 
     {
         id: "e8",
         title: "Hóa đơn điện nước",
         img: require('../icon/bill.png'),
+        type: "-"
     },
 
     {
         id: "e9",
         title: "Giáo dục",
         img: require('../icon/book.png'),
+        type: "-"
     }
 
 ];
@@ -59,7 +68,8 @@ export const SAVING_DATA = [
     {
         id: "s1",
         title: "Tiền tiết kiệm",
-        img: require('../icon/salary-2.png')
+        img: require('../icon/salary-2.png'),
+        type: "-"
     }
 ];
 
@@ -67,19 +77,23 @@ export const INCOME_DATA = [
     {
         id: "i1",
         title: "Tiền lương",
-        img: require('../icon/salary.png')
+        img: require('../icon/salary.png'),
+        type: "+",
+
     },
 
     {
         id: "i2",
         title: "Tiền thưởng",
-        img: require('../icon/bonus.png')
+        img: require('../icon/bonus.png'),
+        type: "+",
     },
 
     {
         id: "i3",
         title: "Tiền thuê nhà",
-        img: require('../icon/for-rent.png')
+        img: require('../icon/for-rent.png'),
+        type: "+",
     }
 ];
 

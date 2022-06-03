@@ -18,7 +18,9 @@ const TransactionInput = props => {
     const [cateModal, setCateModal] = useState(false);
     const [walletModal, setWalletModal] = useState(false);
     const [categoryValue, setCategoryValue] = useState(null);
+    const [categoryTitle, setCategoryTitle] = useState(null);
     const [walletValue, setWalletValue] = useState(null);
+    const [note, setNote] = useState(null);
 
     const onChanged = (text) => {
         text = text.replace(/[^0-9]/g, '');
@@ -28,6 +30,7 @@ const TransactionInput = props => {
     const choseCategory = (item) => {
         setCateModal(false);
         setCategoryValue(item);
+        setCategoryTitle(item.title);
     }
 
     const choseWallet = (item) => {
@@ -59,7 +62,7 @@ const TransactionInput = props => {
                         title="Mục tiêu"
                         placeholder='Chọn hạng mục'
                         // onChangeText={text => { onChanged(text, "savingValue") }}
-                        value={categoryValue}
+                        value={categoryTitle}
                         editable={false}
                         style={styles.textInput} />
 
@@ -119,8 +122,8 @@ const TransactionInput = props => {
                     title="Mục tiêu"
                     placeholder='Nhập ghi chú'
                     keyboardType='numeric'
-                    // onChangeText={text => { onChanged(text, "savingValue") }}
-                    // value={savingValue}
+                    onChangeText={text => setNote(text)}
+                    value={note}
                     style={styles.textInput} />
             </View>
 
@@ -129,7 +132,7 @@ const TransactionInput = props => {
                 <Button
                     title='TẠO'
                     style={{ marginLeft: 5, backgroundColor: 'red' }}
-                    onPress={() => props.onCreate()}
+                    onPress={() => props.onCreate({ money, walletValue, date, note, categoryValue })}
                 ></Button>
 
             </View>

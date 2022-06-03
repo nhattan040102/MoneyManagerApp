@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CategoryCard from './CategoryCard';
 import { EXPENSE_DATA } from '../model/data';
 import { INCOME_DATA } from '../model/data';
+import { SAVING_DATA } from '../model/data';
 import { FONTSIZE } from '../constants/constants';
 
 const TransactionCard = props => {
+    // console.log(props.itemList[0]);
     return (
         <View style={styles.card}>
             <View style={styles.info_view}>
@@ -18,11 +20,12 @@ const TransactionCard = props => {
                 </View>
             </View>
 
-            <View style={styles.item_list}>
-                <CategoryCard title={EXPENSE_DATA[0].title} img={EXPENSE_DATA[0].img} type="-" onPress={() => { }} moneyValue="- 30.000 VND" />
-                <CategoryCard title={EXPENSE_DATA[1].title} img={EXPENSE_DATA[1].img} type="-" onPress={() => { }} moneyValue="- 32.000 VND" />
-                <CategoryCard title={EXPENSE_DATA[2].title} img={EXPENSE_DATA[2].img} type="-" onPress={() => { }} moneyValue="- 40.000 VND" />
-                <CategoryCard title={INCOME_DATA[0].title} img={INCOME_DATA[0].img} type="+" onPress={() => { }} moneyValue="- 1.000.000 VND" />
+            <View style={styles.item_list} >
+                {props.itemList.map(item => {
+                    // console.log(EXPENSE_DATA.indexOf(item.categoryValue)
+                    return (<CategoryCard title={item.categoryValue.title} img={item.categoryValue.img} key={props.itemList.indexOf(item)} type={item.categoryValue.type} onPress={() => { }} moneyValue={item.money} />);
+                })}
+
             </View>
 
         </View>
@@ -32,7 +35,6 @@ const TransactionCard = props => {
 const styles = StyleSheet.create({
     card: {
         width: '95%',
-        // borderRadius: 100,
         backgroundColor: 'white',
         shadowColor: '#000000',
         shadowOffset: {
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
     },
 
     item_list: {
+
     },
 
     info_view: {

@@ -14,7 +14,7 @@ const CategoryCard = props => {
             </View>
 
             <View style={styles.money}>
-                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '600', color: props.type == "-" ? '#FF6363' : "#2FA4FF" }}>{props.moneyValue}</Text>
+                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '600', color: props.type == "-" ? '#FF6363' : "#2FA4FF" }}>{props.moneyValue ? props.type : ""}{props.moneyValue} {props.moneyValue ? "VND" : ""} </Text>
             </View>
         </TouchableOpacity>
     )
