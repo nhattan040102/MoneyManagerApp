@@ -1,6 +1,7 @@
 import { React } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
+import { formatMoney } from '../Helper/helpers';
 
 const CategoryCard = props => {
     return (
@@ -14,7 +15,7 @@ const CategoryCard = props => {
             </View>
 
             <View style={styles.money}>
-                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '600', color: props.type == "-" ? '#FF6363' : "#2FA4FF" }}>{props.moneyValue ? props.type : ""}{props.moneyValue} {props.moneyValue ? "VND" : ""} </Text>
+                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '600', color: props.type == "-" ? '#FF6363' : "#2FA4FF" }}>{props.moneyValue ? props.type : ""}{formatMoney(props.moneyValue)} {props.moneyValue ? "VND" : ""} </Text>
             </View>
         </TouchableOpacity>
     )
