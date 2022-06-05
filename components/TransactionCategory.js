@@ -9,15 +9,21 @@ import { SAVING_DATA } from '../model/data';
 const TransactionCategory = props => {
     const [cateType, setCateType] = useState('CHI TIÊU');
     const DATA = cateType == "CHI TIÊU" ? EXPENSE_DATA : (cateType == "TIẾT KIỆM" ? SAVING_DATA : INCOME_DATA);
+
+    {/* render item for flatlist of transaction items */ }
     const renderItem = ({ item }) => {
         return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })} />;
     }
 
     return (
         <View style={styles.container}>
+
+            {/* Close button */}
             <View style={{ position: 'absolute', right: 0, top: -20 }}>
                 <Button title="X" onPress={() => props.onClose()}></Button>
             </View>
+
+            {/* Header view */}
             <View style={{ height: '15%', flexDirection: 'row', justifyContent: 'space-around', padding: 10, }}>
                 <TouchableOpacity style={[styles.category_types, { borderBottomWidth: cateType == "TIẾT KIỆM" ? 3 : 0 }]} onPress={() => setCateType('TIẾT KIỆM')}>
                     <Text
@@ -44,6 +50,7 @@ const TransactionCategory = props => {
                 </TouchableOpacity>
             </View>
 
+            {/* List of transaction item  */}
             <View>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 50 }}

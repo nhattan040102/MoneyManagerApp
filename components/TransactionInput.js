@@ -6,11 +6,7 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture
 import TransactionCategory from '../components/TransactionCategory';
 import WalletType from '../components/WalletType'
 
-const formatMoney = (money) => {
-    return Number(money)
-        .toFixed(1)
-        .replace(/\d(?=(\d{3})+\.)/g, '$&,');
-}
+
 
 const TransactionInput = props => {
     const [date, setDate] = useState(new Date());

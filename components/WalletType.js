@@ -5,7 +5,6 @@ import CategoryCard from './CategoryCard';
 import { IN_CARD_DATA, IN_CASH_DATA } from '../model/data';
 
 
-
 const WalletType = props => {
     const [cateType, setCateType] = useState('TIỀN MẶT');
     const DATA = cateType == 'TIỀN MẶT' ? IN_CASH_DATA : IN_CARD_DATA;
@@ -39,6 +38,7 @@ const WalletType = props => {
                 </TouchableOpacity>
             </View>
 
+            {/* Display list of item  */}
             <View>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 50 }}
@@ -56,8 +56,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: '100%',
         height: '40%',
-        // height: 100,
-        // padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,

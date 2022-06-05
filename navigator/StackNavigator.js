@@ -9,9 +9,9 @@ import TransactionScreen from '../screens/TransactionScreen';
 import SavingDetailScreen from '../screens/MoneySavingDetail';
 
 
-
 const Stack = createNativeStackNavigator();
 
+{/* configuring for style default header stack navigators */ }
 const screenOptionStyle = {
     headerStyle: {
         backgroundColor: "#rgb(45,139, 126)",
@@ -23,7 +23,7 @@ const screenOptionStyle = {
 };
 
 
-
+{/* configuring screen related to "Giao dịch" tab */ }
 function TransactionsStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -32,6 +32,7 @@ function TransactionsStackNavigator() {
     );
 }
 
+{/* configuring screen related to "Chế độ tiết kiệm" tab */ }
 function SavingStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -45,6 +46,7 @@ function SavingStackNavigator() {
     );
 }
 
+{/* configuring screen related to "Thống kê" tab */ }
 function ReportStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -53,7 +55,7 @@ function ReportStackNavigator() {
     );
 }
 
-
+{/* configuring screen related to "Giới hạn chi tiêu" tab */ }
 function ExpenseControlStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>

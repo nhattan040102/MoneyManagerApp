@@ -7,6 +7,7 @@ import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
 
+{/*     Fake data just for testing  */ }
 const DATA = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -28,12 +29,14 @@ const SavingScreen = props => {
     const [goalState, setGoalState] = useState(false);
     const [currentGoalInput, setCurrentGoalInput] = useState(null);
 
+    {/* render item for flatlist */ }
     const renderItem = ({ item }) => (
 
         <AchievedGoalCard title={item.title} onPress={() => props.navigation.navigate('Chi tiết')} />
     );
 
     useEffect(() => {
+        // If there is already a saving goal, raise alert to user
         if (props.route.params && goalState == true) {
             Alert.alert(
                 "Tin nhắn hệ thống",
@@ -56,11 +59,12 @@ const SavingScreen = props => {
         }
     }, [props.route.params]);
 
-
+    {/* function to close saving goal input modal*/ }
     const closeHandler = () => {
         setModalVisible(false);
     }
 
+    {/* function to add saving goal */ }
     const createHandler = (input) => {
         setModalVisible(false);
         setCurrentGoalInput(input);
@@ -68,6 +72,7 @@ const SavingScreen = props => {
         setGoalState(true);
     }
 
+    {/* function to open saving goal input modal */ }
     const addGoalHandler = () => {
         if (goalState == true) {
             Alert.alert(
@@ -86,9 +91,8 @@ const SavingScreen = props => {
         setModalVisible(true);
     }
 
+    {/* if there is'nt a goal, display no goal card, else display current saving goal card */ }
     const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
-
-    // console.log(props.route);
 
 
     return (

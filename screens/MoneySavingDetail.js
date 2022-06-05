@@ -1,12 +1,12 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
-import * as Progress from 'react-native-progress';
 import GoalDeTail from '../components/GoalDetail';
 import { MaterialIcons } from '@expo/vector-icons';
 import GoalRecord from '../components/GoalRecord';
 
 const SavingDetailScreen = props => {
+    {/* current state of Saving Detail Screen is Goal screen */ }
     const [currentState, setCurrentState] = useState('GOAL');
 
     const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Thống kê')} />
@@ -23,6 +23,8 @@ const SavingDetailScreen = props => {
 
     return (
         <View style={styles.screen}>
+
+            {/* View for header bar: GOAL VIEW and RECORD VIEW */}
             <View style={styles.headerBar}>
                 <TouchableOpacity
                     style={styles.category}
@@ -41,6 +43,7 @@ const SavingDetailScreen = props => {
                 </TouchableOpacity>
             </View>
 
+            {/* Displaying current view */}
             {CurrentScreen}
 
         </View >

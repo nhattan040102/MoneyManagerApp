@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image, StyleSheet } from 'react-native';
 import { SavingStackNavigator, ExpenseControlStackNavigator, ReportStackNavigator, TransactionsStackNavigator } from './StackNavigator';
 
-
 const Tab = createBottomTabNavigator();
 
 const Navigator = () => {
@@ -24,7 +23,7 @@ const Navigator = () => {
                     else if (route.name === 'Expense limit')
                         url = require('../icon/limited.png');
 
-                    // You can return any component that you like here!
+                    //return icon for each tab navgiator
                     return <Image
                         source={url}
                         style={[styles.icon, { tintColor: color }]}
@@ -32,7 +31,7 @@ const Navigator = () => {
                     />;
                 },
 
-
+                // Style tab navigator
                 headerShown: false,
                 tabBarStyle: {
                     height: 100,
@@ -72,7 +71,6 @@ const Navigator = () => {
 
 const styles = StyleSheet.create({
     icon: {
-        // tintColor: 'gray',
         height: 30,
         width: 30,
     }
