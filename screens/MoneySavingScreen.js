@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList, Modal, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         position: 'absolute',
         right: 15,
-        top: 10,
+        top: '10%',
         zIndex: 3,
     },
 

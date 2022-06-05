@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 
 const ReportScreen = props => {
@@ -10,7 +10,7 @@ const ReportScreen = props => {
         <View style={styles.screen}>
 
             {/* view for displaying header bar: COLUMN CHAT and PIE CHART */}
-            <View style={styles.headerBar}>
+            <SafeAreaView style={styles.headerBar}>
                 <TouchableOpacity
                     style={styles.category}
                     onPress={() => setCurrentState('COLUMN CHART')}
@@ -26,7 +26,7 @@ const ReportScreen = props => {
                     <Text style={[styles.cate_text]}>BIỂU ĐỒ TRÒN</Text>
                     <View style={{ width: '98%', borderWidth: currentState == "PIE CHART" ? 2 : 0, borderColor: '#00C897', position: 'absolute', bottom: -3 }}></View>
                 </TouchableOpacity>
-            </View>
+            </SafeAreaView>
 
 
         </View>
@@ -40,10 +40,9 @@ const styles = StyleSheet.create({
 
     headerBar: {
         width: '100%',
-        height: 60,
         backgroundColor: 'rgb(45,139, 126)',
         flexDirection: 'row',
-
+        height: '12%'
     },
 
     category: {

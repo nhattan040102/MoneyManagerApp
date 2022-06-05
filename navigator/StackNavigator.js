@@ -23,11 +23,13 @@ const screenOptionStyle = {
 };
 
 
+
+
 {/* configuring screen related to "Giao dịch" tab */ }
 function TransactionsStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Giao dịch" component={TransactionScreen} />
+            <Stack.Screen name="Giao dịch" component={TransactionScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
@@ -36,10 +38,11 @@ function TransactionsStackNavigator() {
 function SavingStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Chế độ tiết kiệm" component={SavingScreen} />
+            <Stack.Screen name="Chế độ tiết kiệm" component={SavingScreen} options={{ headerShown: false }} />
             <Stack.Screen
                 name="Chi tiết"
                 component={SavingDetailScreen}
+
             />
             <Stack.Screen name="Thống kê" component={ReportScreen} />
         </Stack.Navigator>
@@ -50,7 +53,7 @@ function SavingStackNavigator() {
 function ReportStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Thống kê" component={ReportScreen} />
+            <Stack.Screen name="Thống kê" component={ReportScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
@@ -59,7 +62,7 @@ function ReportStackNavigator() {
 function ExpenseControlStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Giới hạn chi tiêu" component={MoneyLimitScreen} />
+            <Stack.Screen name="Giới hạn chi tiêu" component={MoneyLimitScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     );

@@ -5,10 +5,8 @@ import { EXPENSE_DATA } from '../model/data';
 import { INCOME_DATA } from '../model/data';
 import { SAVING_DATA } from '../model/data';
 import { FONTSIZE } from '../constants/constants';
+import { formatMoney } from '../Helper/helpers';
 
-const formatMoney = (money) => {
-    return money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-}
 
 const TransactionCard = props => {
     const [expenseValue, setExpenseValue] = useState(0);
@@ -31,7 +29,7 @@ const TransactionCard = props => {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1, paddingHorizontal: 5 }}>
                         <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Chi tiêu:{formatMoney(expenseValue)}</Text>
-                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>  Thu nhập:+{incomeValue}</Text>
+                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>  Thu nhập:+{formatMoney(incomeValue)}</Text>
                     </View>
                 </View>
 
@@ -57,6 +55,7 @@ const TransactionCard = props => {
 
 const styles = StyleSheet.create({
     card: {
+        marginVertical: 10,
         width: '95%',
         backgroundColor: 'white',
         shadowColor: '#000000',
