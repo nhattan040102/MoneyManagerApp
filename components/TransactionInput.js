@@ -34,7 +34,11 @@ const TransactionInput = props => {
         setWalletValue(item);
     }
 
+    const onChangeTime = (event, selectedDate) => {
+        // const currentDate = selectedDate || date;
 
+        setDate(selectedDate);
+    };
     return (
         <View style={styles.container}>
             <View style={styles.input}>
@@ -106,7 +110,7 @@ const TransactionInput = props => {
                     <Image source={require('../icon/calendar.png')} />
                     <Text style={styles.inputTitle}>Ngày tháng</Text>
                 </View>
-                <DateTimePicker mode="date" value={date} />
+                <DateTimePicker mode="date" value={date} onChange={onChangeTime} />
             </View>
 
             <View style={styles.input}>

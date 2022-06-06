@@ -1,10 +1,11 @@
 import { React } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import NoBudgetLimitCard from '../components/NoBudgetLimitCard';
 
 const MoneyLimitScreen = props => {
     return (
         <View style={styles.screen}>
-            <Text>Money Limit Screen</Text>
+            <NoBudgetLimitCard />
         </View>
     );
 }

@@ -23,7 +23,7 @@ const TransactionCategory = props => {
                 <Button title="X" onPress={() => props.onClose()}></Button>
             </View>
 
-            {/* Header view */}
+            {/* {Header view} */}
             <View style={{ height: '15%', flexDirection: 'row', justifyContent: 'space-around', padding: 10, }}>
                 <TouchableOpacity style={[styles.category_types, { borderBottomWidth: cateType == "TIẾT KIỆM" ? 3 : 0 }]} onPress={() => setCateType('TIẾT KIỆM')}>
                     <Text

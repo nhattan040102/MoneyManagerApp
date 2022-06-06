@@ -1,9 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CategoryCard from './CategoryCard';
-import { EXPENSE_DATA } from '../model/data';
-import { INCOME_DATA } from '../model/data';
-import { SAVING_DATA } from '../model/data';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 
@@ -11,9 +8,10 @@ import { formatMoney } from '../Helper/helpers';
 const TransactionCard = props => {
     const [expenseValue, setExpenseValue] = useState(0);
     const [incomeValue, setIncomeValue] = useState(0);
-    // console.log(props.itemList[0]);
-    var _expenseValue = 0;
-    var _incomeValue = 0;
+    const [day, month, year] = props.id.split("%");
+
+    let _expenseValue = parseInt(0);
+    let _incomeValue = parseInt(0);
 
     useEffect(() => {
         setExpenseValue(_expenseValue);
@@ -25,7 +23,7 @@ const TransactionCard = props => {
             <View style={styles.card}>
                 <View style={styles.info_view}>
                     <View>
-                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>28 Th4, 2022</Text>
+                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>{day} Th{parseInt(month) + 1} {year}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1, paddingHorizontal: 5 }}>
                         <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Chi tiêu:{formatMoney(expenseValue)}</Text>
@@ -37,9 +35,9 @@ const TransactionCard = props => {
                     {props.itemList.map(item => {
 
                         if (item.categoryValue.type == '-')
-                            _expenseValue -= item.money;
+                            _expenseValue -= parseInt(item.money);
                         else
-                            _incomeValue += item.money
+                            _incomeValue += parseInt(item.money);
                         // console.log(EXPENSE_DATA.indexOf(item.categoryValue)
                         return (<CategoryCard title={item.categoryValue.title} img={item.categoryValue.img} key={props.itemList.indexOf(item)} type={item.categoryValue.type} onPress={() => { }} moneyValue={item.money} />);
                     })}
@@ -56,7 +54,8 @@ const TransactionCard = props => {
 const styles = StyleSheet.create({
     card: {
         marginVertical: 10,
-        width: '95%',
+        width: '100%',
+        // width: 400,
         backgroundColor: 'white',
         shadowColor: '#000000',
         shadowOffset: {
