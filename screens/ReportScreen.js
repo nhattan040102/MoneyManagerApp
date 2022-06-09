@@ -1,6 +1,8 @@
 import { React, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
+import { Entypo } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
 
 const ReportScreen = props => {
     const [currentState, setCurrentState] = useState('COLUMN CHART');
@@ -15,6 +17,7 @@ const ReportScreen = props => {
                     style={styles.category}
                     onPress={() => setCurrentState('COLUMN CHART')}
                 >
+                    <Entypo name="bar-graph" size={25} color="white" />
                     <Text style={[styles.cate_text]}>BIỂU ĐỒ CỘT</Text>
                     <View style={{ width: '98%', borderWidth: currentState == "COLUMN CHART" ? 2 : 0, borderColor: '#00C897', position: 'absolute', bottom: -3 }}></View>
                 </TouchableOpacity>
@@ -23,6 +26,7 @@ const ReportScreen = props => {
                     style={styles.category}
                     onPress={() => setCurrentState('PIE CHART')}
                 >
+                    <Foundation name="graph-pie" size={25} color="white" />
                     <Text style={[styles.cate_text]}>BIỂU ĐỒ TRÒN</Text>
                     <View style={{ width: '98%', borderWidth: currentState == "PIE CHART" ? 2 : 0, borderColor: '#00C897', position: 'absolute', bottom: -3 }}></View>
                 </TouchableOpacity>
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: FONTSIZE.header1,
         fontWeight: '500',
         color: 'white',
-
+        padding: 5,
     }
 })
 
