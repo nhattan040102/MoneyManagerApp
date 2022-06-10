@@ -7,6 +7,8 @@ import { Feather } from '@expo/vector-icons';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
+import { AddTransactionToFirebase } from '../Helper/firebaseAPI';
+
 
 const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false); //state to show modal and hide modal for transaction input
@@ -29,10 +31,11 @@ const TransactionScreen = props => {
     }
 
     {/* function to add a transaction and close input modal */ }
-    const createHandler = (input) => {
+    const createHandler = async (input) => {
         setModalVisible(false);
         console.log(input);
         setInput(input);
+        AddTransactionToFirebase(input);
 
         if (input.categoryValue.type == "-") {
             setCurrentExpense(parseInt(currentExpense) + parseInt(input.money));

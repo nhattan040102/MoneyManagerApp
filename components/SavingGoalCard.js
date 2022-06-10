@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import * as Progress from 'react-native-progress';
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { formatMoney } from '../Helper/helpers';
 
 const SavingGoalCard = props => {
     return (
@@ -12,7 +13,7 @@ const SavingGoalCard = props => {
             </View>
             <View style={{ padding: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <FontAwesome5 name="money-bill-alt" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> {props.item.savingValue}</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> {formatMoney(props.item.savingValue)}</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <Progress.Bar progress={0} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />

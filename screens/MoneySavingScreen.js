@@ -6,6 +6,7 @@ import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
+import { AddSavingGoalToFirebase } from '../Helper/firebaseAPI';
 
 {/*     Fake data just for testing  */ }
 const DATA = [
@@ -31,7 +32,6 @@ const SavingScreen = props => {
 
     {/* render item for flatlist */ }
     const renderItem = ({ item }) => (
-
         <AchievedGoalCard title={item.title} onPress={() => props.navigation.navigate('Chi tiết')} />
     );
 
@@ -68,6 +68,7 @@ const SavingScreen = props => {
     const createHandler = (input) => {
         setModalVisible(false);
         setCurrentGoalInput(input);
+        AddSavingGoalToFirebase(input);
         console.log(input);
         setGoalState(true);
     }
