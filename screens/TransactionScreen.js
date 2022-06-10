@@ -8,6 +8,7 @@ import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
 import { AddTransactionToFirebase } from '../Helper/firebaseAPI';
+import { loadSavingGoalData } from '../Helper/firebaseAPI';
 
 
 const TransactionScreen = props => {
@@ -31,7 +32,7 @@ const TransactionScreen = props => {
     }
 
     {/* function to add a transaction and close input modal */ }
-    const createHandler = async (input) => {
+    const createHandler = (input) => {
         setModalVisible(false);
         console.log(input);
         setInput(input);
@@ -47,17 +48,15 @@ const TransactionScreen = props => {
             setCurrentMoney(parseInt(currentMoney) + parseInt(input.money))
         }
 
-
         // setTransactionList([...transactionList, input]);
         setTransactionList((preData) => {
 
             // console.log(preData.filter(item => item.id == id).length)
             var id = input.date.getDate().toString() + "%" + input.date.getMonth().toString() + "%" + input.date.getFullYear().toString();
 
-
             if (preData.length == 0 || preData.filter(item => item.id == id).length == 0)
                 return [{ id: id, data: [input] }, ...preData]
-            // console.log("nothing");
+
             else {
                 let _preData = preData;
                 _preData.map((item) => {
@@ -70,6 +69,11 @@ const TransactionScreen = props => {
         })
     }
 
+    useEffect(() => {
+        // var data;
+        // console.log(loadSavingGoalData(data));
+        // console.log(data);
+    })
 
     return (
 

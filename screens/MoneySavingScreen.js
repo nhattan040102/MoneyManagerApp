@@ -6,7 +6,7 @@ import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
-import { AddSavingGoalToFirebase } from '../Helper/firebaseAPI';
+import { AddSavingGoalToFirebase, loadSavingGoalData } from '../Helper/firebaseAPI';
 
 {/*     Fake data just for testing  */ }
 const DATA = [
@@ -36,6 +36,10 @@ const SavingScreen = props => {
     );
 
     useEffect(() => {
+        loadSavingGoalData(setCurrentGoalInput, setGoalState);
+        console.log(currentGoalInput);
+
+
         // If there is already a saving goal, raise alert to user
         if (props.route.params && goalState == true) {
             Alert.alert(
