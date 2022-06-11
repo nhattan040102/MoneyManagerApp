@@ -8,7 +8,7 @@ import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
 import { AddTransactionToFirebase } from '../Helper/firebaseAPI';
-import { loadSavingGoalData } from '../Helper/firebaseAPI';
+import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
 
 
 const TransactionScreen = props => {
@@ -70,9 +70,8 @@ const TransactionScreen = props => {
     }
 
     useEffect(() => {
-        // var data;
-        // console.log(loadSavingGoalData(data));
-        // console.log(data);
+        autoSignIn();
+        // _onAuthStateChanged();
     })
 
     return (

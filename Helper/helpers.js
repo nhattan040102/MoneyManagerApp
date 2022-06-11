@@ -8,3 +8,6 @@ export const formatMoney = (money) => {
 }
 
 
+export const createKeyID = (userID, date) => {
+    return userID.toString() + date.getTime();
+}

@@ -9,7 +9,7 @@ const SavingGoalCard = props => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{props.item.savingGoal}</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{props.item.goalName}</Text>
             </View>
             <View style={{ padding: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <FontAwesome5 name="money-bill-alt" size={24} color="black" />
@@ -25,7 +25,7 @@ const SavingGoalCard = props => {
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="access-time" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: {props.item.dateCreated.toDate().getDate()}/{props.item.dateCreated.toDate().getMonth()}/{props.item.dateCreated.toDate().getFullYear()}</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: {props.item.date.toDate().getDate()}/{props.item.date.toDate().getMonth()}/{props.item.date.toDate().getFullYear()}</Text>
             </View>
         </TouchableOpacity>
     );

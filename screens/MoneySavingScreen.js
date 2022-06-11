@@ -6,7 +6,8 @@ import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
-import { AddSavingGoalToFirebase, loadSavingGoalData } from '../Helper/firebaseAPI';
+import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal } from '../Helper/firebaseAPI';
+import { auth } from '../firebase';
 
 {/*     Fake data just for testing  */ }
 const DATA = [
@@ -39,7 +40,6 @@ const SavingScreen = props => {
         loadSavingGoalData(setCurrentGoalInput, setGoalState);
         console.log(currentGoalInput);
 
-
         // If there is already a saving goal, raise alert to user
         if (props.route.params && goalState == true) {
             Alert.alert(
@@ -53,6 +53,7 @@ const SavingScreen = props => {
                     {
                         text: "Chấp nhận", onPress: () => {
                             console.log("OK Pressed");
+                            deleteSavingGoal(currentGoalInput.date.toDate());
                             setGoalState(props.route.params.status);
                         }
                     }
@@ -71,7 +72,6 @@ const SavingScreen = props => {
     {/* function to add saving goal */ }
     const createHandler = (input) => {
         setModalVisible(false);
-        setCurrentGoalInput(input);
         AddSavingGoalToFirebase(input);
         console.log(input);
         setGoalState(true);
