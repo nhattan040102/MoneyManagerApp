@@ -1,9 +1,10 @@
-import { React, useState, useLayoutEffect } from 'react';
+import { React, useState, useLayoutEffect, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import GoalDeTail from '../components/GoalDetail';
 import { MaterialIcons } from '@expo/vector-icons';
 import GoalRecord from '../components/GoalRecord';
+import { updateSavingGoalStatus } from '../Helper/firebaseAPI';
 
 const SavingDetailScreen = props => {
     {/* current state of Saving Detail Screen is Goal screen */ }
@@ -22,6 +23,14 @@ const SavingDetailScreen = props => {
             )
         });
     }, [props.navigation]);
+
+    useEffect(() => {
+        const goalData = props.route.params.data;
+        if (goalData.currentMoney >= goalData.savingValue)
+            updateSavingGoalStatus(goalData.goalID)
+    }, [])
+
+    console.log(props.route.params)
 
     return (
         <View style={styles.screen}>

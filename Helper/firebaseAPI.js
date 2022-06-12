@@ -132,3 +132,10 @@ export const deleteSavingGoal = async (createdDate) => {
     })
 }
 
+export const updateSavingGoalStatus = async (goalID) => {
+    const docRef = doc(db, "SavingGoal", goalID);
+
+    await updateDoc(docRef, {
+        status: "done"
+    })
+}
