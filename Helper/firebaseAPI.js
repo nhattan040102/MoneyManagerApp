@@ -60,10 +60,9 @@ export const AddTransactionToFirebase = async (input) => {
         setTimeout(async () => {
             const docRef = doc(db, "SavingGoal", doc_id);
             await updateDoc(docRef, {
-                currentMoney: 10,
+                currentMoney: increment(parseInt(docData.moneyValue)),
             })
-            console.log("3");
-        }, 10);
+        }, 1000);
 
 
     }
