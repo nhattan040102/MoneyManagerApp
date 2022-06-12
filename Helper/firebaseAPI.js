@@ -10,7 +10,7 @@ import { createKeyID } from './helpers';
 export const autoSignIn = () => {
     signInAnonymously(auth)
         .then(() => {
-            console.log("Sign in anonynously");
+            // console.log("Sign in anonynously");
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -21,14 +21,6 @@ export const autoSignIn = () => {
         });
 }
 
-export const demo = async (doc_id, money) => {
-    console.log("gọi hàm");
-    const docRef = doc(db, "SavingGoal", doc_id);
-    await updateDoc(docRef, {
-        currentMoney: increment(parseInt(money)),
-    });
-    console.log("hàm xong");
-}
 
 export const AddTransactionToFirebase = async (input) => {
     const docData = {
@@ -48,7 +40,9 @@ export const AddTransactionToFirebase = async (input) => {
             querySnapshot.forEach((doc) => {
                 if (doc.exists) {
                     doc_id = doc.id
-                    console.log("2");
+
+                    docData['goalID'] = doc_id;
+                    console.log(docData);
                 }
 
                 else
@@ -66,13 +60,15 @@ export const AddTransactionToFirebase = async (input) => {
 
 
     }
+    setTimeout(async () => {
+        await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
+    }, 1000)
 
-    await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
 }
 
 export const AddSavingGoalToFirebase = async (input) => {
-    console.log("Saving goal");
     const docData = {
+        goalID: createKeyID(auth.currentUser.uid, input.date),
         userID: auth.currentUser.uid,
         goalName: input.goalName,
         savingValue: input.savingValue,
@@ -81,7 +77,7 @@ export const AddSavingGoalToFirebase = async (input) => {
         status: "current",
         currentMoney: 0,
     };
-    await setDoc(doc(db, "SavingGoal", createKeyID(docData.userID, input.date)), docData);
+    await setDoc(doc(db, "SavingGoal", docData.goalID), docData);
 }
 
 export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
@@ -95,11 +91,24 @@ export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
             }
 
             else
-                console.log("null");
+                console.log("Can not load data from firebase");
         });
 
     });
 
+}
+
+
+export const loadSavingTransaction = (setSavingList, goalID) => {
+    var savingList = []
+    const q = query(collection(db, "transaction"), where("goalID", "==", goalID));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            savingList.push(doc.data());
+        });
+        setSavingList(savingList);
+    });
 }
 
 export const loadDoneSavingGoal = (setCompletedGoals) => {

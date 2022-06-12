@@ -76,7 +76,6 @@ const SavingScreen = props => {
     const createHandler = (input) => {
         setModalVisible(false);
         AddSavingGoalToFirebase(input);
-        console.log(input);
         setGoalState(true);
     }
 

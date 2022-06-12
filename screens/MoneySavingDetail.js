@@ -9,7 +9,7 @@ const SavingDetailScreen = props => {
     {/* current state of Saving Detail Screen is Goal screen */ }
     const [currentState, setCurrentState] = useState('GOAL');
 
-    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail item={props.route.params} /> : <GoalRecord onPress={() => props.navigation.navigate('Thống kê')} />
+    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail item={props.route.params} /> : <GoalRecord item={props.route.params} onPress={() => props.navigation.navigate('Thống kê')} />
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
