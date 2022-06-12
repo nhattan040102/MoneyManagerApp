@@ -6,6 +6,8 @@ import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vecto
 import { formatMoney } from '../Helper/helpers';
 
 const SavingGoalCard = props => {
+    const progress_perc = (props.item.currentMoney) / (props.item.savingValue);
+    console.log(progress_perc);
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
@@ -16,12 +18,12 @@ const SavingGoalCard = props => {
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> {formatMoney(props.item.savingValue)}</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
-                <Progress.Bar progress={0} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />
-                <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>0%</Text>
+                <Progress.Bar progress={progress_perc} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} />
+                <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>{progress_perc.toFixed(4) * 100} %</Text>
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialCommunityIcons name="percent-outline" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Tiến độ: 0 / {props.item.savingValue} VND</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Tiến độ: {formatMoney(props.item.currentMoney)} / {formatMoney(props.item.savingValue)} VND</Text>
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="access-time" size={24} color="black" />
