@@ -6,7 +6,7 @@ import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
-import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal } from '../Helper/firebaseAPI';
+import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal, loadDoneSavingGoal } from '../Helper/firebaseAPI';
 import { auth } from '../firebase';
 
 {/*     Fake data just for testing  */ }
@@ -30,15 +30,18 @@ const SavingScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
     const [goalState, setGoalState] = useState(false);
     const [currentGoalInput, setCurrentGoalInput] = useState(null);
+    const [completedGoals, setCompletedGoals] = useState([])
 
     {/* render item for flatlist */ }
     const renderItem = ({ item }) => (
-        <AchievedGoalCard title={item.title} onPress={() => props.navigation.navigate('Chi tiết')} />
+        <AchievedGoalCard item={item} onPress={() => props.navigation.navigate('Chi tiết', { data: item })} />
     );
 
     useEffect(() => {
         loadSavingGoalData(setCurrentGoalInput, setGoalState);
-        console.log(currentGoalInput);
+        loadDoneSavingGoal(setCompletedGoals);
+        console.log(completedGoals[0]);
+        // console.log(currentGoalInput);
 
         // If there is already a saving goal, raise alert to user
         if (props.route.params && goalState == true) {
@@ -97,7 +100,7 @@ const SavingScreen = props => {
     }
 
     {/* if there is'nt a goal, display no goal card, else display current saving goal card */ }
-    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
+    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => props.navigation.navigate('Chi tiết', { data: currentGoalInput })} /> : <NoGoalCard />;
 
 
     return (
@@ -143,9 +146,9 @@ const SavingScreen = props => {
                 <View style={{ width: '90%' }}>
                     <FlatList
                         contentContainerStyle={{ paddingBottom: 120 }}
-                        data={DATA}
+                        data={completedGoals}
                         renderItem={renderItem}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item.date.toDate()}
                     />
                 </View>
 

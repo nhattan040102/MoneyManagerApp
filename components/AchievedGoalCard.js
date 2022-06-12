@@ -2,6 +2,7 @@ import { React } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { formatMoney } from '../Helper/helpers';
 
 const CompleteBar = () => {
     return (
@@ -14,11 +15,11 @@ const AchievedGoalCard = (props) => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{props.title}</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}>{props.item.goalName}</Text>
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <FontAwesome5 name="money-bill-alt" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> 1,600,00 VND</Text>
+                <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> {formatMoney(props.item.savingValue)}</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
                 <CompleteBar />

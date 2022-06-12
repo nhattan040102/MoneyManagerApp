@@ -1,6 +1,6 @@
 import { db } from '../firebase';
 import { doc, getDoc, setDoc, Timestamp, increment } from "firebase/firestore";
-import { collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, updateDoc, orderBy } from "firebase/firestore";
 import { auth } from '../firebase';
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { createKeyID } from './helpers';
@@ -102,16 +102,16 @@ export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
 
 }
 
-export const loadDoneSavingGoal = () => {
-    var data = [];
-    const q = query(collection(db, "SavingGoal"), where("userID", "==", "user_nhattan"), where("status", "==", "done"));
+export const loadDoneSavingGoal = (setCompletedGoals) => {
+    var completedGoals = []
+    const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "done"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            data.push(doc.data());
+            completedGoals.push(doc.data());
 
         });
+        setCompletedGoals(completedGoals)
     });
-    return data;
 
 }
 
