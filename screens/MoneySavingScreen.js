@@ -9,28 +9,13 @@ import NoGoalCard from '../components/NoGoalCard';
 import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal, loadDoneSavingGoal } from '../Helper/firebaseAPI';
 import { auth } from '../firebase';
 
-{/*     Fake data just for testing  */ }
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Mua quà tặng mẹ 20/3',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Mua laptop mới',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Mua lambogini',
-    },
-];
-
 
 const SavingScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
     const [goalState, setGoalState] = useState(false);
     const [currentGoalInput, setCurrentGoalInput] = useState(null);
     const [completedGoals, setCompletedGoals] = useState([])
+    const [renderTrigger, setRenderTrigger] = useState(false);
 
     {/* render item for flatlist */ }
     const renderItem = ({ item }) => (
@@ -40,32 +25,10 @@ const SavingScreen = props => {
     useEffect(() => {
         loadSavingGoalData(setCurrentGoalInput, setGoalState);
         loadDoneSavingGoal(setCompletedGoals);
-        console.log(completedGoals[0]);
-        // console.log(currentGoalInput);
-
-        // If there is already a saving goal, raise alert to user
-        if (props.route.params && goalState == true) {
-            Alert.alert(
-                "Tin nhắn hệ thống",
-                "Bạn có chắc muốn hủy mục tiêu tiết kiệm hiện tại hay không?",
-                [
-                    {
-                        text: "Hủy bỏ",
-                        onPress: () => console.log("Cancel Pressed"),
-                    },
-                    {
-                        text: "Chấp nhận", onPress: () => {
-                            console.log("OK Pressed");
-                            deleteSavingGoal(currentGoalInput.date.toDate());
-                            setGoalState(props.route.params.status);
-                        }
-                    }
-                ]
-            );
 
 
-        }
-    }, [props.route.params]);
+        // setDeleteTrigger(false);
+    }, [props.route]);
 
     {/* function to close saving goal input modal*/ }
     const closeHandler = () => {
@@ -76,7 +39,6 @@ const SavingScreen = props => {
     const createHandler = (input) => {
         setModalVisible(false);
         AddSavingGoalToFirebase(input);
-        setGoalState(true);
     }
 
     {/* function to open saving goal input modal */ }

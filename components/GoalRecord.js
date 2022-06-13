@@ -33,7 +33,6 @@ const GoalRecord = props => {
 
     useEffect(() => {
         loadSavingTransaction(setSavingList, props.item.data.goalID);
-        console.log("use effect")
     }, [])
 
     return (

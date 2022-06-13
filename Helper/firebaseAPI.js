@@ -82,10 +82,11 @@ export const AddSavingGoalToFirebase = async (input) => {
 
 export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
     const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "current"));
+    setCurrentGoalInput(null);
+    setGoalState(false);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if (doc.exists) {
-                // console.log(doc.data());
                 setCurrentGoalInput(doc.data());
                 setGoalState(true);
             }
@@ -114,18 +115,21 @@ export const loadSavingTransaction = (setSavingList, goalID) => {
 export const loadDoneSavingGoal = (setCompletedGoals) => {
     var completedGoals = []
     const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "done"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+    const unsubcribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
             completedGoals.push(doc.data());
 
         });
-        setCompletedGoals(completedGoals)
+        setCompletedGoals(completedGoals);
     });
+    // unsubcribe();
+
 
 }
 
-export const deleteSavingGoal = async (createdDate) => {
-    const docRef = doc(db, "SavingGoal", createKeyID(auth.currentUser.uid, createdDate));
+export const deleteSavingGoal = async (goalID) => {
+    const docRef = doc(db, "SavingGoal", goalID);
 
     await updateDoc(docRef, {
         status: "deleted"

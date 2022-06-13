@@ -1,23 +1,22 @@
 import { React, useState, useLayoutEffect, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import GoalDeTail from '../components/GoalDetail';
 import { MaterialIcons } from '@expo/vector-icons';
 import GoalRecord from '../components/GoalRecord';
 import { updateSavingGoalStatus } from '../Helper/firebaseAPI';
+import { deleteSavingGoal } from '../Helper/firebaseAPI';
 
 const SavingDetailScreen = props => {
     {/* current state of Saving Detail Screen is Goal screen */ }
     const [currentState, setCurrentState] = useState('GOAL');
+    const [deleteTrigger, setDeleteTrigger] = useState(false);
 
     const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail item={props.route.params} /> : <GoalRecord item={props.route.params} onPress={() => props.navigation.navigate('Thống kê')} />
-
     useLayoutEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
-                <TouchableOpacity onPress={() => {
-                    props.navigation.navigate('Chế độ tiết kiệm', { status: false })
-                }}>
+                <TouchableOpacity onPress={() => { setDeleteTrigger(true) }}>
                     <MaterialIcons name="delete" size={30} color="white" />
                 </TouchableOpacity>
             )
@@ -25,12 +24,34 @@ const SavingDetailScreen = props => {
     }, [props.navigation]);
 
     useEffect(() => {
+        console.log(props.route.params.data)
         const goalData = props.route.params.data;
+
         if (goalData.currentMoney >= goalData.savingValue)
             updateSavingGoalStatus(goalData.goalID)
-    }, [])
 
-    console.log(props.route.params)
+        if (deleteTrigger == true) {
+            Alert.alert(
+                "Tin nhắn hệ thống",
+                "Bạn có chắc muốn hủy mục tiêu tiết kiệm hiện tại hay không?",
+                [
+                    {
+                        text: "Hủy bỏ",
+                        onPress: () => console.log("Cancel Pressed"),
+                    },
+                    {
+                        text: "Chấp nhận", onPress: () => {
+                            console.log("OK Pressed");
+                            deleteSavingGoal(props.route.params.data.goalID);
+                            props.navigation.navigate('Chế độ tiết kiệm', { 'trigger': 'true' })
+                        }
+                    }
+                ]
+            );
+        }
+    }, [deleteTrigger])
+
+
 
     return (
         <View style={styles.screen}>

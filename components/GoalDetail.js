@@ -23,8 +23,7 @@ const GoalDeTail = props => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const progress_perc = props.item.data.currentMoney / props.item.data.savingValue;
-    console.log(progress_perc);
-    console.log(props.item.data.date.toDate().getMonth())
+
 
     return (
         <View style={{ width: '100%', height: '100%', flexDirection: 'column' }}>
