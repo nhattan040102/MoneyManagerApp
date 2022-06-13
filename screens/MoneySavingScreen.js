@@ -23,9 +23,12 @@ const SavingScreen = props => {
     );
 
     useEffect(() => {
-        loadSavingGoalData(setCurrentGoalInput, setGoalState);
-        loadDoneSavingGoal(setCompletedGoals);
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            loadSavingGoalData(setCurrentGoalInput, setGoalState);
+            loadDoneSavingGoal(setCompletedGoals);
+        })
 
+        return unsubscribe;
 
         // setDeleteTrigger(false);
     }, [props.route]);

@@ -40,7 +40,8 @@ export const AddTransactionToFirebase = async (input) => {
             querySnapshot.forEach((doc) => {
                 if (doc.exists) {
                     doc_id = doc.id
-
+                    if (doc.data().currentMoney + parseInt(docData.moneyValue) >= doc.data().savingValue)
+                        updateSavingGoalStatus(doc_id);
                     docData['goalID'] = doc_id;
                     console.log(docData);
                 }
@@ -57,6 +58,8 @@ export const AddTransactionToFirebase = async (input) => {
                 currentMoney: increment(parseInt(docData.moneyValue)),
             })
         }, 1000);
+
+
 
 
     }
