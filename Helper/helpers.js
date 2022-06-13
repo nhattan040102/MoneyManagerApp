@@ -11,3 +11,10 @@ export const formatMoney = (money) => {
 export const createKeyID = (userID, date) => {
     return userID.toString() + date.getTime();
 }
+
+export const createKeyFromDate = (date) => {
+    const date1 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const date2 = new Date(1, 1, 1);
+
+    return Math.round((date1 - date2) / (1000 * 60 * 60 * 24));
+}
