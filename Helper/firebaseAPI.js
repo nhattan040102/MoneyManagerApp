@@ -4,6 +4,7 @@ import { collection, query, where, onSnapshot, updateDoc, orderBy } from "fireba
 import { auth } from '../firebase';
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { createKeyID } from './helpers';
+import { Alert } from 'react-native'
 
 
 
@@ -32,27 +33,49 @@ export const AddTransactionToFirebase = async (input) => {
         note: input.note,
     };
 
+    var flag = false;
+
     // if the transaction is saving category, then update value in Saving Goal data
-    if (docData.categoryValue.id = "s1") {
+    if (docData.categoryValue.id == "s1") {
         var doc_id = null;
+        var currentMoney = 0;
+        var goalMoney = 0;
         const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "current"));
+        // console.log(q.get());
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            if (querySnapshot.empty)
+                flag = true;
+
             querySnapshot.forEach((doc) => {
                 if (doc.exists) {
                     doc_id = doc.id
-                    if (doc.data().currentMoney + parseInt(docData.moneyValue) >= doc.data().savingValue)
-                        updateSavingGoalStatus(doc_id);
+                    currentMoney = doc.data().currentMoney
+                    goalMoney = doc.data().savingValue
                     docData['goalID'] = doc_id;
-                    console.log(docData);
                 }
 
-                else
-                    return null;
             });
 
         })
 
+
         setTimeout(async () => {
+            if (flag) {
+                Alert.alert(
+                    "Tin nhắn hệ thống",
+                    "Hiện tại bạn chưa có mục tiêu tiết kiệm nào nên không thể thêm giao dịch",
+                    [
+                        {
+                            text: "OK",
+                            onPress: () => console.log("OK")
+                        },
+                    ]
+                )
+                return;
+            }
+
+            if (parseInt(currentMoney) + parseInt(docData.moneyValue) >= parseInt(goalMoney))
+                updateSavingGoalStatus(doc_id);
             const docRef = doc(db, "SavingGoal", doc_id);
             await updateDoc(docRef, {
                 currentMoney: increment(parseInt(docData.moneyValue)),
@@ -64,6 +87,9 @@ export const AddTransactionToFirebase = async (input) => {
 
     }
     setTimeout(async () => {
+        if (flag)
+            return;
+        console.log("exec");
         await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
     }, 1000)
 
