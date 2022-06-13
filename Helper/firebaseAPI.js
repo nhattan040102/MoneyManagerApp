@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc, Timestamp, increment } from "firebase/firestore";
 import { collection, query, where, onSnapshot, updateDoc, orderBy } from "firebase/firestore";
 import { auth } from '../firebase';
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { createKeyID } from './helpers';
+import { createKeyID, createKeyFromDate } from './helpers';
 import { Alert } from 'react-native'
 
 
@@ -31,6 +31,7 @@ export const AddTransactionToFirebase = async (input) => {
         walletValue: input.walletValue,
         dateCreated: input.date,
         note: input.note,
+        groupID: createKeyFromDate(input.date)
     };
 
     var flag = false;
@@ -83,8 +84,6 @@ export const AddTransactionToFirebase = async (input) => {
         }, 1000);
 
 
-
-
     }
     setTimeout(async () => {
         if (flag)
@@ -93,6 +92,50 @@ export const AddTransactionToFirebase = async (input) => {
         await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
     }, 1000)
 
+}
+
+export const loadTransaction = (setTransactionList) => {
+    var transactionList = []
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
+    console.log(auth.currentUser.uid);
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+                if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
+                    transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
+
+                else {
+                    transactionList.map((item) => {
+                        if (item.id == change.doc.data().groupID)
+                            item.data.unshift(change.doc.data());
+                    })
+
+                }
+                console.log(change.doc.data());
+            }
+
+            // querySnapshot.forEach((doc) => {
+
+            //     if (transactionList.length == 0 || transactionList.filter(item => item.id == doc.data().groupID).length == 0)
+            //         transactionList.push({ id: doc.data().groupID, data: [doc.data()] });
+
+            //     else {
+            //         transactionList.map((item) => {
+            //             if (item.id == doc.data().groupID)
+            //                 item.data.unshift(doc.data());
+            //         })
+
+
+            //     }
+
+
+            // }
+        }
+
+        );
+        setTransactionList(transactionList);
+    });
 }
 
 export const AddSavingGoalToFirebase = async (input) => {

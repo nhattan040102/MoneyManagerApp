@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
-import { AddTransactionToFirebase } from '../Helper/firebaseAPI';
+import { AddTransactionToFirebase, loadTransaction } from '../Helper/firebaseAPI';
 import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
 
 
@@ -38,41 +38,23 @@ const TransactionScreen = props => {
         setInput(input);
         AddTransactionToFirebase(input);
 
-        if (input.categoryValue.type == "-") {
-            setCurrentExpense(parseInt(currentExpense) + parseInt(input.money));
-            setCurrentMoney(parseInt(currentMoney) - parseInt(input.money))
-        }
+        // if (input.categoryValue.type == "-") {
+        //     setCurrentExpense(parseInt(currentExpense) + parseInt(input.money));
+        //     setCurrentMoney(parseInt(currentMoney) - parseInt(input.money))
+        // }
 
-        else {
-            setCurrentIncome(parseInt(currentIncome) + parseInt(input.money));
-            setCurrentMoney(parseInt(currentMoney) + parseInt(input.money))
-        }
+        // else {
+        //     setCurrentIncome(parseInt(currentIncome) + parseInt(input.money));
+        //     setCurrentMoney(parseInt(currentMoney) + parseInt(input.money))
+        // }
 
-        // setTransactionList([...transactionList, input]);
-        setTransactionList((preData) => {
-
-            // console.log(preData.filter(item => item.id == id).length)
-            var id = input.date.getDate().toString() + "%" + input.date.getMonth().toString() + "%" + input.date.getFullYear().toString();
-
-            if (preData.length == 0 || preData.filter(item => item.id == id).length == 0)
-                return [{ id: id, data: [input] }, ...preData]
-
-            else {
-                let _preData = preData;
-                _preData.map((item) => {
-                    if (item.id == id)
-                        item.data.unshift(input);
-                })
-                return _preData;
-            }
-
-        })
     }
 
     useEffect(() => {
-        autoSignIn();
-        // _onAuthStateChanged();
-    })
+        autoSignIn()
+        loadTransaction(setTransactionList);
+
+    }, [props.navigation])
 
     return (
 
