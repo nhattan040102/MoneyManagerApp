@@ -13,7 +13,7 @@ import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/f
 
 const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false); //state to show modal and hide modal for transaction input
-    const [input, setInput] = useState(null); // save transaction input value
+    const [trigger, setTrigger] = useState(true); // save transaction input value
     const [transactionList, setTransactionList] = useState([]); // a list of transaction of a particular date
     const [currentExpense, setCurrentExpense] = useState(0);
     const [currentIncome, setCurrentIncome] = useState(0);
@@ -34,8 +34,7 @@ const TransactionScreen = props => {
     {/* function to add a transaction and close input modal */ }
     const createHandler = (input) => {
         setModalVisible(false);
-        console.log(input);
-        setInput(input);
+        setTrigger(!trigger);
         AddTransactionToFirebase(input);
 
         // if (input.categoryValue.type == "-") {
@@ -53,8 +52,7 @@ const TransactionScreen = props => {
     useEffect(() => {
         autoSignIn()
         loadTransaction(setTransactionList);
-
-    }, [props.navigation])
+    }, [trigger])
 
     return (
 
@@ -113,11 +111,12 @@ const TransactionScreen = props => {
 
             <View style={styles.listView}>
                 <FlatList
-                    contentContainerStyle={{ paddingBottom: 10, width: '100%', height: 1000, }}
+                    contentContainerStyle={{ paddingBottom: 400, width: '100%' }}
                     data={transactionList}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={NoTransactionCard}
+                    extraData={trigger}
                 />
             </View>
 
