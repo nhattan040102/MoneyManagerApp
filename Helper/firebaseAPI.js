@@ -105,8 +105,10 @@ export const loadSavingTransaction = (setSavingList, goalID) => {
     const q = query(collection(db, "transaction"), where("goalID", "==", goalID));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            savingList.push(doc.data());
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added")
+                savingList.push(change.doc.data());
+
         });
         setSavingList(savingList);
     });
@@ -117,12 +119,14 @@ export const loadDoneSavingGoal = (setCompletedGoals) => {
     const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "done"));
 
     const unsubcribe = onSnapshot(q, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            completedGoals.push(doc.data());
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added")
+                completedGoals.push(change.doc.data());
 
         });
         setCompletedGoals(completedGoals);
     });
+
     // unsubcribe();
 
 
