@@ -1,11 +1,11 @@
 import { React } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 
 const CategoryCard = props => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
+        <TouchableOpacity style={styles.container} onPress={() => {props.onPress()}}>
             <View style={styles.icon}>
                 <Image source={props.img} />
             </View>

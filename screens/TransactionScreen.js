@@ -51,7 +51,7 @@ const TransactionScreen = props => {
         // setTransactionList([...transactionList, input]);
         setTransactionList((preData) => {
 
-            // console.log(preData.filter(item => item.id == id).length)
+            console.log(preData.filter(item => item.id == id).length)
             var id = input.date.getDate().toString() + "%" + input.date.getMonth().toString() + "%" + input.date.getFullYear().toString();
 
             if (preData.length == 0 || preData.filter(item => item.id == id).length == 0)
@@ -87,26 +87,26 @@ const TransactionScreen = props => {
                 </View>
                 <View>
                     <Text style={{ fontSize: FONTSIZE.extraLarge, color: 'white', paddingLeft: 15, }}>
-                        {formatMoney(currentMoney)}
+                        {formatMoney(currentMoney)} VND
                     </Text>
                 </View>
 
                 <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 5, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
-                            Chi tiêu:
+                            Tổng chi tiêu  :   
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentExpense)}
+                            {formatMoney(currentExpense)} VND
                         </Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
-                            Thu nhập:
+                             Tổng thu nhập  :  
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentIncome)}
+                            {formatMoney(currentIncome)} VND
                         </Text>
                     </View>
 
@@ -136,10 +136,9 @@ const TransactionScreen = props => {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={NoTransactionCard}
+
                 />
             </View>
-
-
         </View>
     );
 }

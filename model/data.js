@@ -60,17 +60,18 @@ export const EXPENSE_DATA = [
         title: "Giáo dục",
         img: require('../icon/book.png'),
         type: "-"
-    }
+    },
 
 ];
 
 export const SAVING_DATA = [
     {
         id: "s1",
-        title: "Tiền tiết kiệm",
+        title: "Sổ tiết kiệm",
         img: require('../icon/salary-2.png'),
         type: "-"
-    }
+    },
+
 ];
 
 export const INCOME_DATA = [
@@ -91,10 +92,10 @@ export const INCOME_DATA = [
 
     {
         id: "i3",
-        title: "Tiền thuê nhà",
-        img: require('../icon/for-rent.png'),
+        title: "Nguồn thu nhập khác",
+        img: require('../icon/others.png'),
         type: "+",
-    }
+    },
 ];
 
 export const IN_CASH_DATA = [
