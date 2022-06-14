@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         width: '80%',
-        height: '70%',
         padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
@@ -153,7 +152,6 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         marginBottom: 10,
-        flex: 1,
         width: '100%',
         boderWidth: 1,
         justifyContent: 'flex-end',

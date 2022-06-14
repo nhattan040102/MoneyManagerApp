@@ -81,7 +81,7 @@ export const AddTransactionToFirebase = async (input) => {
             await updateDoc(docRef, {
                 currentMoney: increment(parseInt(docData.moneyValue)),
             })
-        }, 1);
+        }, 1000);
 
 
     }
@@ -90,7 +90,7 @@ export const AddTransactionToFirebase = async (input) => {
             return;
         console.log("exec");
         await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
-    }, 1)
+    }, 1000)
 
     // return () => unsubscribe();
 
@@ -115,22 +115,6 @@ export const loadTransaction = (setTransactionList) => {
                 }
             }
 
-            // querySnapshot.forEach((doc) => {
-
-            //     if (transactionList.length == 0 || transactionList.filter(item => item.id == doc.data().groupID).length == 0)
-            //         transactionList.push({ id: doc.data().groupID, data: [doc.data()] });
-
-            //     else {
-            //         transactionList.map((item) => {
-            //             if (item.id == doc.data().groupID)
-            //                 item.data.unshift(doc.data());
-            //         })
-
-
-            //     }
-
-
-            // }
         }
 
         );

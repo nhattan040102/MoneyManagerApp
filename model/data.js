@@ -90,12 +90,12 @@ export const INCOME_DATA = [
         type: "+",
     },
 
-    {
-        id: "i3",
-        title: "Nguồn thu nhập khác",
-        img: require('../icon/others.png'),
-        type: "+",
-    },
+    // {
+    //     id: "i3",
+    //     title: "Nguồn thu nhập khác",
+    //     img: require('../icon/others.png'),
+    //     type: "+",
+    // },
 ];
 
 export const IN_CASH_DATA = [
