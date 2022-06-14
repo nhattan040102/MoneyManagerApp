@@ -92,6 +92,8 @@ export const AddTransactionToFirebase = async (input) => {
         await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
     }, 1)
 
+    // return () => unsubscribe();
+
 }
 
 export const loadTransaction = (setTransactionList) => {
@@ -111,7 +113,6 @@ export const loadTransaction = (setTransactionList) => {
                     })
 
                 }
-                // console.log(change.doc.data());
             }
 
             // querySnapshot.forEach((doc) => {
@@ -135,7 +136,7 @@ export const loadTransaction = (setTransactionList) => {
         );
         setTransactionList(transactionList);
     });
-    // return unsubscribe;
+    // return () => unsubscribe();
 }
 
 export const AddSavingGoalToFirebase = async (input) => {

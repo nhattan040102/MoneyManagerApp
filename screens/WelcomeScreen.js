@@ -4,14 +4,15 @@ import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase';
 
 
-const WelcomeScreen = () => {
+const WelcomeScreen = (props) => {
     return (
         <SafeAreaView>
             <Text>Welcome screen</Text>
             <Button title="Try as guest" onPress={() => {
                 signInAnonymously(auth)
                     .then(() => {
-                        console.log(auth.currentUser);
+                        props.onPress(auth.currentUser.uid)
+                        console.log(auth.currentUser.uid);
                     })
                     .catch((error) => {
                         const errorCode = error.code;

@@ -20,13 +20,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         borderRadius: 15,
+        height: '100%',
         padding: 20,
-        height: '60%',
         borderColor: 'rgb(12,60,78)',
         borderWidth: 3,
-        // justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
+
 
     }
 });

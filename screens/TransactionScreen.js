@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList } from 'react-native';
+import { React, useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl } from 'react-native';
 import AddTransactionBtn from '../components/AddTransactionBtn';
 import TransactionInput from '../components/TransactionInput';
 import TransactionCard from '../components/TransactionCard';
@@ -9,6 +9,11 @@ import { formatMoney } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
 import { AddTransactionToFirebase, loadTransaction } from '../Helper/firebaseAPI';
 import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
+import { auth } from '../firebase';
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 
 const TransactionScreen = props => {
@@ -20,6 +25,13 @@ const TransactionScreen = props => {
     const [currentMoney, setCurrentMoney] = useState(currentIncome - currentExpense);
 
     const currentDate = new Date();
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
     {/* render item for flat list */ }
     const renderItem = ({ item }) => {
@@ -37,22 +49,19 @@ const TransactionScreen = props => {
         setTrigger(!trigger);
         AddTransactionToFirebase(input);
 
-        // if (input.categoryValue.type == "-") {
-        //     setCurrentExpense(parseInt(currentExpense) + parseInt(input.money));
-        //     setCurrentMoney(parseInt(currentMoney) - parseInt(input.money))
-        // }
-
-        // else {
-        //     setCurrentIncome(parseInt(currentIncome) + parseInt(input.money));
-        //     setCurrentMoney(parseInt(currentMoney) + parseInt(input.money))
-        // }
-
     }
 
     useEffect(() => {
-        autoSignIn()
-        loadTransaction(setTransactionList);
-    }, [trigger])
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            loadTransaction(setTransactionList);
+            // transactionList.map(item => console.log(item.date.toDate()))
+            console.log(transactionList.length);
+        })
+        // loadTransaction(setTransactionList);
+
+        return () => unsubscribe();
+
+    }, [])
 
     return (
 
@@ -111,12 +120,18 @@ const TransactionScreen = props => {
 
             <View style={styles.listView}>
                 <FlatList
-                    contentContainerStyle={{ paddingBottom: 400, width: '100%' }}
+                    contentContainerStyle={{ paddingBottom: transactionList.length == 0 ? 100 : 300, width: '100%', flexGrow: 1, }}
                     data={transactionList}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={NoTransactionCard}
                     extraData={trigger}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 />
             </View>
 
@@ -150,12 +165,8 @@ const styles = StyleSheet.create({
     },
 
     listView: {
-        // alignItems: 'center',
-        // width: 600,
-        // backgroundColor: 'red',
-        // justifyContent: 'center',
-        // flex: 1,
-        // backgroundColor: 'red'
+        flex: 1,
+        // height: '100%',
         padding: 10,
     }
 })

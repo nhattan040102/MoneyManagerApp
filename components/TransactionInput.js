@@ -2,8 +2,6 @@ import { React, useState, } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { db } from '../firebase';
-import { collection, addDoc } from "firebase/firestore";
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import TransactionCategory from '../components/TransactionCategory';
 import WalletType from '../components/WalletType'
@@ -41,6 +39,8 @@ const TransactionInput = props => {
 
         setDate(selectedDate);
     };
+
+    console.log(props);
     return (
         <View style={styles.container}>
             <View style={styles.input}>
@@ -134,7 +134,10 @@ const TransactionInput = props => {
                 <Button
                     title='TẠO'
                     style={{ marginLeft: 5, backgroundColor: 'red' }}
-                    onPress={() => props.onCreate({ money, walletValue, date, note, categoryValue })}
+                    onPress={() => {
+                        props.onCreate({ money, walletValue, date, note, categoryValue })
+                    }
+                    }
 
                 ></Button>
 
