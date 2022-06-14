@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 3,
         shadowOpacity: 0.6,
-        elevation: 0.6,
+        elevation: 6,
         marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',

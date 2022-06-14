@@ -35,7 +35,7 @@ const WelcomeScreen = (props) => {
                 },
                 shadowRadius: 6,
                 shadowOpacity: 0.6,
-                elevation: 0.6,
+                elevation: 6,
             }}>
 
                 <View style={{ width: '100%', justifyContent: 'center', padding: 20 }}>

@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 1,
         shadowOpacity: 0.4,
-        elevation: 0.4,
+        elevation: 4,
     },
 
     item_list: {

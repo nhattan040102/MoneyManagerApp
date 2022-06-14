@@ -26,6 +26,7 @@ const TransactionInput = props => {
         setCateModal(false);
     };
 
+    console.log(props);
     function choseWallet(item) {
         setWalletModal(false);
         setWalletValue(item);
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 2,
         shadowOpacity: 0.4,
-        elevation: 0.4,
+        elevation: 4,
         marginBottom: 10,
     },
 

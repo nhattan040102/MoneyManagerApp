@@ -26,7 +26,7 @@ const SavingGoalCard = props => {
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="access-time" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: {props.item.date.toDate().getDate()}/{props.item.date.toDate().getMonth()}/{props.item.date.toDate().getFullYear()}</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}>  Ngày kết thúc: {props.item.date.toDate().getDate()}/{props.item.date.toDate().getMonth() + 1}/{props.item.date.toDate().getFullYear()}</Text>
             </View>
         </TouchableOpacity>
     );

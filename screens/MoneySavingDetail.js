@@ -59,24 +59,28 @@ const SavingDetailScreen = props => {
             {/* View for header bar: GOAL VIEW and RECORD VIEW */}
             <View style={styles.headerBar}>
                 <TouchableOpacity
-                    style={styles.category}
+                    style={[styles.category, { backgroundColor: currentState == "GOAL" ? 'white' : 'rgb(45,139, 126)' }]}
                     onPress={() => setCurrentState('GOAL')}
                 >
-                    <Text style={[styles.cate_text]}>GOAL</Text>
-                    <View style={{ width: '100%', borderWidth: currentState == "GOAL" ? 3 : 0, borderColor: '#EFFFFD', position: 'absolute', bottom: -2 }}></View>
+                    <Text style={[styles.cate_text, { color: currentState == "GOAL" ? 'rgb(45,139, 126)' : 'white' }]}>GOAL</Text>
+
                 </TouchableOpacity>
                 <View style={{ width: 0.25, backgroundColor: 'white' }}></View>
                 <TouchableOpacity
-                    style={styles.category}
+                    style={[styles.category, { backgroundColor: currentState == "RECORD" ? 'white' : 'rgb(45,139, 126)' }]}
                     onPress={() => setCurrentState('RECORD')}
                 >
-                    <Text style={[styles.cate_text]}>RECORD</Text>
-                    <View style={{ width: '100%', borderWidth: currentState == "RECORD" ? 3 : 0, borderColor: '#EFFFFD', position: 'absolute', bottom: -2 }}></View>
+                    <Text style={[styles.cate_text, { color: currentState == "RECORD" ? 'rgb(45,139, 126)' : 'white' }]}>RECORD</Text>
+
                 </TouchableOpacity>
             </View>
 
             {/* Displaying current view */}
+            {/* <View style={{ flex: 1, width: '100%', height: '100%' }}> */}
             {CurrentScreen}
+            {/* </View> */}
+
+
 
         </View >
     );
@@ -90,8 +94,8 @@ const styles = StyleSheet.create({
 
     headerBar: {
         width: '100%',
-        height: 60,
         backgroundColor: 'rgb(45,139, 126)',
+        // paddingVertical: 5,
         flexDirection: 'row',
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
@@ -100,13 +104,13 @@ const styles = StyleSheet.create({
         width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 10,
     },
 
     cate_text: {
-        fontSize: FONTSIZE.header1,
+        fontSize: FONTSIZE.header2,
         fontWeight: '500',
         color: 'white',
-
     }
 })
 
