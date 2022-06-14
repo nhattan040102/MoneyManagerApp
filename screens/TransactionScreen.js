@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl, Platform, StatusBar } from 'react-native';
 import AddTransactionBtn from '../components/AddTransactionBtn';
 import TransactionInput from '../components/TransactionInput';
 import TransactionCard from '../components/TransactionCard';
@@ -73,7 +73,7 @@ const TransactionScreen = props => {
                     <Text style={{ fontSize: FONTSIZE.small, color: 'white' }}> Số dư </Text>
                 </View>
                 <View>
-                    <Text style={{ fontSize: FONTSIZE.extraLarge, color: 'white', paddingLeft: 15, }}>
+                    <Text style={{ fontSize: FONTSIZE.large, color: 'white', paddingLeft: 15, }}>
                         {formatMoney(currentMoney)}
                     </Text>
                 </View>
@@ -140,24 +140,21 @@ const TransactionScreen = props => {
 
 const styles = StyleSheet.create({
     screen: {
-        // flex: 1,
-        // width: 400,
+        flex: 1,
         width: '100%',
-        height: '100%',
-
     },
 
     headerBar: {
         width: '100%',
-        // height: '15%',
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         backgroundColor: 'rgb(45,139, 126)',
     },
 
     addView: {
         position: 'absolute',
         width: '100%',
-        bottom: 120,
-        zIndex: 3,
+        bottom: "11%",
+        zIndex: 100,
         justifyContent: 'center',
         alignItems: 'center',
     },

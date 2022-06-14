@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView, Platform, StatusBar } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
@@ -104,7 +104,7 @@ const SavingScreen = props => {
             {/* View for displaying your saving goal that have been achieved  */}
             <View style={styles.PastGoalView}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>DONE</Text>
+                    <Text style={styles.titleText}>COMPLETED GOALS</Text>
                 </View>
 
                 <View style={{ width: '90%' }}>
@@ -127,12 +127,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-
+        marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
 
-    text: {
-        fontSize: FONTSIZE.header1,
-    },
 
     title: {
         width: '100%',
@@ -141,15 +138,15 @@ const styles = StyleSheet.create({
     },
 
     titleText: {
-        fontSize: FONTSIZE.header1,
-        fontWeight: '700',
+        fontSize: FONTSIZE.header2,
+        fontWeight: '600',
     },
 
     GoalBtn: {
         alignItems: 'flex-end',
         position: 'absolute',
         right: 15,
-        top: '10%',
+        top: Platform.OS == 'ios' ? '10%' : '5%',
         zIndex: 3,
     },
 

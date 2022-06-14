@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Platform, StatusBar } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
@@ -40,13 +40,14 @@ const ReportScreen = props => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        height: '100%',
     },
 
     headerBar: {
         width: '100%',
         backgroundColor: 'rgb(45,139, 126)',
         flexDirection: 'row',
-        height: '12%'
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
 
     category: {

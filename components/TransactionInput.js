@@ -1,5 +1,5 @@
-import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal } from 'react-native';
+import { React, useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal, Platform } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -17,6 +17,7 @@ const TransactionInput = props => {
     const [categoryTitle, setCategoryTitle] = useState(null);
     const [walletValue, setWalletValue] = useState(null);
     const [note, setNote] = useState(null);
+    const [showDatePicker, setShow] = useState(false)
 
     const onChanged = (text) => {
         text = text.replace(/[^0-9]/g, '');
@@ -36,11 +37,14 @@ const TransactionInput = props => {
 
     const onChangeTime = (event, selectedDate) => {
         // const currentDate = selectedDate || date;
-
+        setShow(!showDatePicker);
         setDate(selectedDate);
     };
 
-    console.log(props);
+    // useEffect(() => {
+
+    // }, [date])
+
     return (
         <View style={styles.container}>
             <View style={styles.input}>
@@ -112,7 +116,10 @@ const TransactionInput = props => {
                     <Image source={require('../icon/calendar.png')} />
                     <Text style={styles.inputTitle}>Ngày tháng</Text>
                 </View>
-                <DateTimePicker mode="date" value={date} onChange={onChangeTime} />
+                {
+                    showDatePicker && <DateTimePicker mode="date" value={date} onChange={onChangeTime} />
+                }
+
             </View>
 
             <View style={styles.input}>

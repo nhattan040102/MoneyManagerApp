@@ -1,5 +1,5 @@
 import { React, useState, useLayoutEffect, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, StatusBar, Platform } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import GoalDeTail from '../components/GoalDetail';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: 'rgb(45,139, 126)',
         flexDirection: 'row',
-
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
 
     category: {

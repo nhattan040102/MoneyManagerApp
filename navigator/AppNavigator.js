@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Platform } from 'react-native';
 import { SavingStackNavigator, ExpenseControlStackNavigator, ReportStackNavigator, TransactionsStackNavigator } from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
@@ -34,9 +34,8 @@ const Navigator = () => {
                 // Style tab navigator
                 headerShown: false,
                 tabBarStyle: {
-                    height: 100,
+                    height: Platform.OS === 'ios' ? '10%' : '8%',
                     position: 'absolute',
-                    // bottom: 16,
                     backgroundColor: 'rgb(255,255,255)',
                     shadowColor: '#000000',
                     shadowOffset: {
@@ -47,13 +46,15 @@ const Navigator = () => {
                     shadowOpacity: 0.2,
                     paddingLeft: 2,
                     paddingRight: 2,
+                    zIndex: 2,
 
                 },
 
                 tabBarActiveTintColor: 'rgb(73,139,134)',
                 tabBarInactiveTintColor: 'rgb(200,200,200)',
                 tabBarLabelStyle: {
-                    fontSize: 16
+                    fontSize: 12,
+                    paddingBottom: 5,
                 },
             })}
         >
