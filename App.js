@@ -11,10 +11,13 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 const App = () => {
   // Set an initializing state while Firebase connects
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log("Sign in anonymously with userID: " + user);
+    if (user)
+      console.log("Sign in anonymously with userID: " + user);
+    else
+      console.log("Onboard screen");
   }, [user]);
 
   if (!user) {
