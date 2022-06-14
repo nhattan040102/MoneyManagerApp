@@ -74,7 +74,7 @@ const TransactionScreen = props => {
                 </View>
                 <View>
                     <Text style={{ fontSize: FONTSIZE.extraLarge, color: 'white', paddingLeft: 15, }}>
-                        {formatMoney(displayedMoney.incomeValue - displayedMoney.expenseValue)} VND
+                        {displayedMoney ? formatMoney(displayedMoney.incomeValue - displayedMoney.expenseValue) : 0} VND
                     </Text>
                 </View>
 
@@ -84,7 +84,7 @@ const TransactionScreen = props => {
                             Tổng chi tiêu  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(displayedMoney.expenseValue)} VND
+                            {displayedMoney ? formatMoney(displayedMoney.expenseValue) : 0} VND
                         </Text>
                     </View>
 
@@ -93,7 +93,7 @@ const TransactionScreen = props => {
                             Tổng thu nhập  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(displayedMoney.incomeValue)} VND
+                            {displayedMoney ? formatMoney(displayedMoney.incomeValue) : 0} VND
                         </Text>
                     </View>
 
