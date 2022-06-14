@@ -40,7 +40,14 @@ const TransactionCard = props => {
                         else
                             _incomeValue += parseInt(item.money);
                         // console.log(EXPENSE_DATA.indexOf(item.categoryValue)
-                        return (<CategoryCard title={item.categoryValue.title} img={item.categoryValue.img} key={props.itemList.indexOf(item)} type={item.categoryValue.type} onPress={() => {}} moneyValue={item.money} />);
+                        return (<CategoryCard 
+                                    item = {item}
+                                    title={item.categoryValue.title} 
+                                    img={item.categoryValue.img} 
+                                    key={props.itemList.indexOf(item)} 
+                                    type={item.categoryValue.type} 
+                                    moneyValue={item.money} 
+                                />);
                     })}
 
                 </View>

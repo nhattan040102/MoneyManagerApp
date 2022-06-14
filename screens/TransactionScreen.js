@@ -11,6 +11,7 @@ import { AddTransactionToFirebase } from '../Helper/firebaseAPI';
 import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
 
 
+
 const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false); //state to show modal and hide modal for transaction input
     const [input, setInput] = useState(null); // save transaction input value
@@ -19,11 +20,15 @@ const TransactionScreen = props => {
     const [currentIncome, setCurrentIncome] = useState(0);
     const [currentMoney, setCurrentMoney] = useState(currentIncome - currentExpense);
 
+
     const currentDate = new Date();
 
     {/* render item for flat list */ }
     const renderItem = ({ item }) => {
-        return <TransactionCard itemList={item.data} id={item.id} />
+        return <TransactionCard 
+                    itemList={item.data} 
+                    id={item.id} 
+                />
     }
 
     {/* function to close input modal */ }
@@ -72,10 +77,11 @@ const TransactionScreen = props => {
     useEffect(() => {
         autoSignIn();
         // _onAuthStateChanged();
-    })
+    });
+
+    // function show detail of a exchange and delete it (if you want)
 
     return (
-
         <View style={styles.screen}>
 
             {/* {Header bar} */}

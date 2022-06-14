@@ -15,8 +15,9 @@ const TransactionCategory = props => {
         return <CategoryCard 
                     img={item.img} 
                     title={item.title} 
-                    onPress={() => {props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
-                                    console.log('You pressed')}} 
+                    onPress={() => {
+                        props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
+                                    }} 
                 />;
     }
 
