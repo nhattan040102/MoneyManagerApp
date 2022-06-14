@@ -6,8 +6,8 @@ import { formatMoney } from '../Helper/helpers';
 
 const CompleteBar = () => {
     return (
-        <View style={{ padding: 12, backgroundColor: 'rgb(232,137,117)', borderRadius: 15, marginRight: 10 }}>
-            <Text style={{ fontSize: FONTSIZE.body }}>You did it!</Text>
+        <View style={{ padding: 12, backgroundColor: '#FF6363', borderRadius: 15, marginRight: 10 }}>
+            <Text style={{ fontSize: FONTSIZE.body, color: '#FAF5E4' }}>You did it!</Text>
         </View>
     );
 }

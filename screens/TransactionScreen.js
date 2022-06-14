@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl, Platform, StatusBar, ActivityIndicator } from 'react-native';
 import AddTransactionBtn from '../components/AddTransactionBtn';
 import TransactionInput from '../components/TransactionInput';
 import TransactionCard from '../components/TransactionCard';
@@ -20,8 +20,10 @@ const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false); //state to show modal and hide modal for transaction input
     const [trigger, setTrigger] = useState(true); // save transaction input value
     const [transactionList, setTransactionList] = useState([]); // a list of transaction of a particular date
-    const [currentExpense, setCurrentExpense] = useState(0);
-    const [currentIncome, setCurrentIncome] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [displayedMoney, setDisplayedMoney] = useState(null);
+    const [currentExpense, setCurrentExpense] = useState(displayedMoney ? displayedMoney.expenseValue : 0);
+    const [currentIncome, setCurrentIncome] = useState(displayedMoney ? displayedMoney.incomeValue : 0);
     const [currentMoney, setCurrentMoney] = useState(currentIncome - currentExpense);
 
     const currentDate = new Date();
@@ -52,11 +54,10 @@ const TransactionScreen = props => {
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            loadTransaction(setTransactionList);
+            loadTransaction(setTransactionList, setIsLoading, setDisplayedMoney);
             // transactionList.map(item => console.log(item.date.toDate()))
             console.log(transactionList.length);
         })
-        // loadTransaction(setTransactionList);
 
         return () => unsubscribe();
 
@@ -73,7 +74,7 @@ const TransactionScreen = props => {
                 </View>
                 <View>
                     <Text style={{ fontSize: FONTSIZE.extraLarge, color: 'white', paddingLeft: 15, }}>
-                        {formatMoney(currentMoney)} VND
+                        {formatMoney(displayedMoney.incomeValue - displayedMoney.expenseValue)} VND
                     </Text>
                 </View>
 
@@ -83,7 +84,7 @@ const TransactionScreen = props => {
                             Tổng chi tiêu  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentExpense)} VND
+                            {formatMoney(displayedMoney.expenseValue)} VND
                         </Text>
                     </View>
 
@@ -92,7 +93,7 @@ const TransactionScreen = props => {
                             Tổng thu nhập  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentIncome)} VND
+                            {formatMoney(displayedMoney.incomeValue)} VND
                         </Text>
                     </View>
 
@@ -116,13 +117,14 @@ const TransactionScreen = props => {
 
 
             <View style={styles.listView}>
-                <FlatList
-                    contentContainerStyle={{ paddingBottom: transactionList.length == 0 ? 100 : 300, width: '100%', flexGrow: 1, }}
-                    data={transactionList}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                    ListEmptyComponent={NoTransactionCard}
-                />
+                {!isLoading ? <ActivityIndicator size="large" color={'rgb(45,139, 126)'} /> :
+                    <FlatList
+                        contentContainerStyle={{ paddingBottom: transactionList.length == 0 ? 100 : 300, width: '100%', flexGrow: 1, }}
+                        data={transactionList}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        ListEmptyComponent={NoTransactionCard}
+                    />}
             </View>
         </View>
     );

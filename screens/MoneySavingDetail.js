@@ -59,7 +59,7 @@ const SavingDetailScreen = props => {
             {/* View for header bar: GOAL VIEW and RECORD VIEW */}
             <View style={styles.headerBar}>
                 <TouchableOpacity
-                    style={[styles.category, { backgroundColor: currentState == "GOAL" ? 'white' : 'rgb(45,139, 126)' }]}
+                    style={[styles.category, { backgroundColor: currentState == "GOAL" ? '#F7FBFC' : 'rgb(45,139, 126)' }]}
                     onPress={() => setCurrentState('GOAL')}
                 >
                     <Text style={[styles.cate_text, { color: currentState == "GOAL" ? 'rgb(45,139, 126)' : 'white' }]}>GOAL</Text>
@@ -67,7 +67,7 @@ const SavingDetailScreen = props => {
                 </TouchableOpacity>
                 <View style={{ width: 0.25, backgroundColor: 'white' }}></View>
                 <TouchableOpacity
-                    style={[styles.category, { backgroundColor: currentState == "RECORD" ? 'white' : 'rgb(45,139, 126)' }]}
+                    style={[styles.category, { backgroundColor: currentState == "RECORD" ? '#F7FBFC' : 'rgb(45,139, 126)' }]}
                     onPress={() => setCurrentState('RECORD')}
                 >
                     <Text style={[styles.cate_text, { color: currentState == "RECORD" ? 'rgb(45,139, 126)' : 'white' }]}>RECORD</Text>

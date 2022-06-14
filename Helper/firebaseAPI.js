@@ -96,13 +96,22 @@ export const AddTransactionToFirebase = async (input) => {
 
 }
 
-export const loadTransaction = (setTransactionList) => {
+export const loadTransaction = (setTransactionList, setLoading, setValue) => {
     var transactionList = []
+    var expenseValue = 0;
+    var incomeValue = 0;
     const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
+                if (change.doc.data().categoryValue.type == "-")
+                    expenseValue += parseInt(change.doc.data().moneyValue)
+                else
+                    incomeValue += parseInt(change.doc.data().moneyValue)
+
+
+
                 if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
                     transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
 
@@ -114,11 +123,13 @@ export const loadTransaction = (setTransactionList) => {
 
                 }
             }
-
         }
-
         );
+        setLoading(true);
+        setValue({ expenseValue, incomeValue });
+        console.log(expenseValue);
         setTransactionList(transactionList);
+
     });
     // return () => unsubscribe();
 }
@@ -137,7 +148,7 @@ export const AddSavingGoalToFirebase = async (input) => {
     await setDoc(doc(db, "SavingGoal", docData.goalID), docData);
 }
 
-export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
+export const loadSavingGoalData = (setCurrentGoalInput, setGoalState, setLoading) => {
     const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "current"));
     setCurrentGoalInput(null);
     setGoalState(false);
@@ -146,12 +157,13 @@ export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
             if (doc.exists) {
                 setCurrentGoalInput(doc.data());
                 setGoalState(true);
+
             }
 
             else
                 console.log("Can not load data from firebase");
         });
-
+        setLoading(true);
     });
 
 }

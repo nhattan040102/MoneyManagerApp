@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView, Platform, StatusBar, Image, ActivityIndicator } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
+import NoCompletedGoals from '../components/NoCompletedGoals';
 import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal, loadDoneSavingGoal } from '../Helper/firebaseAPI';
 import { auth } from '../firebase';
 
@@ -16,15 +17,22 @@ const SavingScreen = props => {
     const [currentGoalInput, setCurrentGoalInput] = useState(null);
     const [completedGoals, setCompletedGoals] = useState([])
     const [renderTrigger, setRenderTrigger] = useState(false);
+    const [isLoadingCurrent, setIsLoadingCurrent] = useState(false);
+    const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
     {/* render item for flatlist */ }
     const renderItem = ({ item }) => (
-        <AchievedGoalCard item={item} onPress={() => props.navigation.navigate('Chi tiết', { data: item })} />
+        <AchievedGoalCard item={item} onPress={() => {
+            setIsLoadingComplete(false);
+            setIsLoadingCurrent(false);
+            props.navigation.navigate('Chi tiết', { data: item })
+        }
+        } />
     );
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            loadSavingGoalData(setCurrentGoalInput, setGoalState);
+            loadSavingGoalData(setCurrentGoalInput, setGoalState, setIsLoadingCurrent);
             loadDoneSavingGoal(setCompletedGoals);
         })
 
@@ -64,7 +72,10 @@ const SavingScreen = props => {
     }
 
     {/* if there is'nt a goal, display no goal card, else display current saving goal card */ }
-    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => props.navigation.navigate('Chi tiết', { data: currentGoalInput })} /> : <NoGoalCard />;
+    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => {
+        setIsLoadingCurrent(false);
+        props.navigation.navigate('Chi tiết', { data: currentGoalInput })
+    }} /> : <NoGoalCard />;
 
 
     return (
@@ -94,9 +105,11 @@ const SavingScreen = props => {
             {/* View for displaying current saving goal info */}
             <View style={styles.CurrentGoalView}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>CURRENT GOAL</Text>
+                    <Image source={require('../icon/flag.png')} />
+                    <Text style={[styles.titleText, { color: '#151D3B' }]}>  CURRENT GOAL</Text>
                 </View>
-                {GoalComponent}
+
+                {isLoadingCurrent ? GoalComponent : <ActivityIndicator size="large" color={'rgb(45,139, 126)'} />}
 
 
             </View>
@@ -104,7 +117,9 @@ const SavingScreen = props => {
             {/* View for displaying your saving goal that have been achieved  */}
             <View style={styles.PastGoalView}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>COMPLETED GOALS</Text>
+
+                    <Image source={require('../icon/panel.png')} />
+                    <Text style={[styles.titleText, { color: '#D82148' }]}>   COMPLETED GOALS</Text>
                 </View>
 
                 <View style={{ width: '90%' }}>
@@ -113,6 +128,7 @@ const SavingScreen = props => {
                         data={completedGoals}
                         renderItem={renderItem}
                         keyExtractor={item => item.date.toDate()}
+                        ListEmptyComponent={<NoCompletedGoals />}
                     />
                 </View>
 
@@ -133,8 +149,9 @@ const styles = StyleSheet.create({
 
     title: {
         width: '100%',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         padding: 10,
+        flexDirection: 'row',
     },
 
     titleText: {
