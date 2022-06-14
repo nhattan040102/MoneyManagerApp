@@ -64,9 +64,7 @@ const TransactionScreen = props => {
     }, [])
 
     return (
-
         <View style={styles.screen}>
-
             {/* {Header bar} */}
             <SafeAreaView style={styles.headerBar}>
                 <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
