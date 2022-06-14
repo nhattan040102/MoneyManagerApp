@@ -1,5 +1,5 @@
 import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal, Platform } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -10,6 +10,7 @@ const SavingInputModal = props => {
     const [goalName, setGoalName] = useState(null);
     const [savingValue, setSavingValue] = useState(null);
     const [minValue, setMinValue] = useState(null);
+    const [dateModal, setDateModal] = useState(false)
 
     const onChanged = (text, value) => {
         text = text.replace(/[^0-9]/g, '');
@@ -18,6 +19,20 @@ const SavingInputModal = props => {
         else
             setMinValue(text);
     }
+
+    const onChangeTime = (event, value) => {
+        setDate(value)
+        setDateModal(false)
+        // console.log(date.toString())
+        // console.log(date.getUTCDate().toString())
+    };
+
+    const DatePicker = Platform.OS === "ios" ? <DateTimePicker mode="date" value={date} onChange={onChangeTime} /> :
+        <Button
+            title={date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}
+            onPress={() => setDateModal(true)}
+        />
+
 
     return (
         <View style={styles.container}>
@@ -75,7 +90,18 @@ const SavingInputModal = props => {
                     <Image source={require('../icon/calendar.png')} />
                     <Text style={styles.inputTitle}>Ngày kết thúc</Text>
                 </View>
-                <DateTimePicker mode="date" value={date} />
+                <Modal animationType={"slide"}
+                    transparent={true}
+                    visible={dateModal}>
+
+                    <DateTimePicker
+                        onChange={onChangeTime}
+                        value={date} />
+                </Modal>
+
+                {DatePicker}
+
+
             </View>
 
 

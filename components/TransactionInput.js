@@ -5,7 +5,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import TransactionCategory from '../components/TransactionCategory';
 import WalletType from '../components/WalletType'
-import { getAdditionalUserInfo } from 'firebase/auth';
 
 
 
@@ -43,6 +42,14 @@ const TransactionInput = props => {
             setMoney(input)
         }
     };
+
+    const DatePicker = Platform.OS === "ios" ? <DateTimePicker mode="date" value={date} onChange={onChangeTime} /> :
+        <Button
+            title={date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}
+            onPress={() => setDateModal(true)}
+        />
+
+
     const onChangeTime = (event, value) => {
         setDate(value)
         setDateModal(false)
@@ -106,10 +113,10 @@ const TransactionInput = props => {
                     <Image source={require('../icon/purse.png')} />
                     <Text style={styles.inputTitle}>Loại ví</Text>
                 </View>
-                <Button
+                {<Button
                     title={walletValue}
                     onPress={() => { setWalletModal(true) }}
-                />
+                />}
             </View>
 
             <Modal animationType={"slide"}
@@ -128,10 +135,7 @@ const TransactionInput = props => {
                     <Image source={require('../icon/calendar.png')} />
                     <Text style={styles.inputTitle}>Thời điểm</Text>
                 </View>
-                <Button
-                    title={date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}
-                    onPress={() => setDateModal(true)}
-                />
+                {DatePicker}
             </View>
 
             <Modal animationType={"slide"}
