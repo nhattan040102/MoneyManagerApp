@@ -49,6 +49,38 @@ const TransactionScreen = props => {
         setTrigger(!trigger);
         AddTransactionToFirebase(input);
 
+<<<<<<< HEAD
+=======
+        if (input.categoryValue.type == "-") {
+            setCurrentExpense(parseInt(currentExpense) + parseInt(input.money));
+            setCurrentMoney(parseInt(currentMoney) - parseInt(input.money))
+        }
+
+        else {
+            setCurrentIncome(parseInt(currentIncome) + parseInt(input.money));
+            setCurrentMoney(parseInt(currentMoney) + parseInt(input.money))
+        }
+
+        // setTransactionList([...transactionList, input]);
+        setTransactionList((preData) => {
+
+            console.log(preData.filter(item => item.id == id).length)
+            var id = input.date.getDate().toString() + "%" + input.date.getMonth().toString() + "%" + input.date.getFullYear().toString();
+
+            if (preData.length == 0 || preData.filter(item => item.id == id).length == 0)
+                return [{ id: id, data: [input] }, ...preData]
+
+            else {
+                let _preData = preData;
+                _preData.map((item) => {
+                    if (item.id == id)
+                        item.data.unshift(input);
+                })
+                return _preData;
+            }
+
+        })
+>>>>>>> c4c4196a120b3fc3d7d484ff2db5231f5b7fd5b3
     }
 
     useEffect(() => {
@@ -73,27 +105,32 @@ const TransactionScreen = props => {
                     <Text style={{ fontSize: FONTSIZE.small, color: 'white' }}> Số dư </Text>
                 </View>
                 <View>
+<<<<<<< HEAD
                     <Text style={{ fontSize: FONTSIZE.large, color: 'white', paddingLeft: 15, }}>
                         {formatMoney(currentMoney)}
+=======
+                    <Text style={{ fontSize: FONTSIZE.extraLarge, color: 'white', paddingLeft: 15, }}>
+                        {formatMoney(currentMoney)} VND
+>>>>>>> c4c4196a120b3fc3d7d484ff2db5231f5b7fd5b3
                     </Text>
                 </View>
 
                 <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 5, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
-                            Chi tiêu:
+                            Tổng chi tiêu  :   
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentExpense)}
+                            {formatMoney(currentExpense)} VND
                         </Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
-                            Thu nhập:
+                             Tổng thu nhập  :  
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentIncome)}
+                            {formatMoney(currentIncome)} VND
                         </Text>
                     </View>
 
@@ -123,6 +160,7 @@ const TransactionScreen = props => {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={NoTransactionCard}
+<<<<<<< HEAD
                     extraData={trigger}
                     refreshControl={
                         <RefreshControl
@@ -130,10 +168,11 @@ const TransactionScreen = props => {
                             onRefresh={onRefresh}
                         />
                     }
+=======
+
+>>>>>>> c4c4196a120b3fc3d7d484ff2db5231f5b7fd5b3
                 />
             </View>
-
-
         </View>
     );
 }

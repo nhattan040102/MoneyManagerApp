@@ -12,7 +12,12 @@ const TransactionCategory = props => {
 
     {/* render item for flatlist of transaction items */ }
     const renderItem = ({ item }) => {
-        return <CategoryCard img={item.img} title={item.title} onPress={() => props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })} />;
+        return <CategoryCard 
+                    img={item.img} 
+                    title={item.title} 
+                    onPress={() => {props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
+                                    console.log('You pressed')}} 
+                />;
     }
 
     return (
@@ -20,7 +25,7 @@ const TransactionCategory = props => {
 
             {/* Close button */}
             <View style={{ position: 'absolute', right: 0, top: -20 }}>
-                <Button title="X" onPress={() => props.onClose()}></Button>
+                <Button title=" X " onPress={() => props.onClose()}></Button>
             </View>
 
             {/* {Header view} */}
@@ -29,7 +34,7 @@ const TransactionCategory = props => {
                     <Text
                         style={[{ fontSize: FONTSIZE.header1 }, { color: cateType == "TIẾT KIỆM" ? 'rgb(45,139, 126)' : 'gray' }]}
                     >
-                        TIẾT KIỆM
+                        Tiết Kiệm
                     </Text>
                 </TouchableOpacity>
 
@@ -37,7 +42,7 @@ const TransactionCategory = props => {
                     <Text
                         style={[{ fontSize: FONTSIZE.header1 }, { color: cateType == "CHI TIÊU" ? 'rgb(45,139, 126)' : 'gray' }]}
                     >
-                        CHI TIÊU
+                        Chi Tiêu
                     </Text>
                 </TouchableOpacity>
 
@@ -45,7 +50,7 @@ const TransactionCategory = props => {
                     <Text
                         style={[{ fontSize: FONTSIZE.header1 }, { color: cateType == "THU NHẬP" ? 'rgb(45,139, 126)' : 'gray' }]}
                     >
-                        THU NHẬP
+                        Thu Nhập
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -57,6 +62,8 @@ const TransactionCategory = props => {
                     data={DATA}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
+                    
+                    
                 />
             </View>
 

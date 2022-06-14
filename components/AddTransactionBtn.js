@@ -6,7 +6,7 @@ const AddTransactionBtn = props => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <Text style={styles.text}>+</Text>
-        </TouchableOpacity >
+        </TouchableOpacity>
     );
 };
 

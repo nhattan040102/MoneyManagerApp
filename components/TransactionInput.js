@@ -1,49 +1,66 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, Modal, Platform, KeyboardAvoidingView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import TransactionCategory from '../components/TransactionCategory';
 import WalletType from '../components/WalletType'
+import { getAdditionalUserInfo } from 'firebase/auth';
 
 
 
 const TransactionInput = props => {
     const [date, setDate] = useState(new Date());
+    const [dateModal, setDateModal] = useState(false)
     const [money, setMoney] = useState(null);
     const [cateModal, setCateModal] = useState(false);
     const [walletModal, setWalletModal] = useState(false);
     const [categoryValue, setCategoryValue] = useState(null);
-    const [categoryTitle, setCategoryTitle] = useState(null);
-    const [walletValue, setWalletValue] = useState(null);
+    const [categoryTitle, setCategoryTitle] = useState('Chọn');
+    const [walletValue, setWalletValue] = useState('Chọn');
     const [note, setNote] = useState(null);
-    const [showDatePicker, setShow] = useState(false)
-
-    const onChanged = (text) => {
-        text = text.replace(/[^0-9]/g, '');
-        setMoney(text);
-    }
+    const text = null
 
     const choseCategory = (item) => {
-        setCateModal(false);
         setCategoryValue(item);
         setCategoryTitle(item.title);
-    }
-
-    const choseWallet = (item) => {
-        setWalletModal(false);
-        setWalletValue(item);
-    }
-
-    const onChangeTime = (event, selectedDate) => {
-        // const currentDate = selectedDate || date;
-        setShow(!showDatePicker);
-        setDate(selectedDate);
+        setCateModal(false);
     };
 
-    // useEffect(() => {
+    function choseWallet(item) {
+        setWalletModal(false);
+        setWalletValue(item);
+    };
 
-    // }, [date])
+    const onSetMoney = (input) => {
+        if (input <= 0) {
+            input = null
+            setMoney(null)
+        }
+        else {
+            input = parseInt(input)
+            input = input.toString()
+            setMoney(input)
+        }
+    };
+    const onChangeTime = (event, value) => {
+        setDate(value)
+        setDateModal(false)
+        // console.log(date.toString())
+        // console.log(date.getUTCDate().toString())
+    };
+
+    const alertError = () => {
+        Alert.alert('Lỗi', 'Bạn điền còn chưa đủ thông tin hoặc số tiền không hợp lệ!', [
+            { text: 'Sửa lại', onPress: () => { } }
+        ])
+    };
+
+    const alertSuccess = () => {
+        Alert.alert('Thành công', 'Bạn đã thêm một giao dịch mới', [
+            { text: 'OK', onPress: props.onCreate({ money, walletValue, date, note, categoryValue }) }
+        ])
+    };
 
     return (
         <View style={styles.container}>
@@ -53,106 +70,113 @@ const TransactionInput = props => {
                     <Text style={styles.inputTitle}>Số tiền</Text>
                 </View>
                 <TextInput
-                    onChangeText={text => { onChanged(text) }}
+                    onChangeText={text => { onSetMoney(text) }}
                     value={money}
+                    placeholder='Vui lòng nhập số tiền'
+                    keyboardType='numeric'
                     style={styles.textInput} ></TextInput>
             </View>
-            <TouchableOpacity onPress={() => setCateModal(true)}>
-                <View style={styles.input}>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
-                        <Image source={require('../icon/categories.png')} />
-                        <Text style={styles.inputTitle}>Hạng mục</Text>
-                    </View>
-                    <TextInput
-                        title="Mục tiêu"
-                        placeholder='Chọn hạng mục'
-                        // onChangeText={text => { onChanged(text, "savingValue") }}
-                        value={categoryTitle}
-                        editable={false}
-                        style={styles.textInput} />
-
+            <View style={styles.input}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
+                    <Image source={require('../icon/categories.png')} />
+                    <Text style={styles.inputTitle}>Hạng mục</Text>
                 </View>
-            </TouchableOpacity>
+                <Button
+                    title={categoryTitle}
+                    onPress={() => { setCateModal(true) }}
+                />
+            </View>
 
             <Modal animationType={"slide"}
                 transparent={true}
                 visible={cateModal} >
-                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <TransactionCategory onClose={() => setCateModal(false)} choseItem={(item) => choseCategory(item)} />
-                </View>
 
+                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                    <TransactionCategory
+                        choseItem={choseCategory}
+                        onClose={() => setCateModal(false)}
+                    />
+                </View>
             </Modal>
 
-            <TouchableOpacity onPress={() => setWalletModal(true)}>
-                <View style={styles.input}>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
-                        <Image source={require('../icon/purse.png')} />
-                        <Text style={styles.inputTitle}>Loại ví</Text>
-                    </View>
-                    <TextInput
-                        title="Mục tiêu"
-                        placeholder='Chọn ví'
-                        // onChangeText={text => { onChanged(text, "savingValue") }}
-                        value={walletValue}
-                        editable={false}
-                        style={styles.textInput} />
-
+            <View style={styles.input}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
+                    <Image source={require('../icon/purse.png')} />
+                    <Text style={styles.inputTitle}>Loại ví</Text>
                 </View>
-            </TouchableOpacity>
+                <Button
+                    title={walletValue}
+                    onPress={() => { setWalletModal(true) }}
+                />
+            </View>
 
             <Modal animationType={"slide"}
                 transparent={true}
                 visible={walletModal} >
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <WalletType onClose={() => setWalletModal(false)} choseItem={(item) => choseWallet(item)} />
+                    <WalletType
+                        choseItem={choseWallet}
+                        onClose={() => setWalletModal(false)}
+                    />
                 </View>
-
             </Modal>
 
             <View style={styles.input}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
                     <Image source={require('../icon/calendar.png')} />
-                    <Text style={styles.inputTitle}>Ngày tháng</Text>
+                    <Text style={styles.inputTitle}>Thời điểm</Text>
                 </View>
-                {
-                    showDatePicker && <DateTimePicker mode="date" value={date} onChange={onChangeTime} />
-                }
-
+                <Button
+                    title={date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}
+                    onPress={() => setDateModal(true)}
+                />
             </View>
+
+            <Modal animationType={"slide"}
+                transparent={true}
+                visible={dateModal}>
+
+                <DateTimePicker
+                    onChange={onChangeTime}
+                    value={date} />
+            </Modal>
 
             <View style={styles.input}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5, }}>
                     <Image source={require('../icon/notes.png')} />
                     <Text style={styles.inputTitle}>Ghi chú</Text>
                 </View>
-                <TextInput
-                    title="Mục tiêu"
-                    placeholder='Nhập ghi chú'
-                    keyboardType='numeric'
-                    onChangeText={text => setNote(text)}
-                    value={note}
-                    style={styles.textInput} />
+                <KeyboardAvoidingView>
+                    <TextInput
+                        placeholder='Hiện không có ghi chú'
+                        keyboardAvoiding
+                        onChangeText={text => setNote(text)}
+                        value={note}
+                        style={styles.textInput} />
+                </KeyboardAvoidingView>
             </View>
 
             <View style={styles.buttonContainer}>
-                <Button title='HỦY' color={'red'} onPress={() => props.onClose()}></Button>
+                <Button title='Hủy' color={'skyblue'} onPress={() => props.onClose()}></Button>
                 <Button
-                    title='TẠO'
-                    style={{ marginLeft: 5, backgroundColor: 'red' }}
+                    title='Tạo'
+                    color={'green'}
                     onPress={() => {
-                        props.onCreate({ money, walletValue, date, note, categoryValue })
-                    }
-                    }
-
+                        if (money != null && categoryValue != 'Chọn' && walletValue != 'Chọn') {
+                            { alertSuccess() }
+                        }
+                        else {
+                            { alertError() }
+                        }
+                    }}
                 ></Button>
-
             </View>
 
         </View>
     )
-};
+}
 
 const styles = StyleSheet.create({
     container: {
