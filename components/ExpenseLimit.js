@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,16 +12,35 @@ import {
   FlatList,
   Animated,
   Platform,
+  Modal,
+  TextInput,
+  Button,
+  TouchableHighlight,
+  ActivityIndicator,
 } from "react-native";
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import { Svg } from "react-native-svg";
 import { VictoryPie } from "victory-native";
-import { SectionList } from "react-native-web";
+import {
+  addExpenseLimitsToFirebase,
+  loadExpenseLimitValueByCategoryId,
+} from "../Helper/firebaseAPI";
 
 const ExpenseLimit = () => {
   // dummy data
   const confirmStatus = "C";
   const pendingStatus = "P";
+  const ModalPopup = ({ visible, children }) => {
+    const [showModal, setShowModal] = React.useState(visible);
+
+    return (
+      <Modal transparent visible={showModal}>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>{children}</View>
+        </View>
+      </Modal>
+    );
+  };
 
   let categoriesData = [
     {
@@ -223,10 +242,24 @@ const ExpenseLimit = () => {
     new Animated.Value(115)
   ).current;
 
+  const inputLimit = useRef(null);
+
+  const handleInputSubmit = useCallback(
+    (ev) => {
+      const input = ev.nativeEvent.text;
+
+      // validate all you want here
+
+      onChangeLimit(input);
+    },
+    [onChangeLimit]
+  );
+
   const [categories, setCategories] = React.useState(categoriesData);
   const [viewMode, setViewMode] = React.useState("chart");
   const [selectedCategory, setSelectedCategory] = React.useState(null);
-  const [showMoreToggle, setShowMoreToggle] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+  const [limit, onChangeLimit] = React.useState(null);
 
   function renderHeader() {
     return (
@@ -358,7 +391,11 @@ const ExpenseLimit = () => {
   function renderCategoryList() {
     const renderItem = ({ item }) => (
       <TouchableOpacity
-        onPress={() => setSelectedCategory(item)}
+        onPress={() => {
+          setSelectedCategory(item);
+          setVisible(true);
+          loadExpenseLimitValueByCategoryId(item.id, onChangeLimit);
+        }}
         style={{
           flex: 1,
           flexDirection: "row",
@@ -659,6 +696,60 @@ const ExpenseLimit = () => {
       {/* Category Header Section */}
       {renderCategoryHeaderSection()}
 
+      <ModalPopup visible={visible}>
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.xIcon}>
+            <TouchableOpacity
+              onPress={() => {
+                setVisible(false);
+                onChangeLimit(null);
+              }}
+            >
+              <Image
+                style={{ width: 30, height: 30 }}
+                source={icons.x_icon}
+              ></Image>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.hintText}>
+            <Text>Giới hạn tiền cho khoản chi tiêu</Text>
+          </View>
+          <SafeAreaView style={{ padding: 15 }}>
+            <TextInput
+              ref={inputLimit}
+              style={styles.input}
+              onEndEditing={handleInputSubmit}
+              defaultValue={limit}
+              placeholder="Nhập giới hạn"
+              keyboardType="numeric"
+            />
+          </SafeAreaView>
+          <View style={{ padding: 10 }}>
+            <TouchableHighlight
+              style={styles.submit}
+              onPress={() => {
+                if (limit == null) {
+                  console.log(-1);
+                } else {
+                  addExpenseLimitsToFirebase(limit, selectedCategory);
+                  setVisible(false);
+                }
+              }}
+              underlayColor="#fff"
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  textAlign: "center",
+                }}
+              >
+                Lưu
+              </Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </ModalPopup>
+
       <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
         {viewMode == "list" && <View>{renderCategoryList()}</View>}
         {viewMode == "chart" && (
@@ -682,6 +773,55 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 3,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 20,
+    elevation: 20,
+  },
+  xIcon: {
+    width: "100%",
+    height: 20,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  hintText: {
+    width: "100%",
+    height: 30,
+    marginLeft: 40,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  input: {
+    width: 250,
+    alignItems: "stretch",
+    borderBottomWidth: 1,
+    padding: 10,
+  },
+  submit: {
+    width: 150,
+    marginRight: 30,
+    marginLeft: 30,
+    marginTop: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: "#68a0cf",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#fff",
   },
 });
 

@@ -1,6 +1,6 @@
 import { React } from "react";
 import { View, Text, StyleSheet, StatusBar, Platform } from "react-native";
-import NoBudgetLimitCard from "../components/NoBudgetLimitCard";
+import ExpenseLimit from "../components/ExpenseLimit";
 
 const MoneyLimitScreen = (props) => {
   return (
