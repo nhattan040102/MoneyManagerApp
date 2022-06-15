@@ -1,7 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useLayoutEffect } from 'react';
 import MoneyLimitScreen from '../screens/MoneyLimitScreen';
 import SavingScreen from '../screens/MoneySavingScreen';
 import ReportScreen from '../screens/ReportScreen';
@@ -28,7 +29,15 @@ const screenOptionStyle = {
 
 
 {/* configuring screen related to "Giao dịch" tab */ }
-function TransactionsStackNavigator() {
+function TransactionsStackNavigator({ navigation, route }) {
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === "Nhập giao dịch") {
+            navigation.setOptions({ tabBarStyle: { display: 'none' } });
+        } else {
+            navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+        }
+    }, [navigation, route]);
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Giao dịch" component={TransactionScreen} options={{ headerShown: false }} />
@@ -38,8 +47,31 @@ function TransactionsStackNavigator() {
     );
 }
 
+TransactionsStackNavigator.navigationOptions = ({ navigation }) => {
+
+    let tabBarVisible = true;
+
+    let routeName = navigation.state.routes[navigation.state.index].routeName
+
+    if (routeName == 'Nhập giao dịch') {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible,
+    }
+}
+
 {/* configuring screen related to "Chế độ tiết kiệm" tab */ }
-function SavingStackNavigator() {
+function SavingStackNavigator({ navigation, route }) {
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === "Chi tiết") {
+            navigation.setOptions({ tabBarStyle: { display: 'none' } });
+        } else {
+            navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+        }
+    }, [navigation, route]);
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Chế độ tiết kiệm" component={SavingScreen} options={{ headerShown: false }} />

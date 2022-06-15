@@ -1,10 +1,17 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image, StyleSheet, Platform } from 'react-native';
 import { SavingStackNavigator, ExpenseControlStackNavigator, ReportStackNavigator, TransactionsStackNavigator } from './StackNavigator';
+import TransactionInputScreen from '../screens/TransactionInputScreen';
 
 const Tab = createBottomTabNavigator();
+
+const getTabBarVisibility = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    const hideOnScreens = [TransactionInputScreen] // put here name of screen where you want to hide tabBar
+    return hideOnScreens.indexOf(routeName) <= -1;
+};
 
 const Navigator = () => {
     return (
@@ -59,7 +66,9 @@ const Navigator = () => {
         >
 
             {/* Add tab navigator here!! */}
-            <Tab.Screen name="Quản lý" component={TransactionsStackNavigator} />
+            <Tab.Screen name="Quản lý" component={TransactionsStackNavigator} options={({ route }) => ({
+                tabBarVisible: getTabBarVisibility(route),
+            })} />
             <Tab.Screen name="Báo cáo" component={ReportStackNavigator} />
             <Tab.Screen name="Tiết kiệm" component={SavingStackNavigator} />
             <Tab.Screen name="Hạn chế" component={ExpenseControlStackNavigator} />
