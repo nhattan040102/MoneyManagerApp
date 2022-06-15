@@ -179,20 +179,47 @@ export const addExpenseLimitsToFirebase = async (limitValue, category) => {
     await setDoc(doc(db, "expense_limits", uuid), docData);
 };
 
-export const loadExpenseLimitValueByCategoryId = (
-    categoryId,
-    setLimitValue
-) => {
+export const loadExpenseLimitValueByCategoryId = (category, setLimitValue) => {
     const q = query(
         collection(db, "expense_limits"),
         where("userID", "==", auth.currentUser.uid),
-        where("categoryId", "==", categoryId)
+        where("categoryId", "==", category.id)
     );
 
+    setLimitValue(`Nhập giới hạn cho mục ${category.title}`);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if (doc.exists() && parseInt(doc.data().limitValue) > 0)
                 setLimitValue(doc.data().limitValue);
+        });
+    });
+}
+
+export const loadExpensesByCategoryList = (categoriesData) => {
+    const q = query(
+        collection(db, "transaction"),
+        where("userID", "==", auth.currentUser.uid)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            if (doc.exists() && doc.data().status == true) {
+                const dateString = doc.data().dateCreated.toString();
+                for (let category of categoriesData) {
+                    if (
+                        doc.data().categoryValue.id == category.id &&
+                        category.expenses.filter((e) => e.date === dateString).length == 0
+                    ) {
+                        const expenseData = {
+                            date: dateString,
+                            method: doc.data().walletValue,
+                            total: parseInt(doc.data().moneyValue),
+                            status: doc.data().status,
+                        };
+                        category.expenses.push(expenseData);
+                    }
+                }
+            }
         });
     });
 };
