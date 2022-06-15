@@ -3,9 +3,9 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { useState } from 'react/cjs/react.production.min';
 import { FONTSIZE } from '../constants/constants';
 import { getDateDifference } from '../Helper/helpers';
+import { deleteSavingGoal } from '../Helper/firebaseAPI';
 
 const CountDown = props => {
-
     return (
         <View style={styles.block}>
             <View style={{ marginLeft: 10, width: 80, }}>

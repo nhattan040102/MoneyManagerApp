@@ -17,7 +17,6 @@ const TransactionCategory = props => {
             title={item.title}
             onPress={() => {
                 props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
-                console.log('You pressed')
             }}
         />;
     }
@@ -64,8 +63,6 @@ const TransactionCategory = props => {
                     data={DATA}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
-
-
                 />
             </View>
 

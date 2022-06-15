@@ -12,6 +12,7 @@ const CompleteBar = () => {
     );
 }
 const AchievedGoalCard = (props) => {
+    const today = new Date();
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>
@@ -27,7 +28,7 @@ const AchievedGoalCard = (props) => {
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="access-time" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Ngày kết thúc: 18/10/2022</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500' }}> Ngày kết thúc: {today.getDate()}/{today.getMonth() + 1}/{today.getFullYear()}</Text>
             </View>
         </TouchableOpacity>
     );

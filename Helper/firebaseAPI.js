@@ -31,7 +31,8 @@ export const AddTransactionToFirebase = async (input) => {
         walletValue: input.walletValue,
         dateCreated: input.date,
         note: input.note,
-        groupID: createKeyFromDate(input.date)
+        groupID: createKeyFromDate(input.date),
+        status: true,
     };
 
     var flag = false;
@@ -81,32 +82,35 @@ export const AddTransactionToFirebase = async (input) => {
             await updateDoc(docRef, {
                 currentMoney: increment(parseInt(docData.moneyValue)),
             })
-        }, 1000);
+        }, 2000);
 
 
     }
     setTimeout(async () => {
         if (flag)
             return;
-        console.log("exec");
         await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
-    }, 1000)
+    }, 1)
 
     // return () => unsubscribe();
 
 }
 
 export const deleteTransaction = async (item) => {
-    await deleteDoc(doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate())));
+    const docRef = doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate()))
+
+    await updateDoc(docRef, {
+        status: false
+    })
 }
 
 export const loadTransaction = (setTransactionList, setLoading, setValue) => {
     var transactionList = []
     var expenseValue = 0;
     var incomeValue = 0;
-    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
                 if (change.doc.data().categoryValue.type == "-")
@@ -131,11 +135,10 @@ export const loadTransaction = (setTransactionList, setLoading, setValue) => {
         );
         setLoading(true);
         setValue({ expenseValue, incomeValue });
-        console.log(expenseValue);
         setTransactionList(transactionList);
-
     });
-    // return () => unsubscribe();
+
+    return () => unsubscribe();
 }
 
 export const AddSavingGoalToFirebase = async (input) => {
@@ -200,7 +203,7 @@ export const loadDoneSavingGoal = (setCompletedGoals) => {
         setCompletedGoals(completedGoals);
     });
 
-    // unsubcribe();
+    return unsubcribe;
 
 
 }

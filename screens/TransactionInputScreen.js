@@ -13,7 +13,7 @@ const TransactionInputScreen = props => {
         <View style={{ alignItems: 'center' }}>
             <TransactionInput onClose={() => props.navigation.navigate("Giao dịch")} onCreate={(input) => {
                 createHandler(input)
-                props.navigation.navigate("Giao dịch")
+                props.navigation.navigate("Giao dịch", { "trigger": "true" })
             }} />
         </View>
     )

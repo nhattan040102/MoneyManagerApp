@@ -18,7 +18,7 @@ const TransactionInput = props => {
     const [categoryTitle, setCategoryTitle] = useState('Chọn');
     const [walletValue, setWalletValue] = useState('Chọn');
     const [note, setNote] = useState(null);
-    const text = null
+    // const text = null
 
     const choseCategory = (item) => {
         setCategoryValue(item);
@@ -54,9 +54,6 @@ const TransactionInput = props => {
             title={date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}
             onPress={() => setDateModal(true)}
         />
-
-
-
 
     const alertError = () => {
         Alert.alert('Lỗi', 'Bạn điền còn chưa đủ thông tin hoặc số tiền không hợp lệ!', [

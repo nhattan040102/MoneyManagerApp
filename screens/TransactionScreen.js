@@ -52,7 +52,7 @@ const TransactionScreen = props => {
 
     {/* render item for flat list */ }
     const renderItem = ({ item }) => {
-        return <TransactionCard itemList={item.data} id={item.id} navigation={props.navigation} />
+        return <TransactionCard itemList={item.data} id={item.id} navigation={props.navigation} refresh={() => setIsLoading(false)} />
     }
 
 
@@ -60,11 +60,10 @@ const TransactionScreen = props => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             loadTransaction(setTransactionList, setIsLoading, setDisplayedMoney);
         })
-
+        console.log("use effect")
         return () => unsubscribe();
 
-
-    }, [trigger])
+    }, [props.route])
 
     return (
         <View style={styles.screen}>
@@ -105,8 +104,12 @@ const TransactionScreen = props => {
 
             {/* {View for button adding transaction } */}
             <View style={styles.addView}>
-                <AddTransactionBtn onPress={() => props.navigation.navigate('Nhập giao dịch', {
-                })} />
+                <AddTransactionBtn onPress={() => {
+                    props.navigation.navigate('Nhập giao dịch', {
+                    })
+
+                }
+                } />
             </View>
 
 
@@ -119,6 +122,7 @@ const TransactionScreen = props => {
                         keyExtractor={item => item.id}
                         ListEmptyComponent={NoTransactionCard}
                     />}
+
             </View>
         </View>
     );

@@ -24,7 +24,7 @@ const TransactionCard = props => {
         return (
             <View style={styles.card}>
                 <View style={styles.info_view}>
-                    <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Giao dịch ngày {day}/{parseInt(month) + 1}/{year}</Text>
+                    <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Giao dịch ngày {day}/{parseInt(month)}/{year}</Text>
                 </View>
                 <View style={styles.info_view}>
                     <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Chi tiêu trong ngày  :{formatMoney(expenseValue)} VND</Text>
@@ -35,7 +35,6 @@ const TransactionCard = props => {
 
                 <View style={styles.item_list} >
                     {props.itemList.map(item => {
-
                         if (item.categoryValue.type == '-')
                             _expenseValue -= parseInt(item.moneyValue);
                         else
@@ -48,6 +47,7 @@ const TransactionCard = props => {
                             type={item.categoryValue.type}
                             onPress={() => { }}
                             moneyValue={item.moneyValue}
+                            refresh={() => props.refresh()}
                             navigation={props.navigation} />);
                     })}
 
