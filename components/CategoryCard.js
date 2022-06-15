@@ -1,11 +1,16 @@
 import { React } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
+import { deleteTransaction } from '../Helper/firebaseAPI';
 
 const CategoryCard = props => {
+
+
     return (
-        <TouchableOpacity style={styles.container} onPress={() => { props.onPress() }}>
+        <TouchableOpacity style={styles.container} onPress={() => {
+            props.moneyValue ? props.navigation.navigate("Chi tiết giao dịch", { item: props.item }) : props.onPress()
+        }}>
             <View style={styles.icon}>
                 <Image source={props.img} />
             </View>

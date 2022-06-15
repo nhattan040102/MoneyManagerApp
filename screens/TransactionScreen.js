@@ -30,6 +30,21 @@ const TransactionScreen = props => {
 
     const [refreshing, setRefreshing] = useState(false);
 
+    // const sortByDate = (list) => {
+    //     list.map(item => console.log(item.id));
+
+    //     list.sort(function (a, b) {
+    //         var keyA = a.id,
+    //             keyB = b.id;
+    //         // Compare the 2 dates
+    //         if (keyA < keyB) return 1;
+    //         if (keyA > keyB) return -1;
+    //         return 0;
+    //     });
+
+    //     list.map(item => console.log(item.id));
+    // }
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
@@ -37,31 +52,19 @@ const TransactionScreen = props => {
 
     {/* render item for flat list */ }
     const renderItem = ({ item }) => {
-        return <TransactionCard itemList={item.data} id={item.id} />
+        return <TransactionCard itemList={item.data} id={item.id} navigation={props.navigation} />
     }
 
-    {/* function to close input modal */ }
-    const closeHandler = () => {
-        setModalVisible(false);
-    }
-
-    {/* function to add a transaction and close input modal */ }
-    const createHandler = (input) => {
-        setModalVisible(false);
-        setTrigger(!trigger);
-        AddTransactionToFirebase(input);
-    }
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             loadTransaction(setTransactionList, setIsLoading, setDisplayedMoney);
-            // transactionList.map(item => console.log(item.date.toDate()))
-            console.log(transactionList.length);
         })
 
         return () => unsubscribe();
 
-    }, [])
+
+    }, [trigger])
 
     return (
         <View style={styles.screen}>
@@ -102,18 +105,9 @@ const TransactionScreen = props => {
 
             {/* {View for button adding transaction } */}
             <View style={styles.addView}>
-                <AddTransactionBtn onPress={() => setModalVisible(true)} />
+                <AddTransactionBtn onPress={() => props.navigation.navigate('Nhập giao dịch', {
+                })} />
             </View>
-
-            {/* {Modal will show up when click AddTranasctionBtn} */}
-            <Modal
-                animationType={"slide"}
-                transparent={false}
-                visible={modalVisible} >
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}>
-                    <TransactionInput onClose={() => closeHandler()} onCreate={(input) => createHandler(input)} />
-                </View>
-            </Modal>
 
 
             <View style={styles.listView}>

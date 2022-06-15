@@ -12,12 +12,14 @@ const TransactionCategory = props => {
 
     {/* render item for flatlist of transaction items */ }
     const renderItem = ({ item }) => {
-        return <CategoryCard 
-                    img={item.img} 
-                    title={item.title} 
-                    onPress={() => {props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
-                                    console.log('You pressed')}} 
-                />;
+        return <CategoryCard
+            img={item.img}
+            title={item.title}
+            onPress={() => {
+                props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
+                console.log('You pressed')
+            }}
+        />;
     }
 
     return (
@@ -62,8 +64,8 @@ const TransactionCategory = props => {
                     data={DATA}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
-                    
-                    
+
+
                 />
             </View>
 

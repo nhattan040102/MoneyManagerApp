@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { doc, getDoc, setDoc, Timestamp, increment } from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp, increment, deleteDoc } from "firebase/firestore";
 import { collection, query, where, onSnapshot, updateDoc, orderBy } from "firebase/firestore";
 import { auth } from '../firebase';
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
@@ -94,6 +94,10 @@ export const AddTransactionToFirebase = async (input) => {
 
     // return () => unsubscribe();
 
+}
+
+export const deleteTransaction = async (item) => {
+    await deleteDoc(doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate())));
 }
 
 export const loadTransaction = (setTransactionList, setLoading, setValue) => {

@@ -26,7 +26,6 @@ const TransactionInput = props => {
         setCateModal(false);
     };
 
-    console.log(props);
     function choseWallet(item) {
         setWalletModal(false);
         setWalletValue(item);
@@ -43,6 +42,12 @@ const TransactionInput = props => {
             setMoney(input)
         }
     };
+    const onChangeTime = (event, value) => {
+        setDate(value)
+        setDateModal(false)
+        // console.log(date.toString())
+        // console.log(date.getUTCDate().toString())
+    };
 
     const DatePicker = Platform.OS === "ios" ? <DateTimePicker mode="date" value={date} onChange={onChangeTime} /> :
         <Button
@@ -51,12 +56,7 @@ const TransactionInput = props => {
         />
 
 
-    const onChangeTime = (event, value) => {
-        setDate(value)
-        setDateModal(false)
-        // console.log(date.toString())
-        // console.log(date.getUTCDate().toString())
-    };
+
 
     const alertError = () => {
         Alert.alert('Lỗi', 'Bạn điền còn chưa đủ thông tin hoặc số tiền không hợp lệ!', [
