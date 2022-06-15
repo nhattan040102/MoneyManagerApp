@@ -8,10 +8,16 @@ import TransactionInputScreen from '../screens/TransactionInputScreen';
 const Tab = createBottomTabNavigator();
 
 const getTabBarVisibility = (route) => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = [TransactionInputScreen] // put here name of screen where you want to hide tabBar
-    return hideOnScreens.indexOf(routeName) <= -1;
-};
+    const routeName = route.state
+        ? route.state.routes[route.state.index].name
+        : '';
+
+    if (routeName === 'Nhập giao dịch') {
+        return false;
+    }
+
+    return true;
+}
 
 const Navigator = () => {
     return (
@@ -39,22 +45,6 @@ const Navigator = () => {
 
                 // Style tab navigator
                 headerShown: false,
-                tabBarStyle: {
-                    height: Platform.OS === 'ios' ? '10%' : '8%',
-                    position: 'absolute',
-                    backgroundColor: 'rgb(255,255,255)',
-                    shadowColor: '#000000',
-                    shadowOffset: {
-                        width: 0,
-                        height: 1
-                    },
-                    shadowRadius: 5,
-                    shadowOpacity: 0.2,
-                    paddingLeft: 2,
-                    paddingRight: 2,
-                    zIndex: 2,
-                    display: "flex",
-                },
 
                 tabBarActiveTintColor: 'rgb(73,139,134)',
                 tabBarInactiveTintColor: 'rgb(200,200,200)',
@@ -67,7 +57,7 @@ const Navigator = () => {
 
             {/* Add tab navigator here!! */}
             <Tab.Screen name="Quản lý" component={TransactionsStackNavigator} options={({ route }) => ({
-                tabBarVisible: getTabBarVisibility(route),
+                // tabBarStyle: { display: this.getTabBarVisibility(route) ? 'none' : ''}
             })} />
             <Tab.Screen name="Báo cáo" component={ReportStackNavigator} />
             <Tab.Screen name="Tiết kiệm" component={SavingStackNavigator} />

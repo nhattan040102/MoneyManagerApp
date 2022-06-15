@@ -35,7 +35,23 @@ function TransactionsStackNavigator({ navigation, route }) {
         if (routeName === "Nhập giao dịch") {
             navigation.setOptions({ tabBarStyle: { display: 'none' } });
         } else {
-            navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+            navigation.setOptions({
+                tabBarStyle: {
+                    display: 'flex', height: Platform.OS === 'ios' ? '10%' : '8%',
+                    position: 'absolute',
+                    backgroundColor: 'rgb(255,255,255)',
+                    shadowColor: '#000000',
+                    shadowOffset: {
+                        width: 0,
+                        height: 1
+                    },
+                    shadowRadius: 5,
+                    shadowOpacity: 0.2,
+                    paddingLeft: 2,
+                    paddingRight: 2,
+                    zIndex: 2,
+                }
+            });
         }
     }, [navigation, route]);
     return (
@@ -69,7 +85,23 @@ function SavingStackNavigator({ navigation, route }) {
         if (routeName === "Chi tiết") {
             navigation.setOptions({ tabBarStyle: { display: 'none' } });
         } else {
-            navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+            navigation.setOptions({
+                tabBarStyle: {
+                    display: 'flex', display: 'flex', height: Platform.OS === 'ios' ? '10%' : '8%',
+                    position: 'absolute',
+                    backgroundColor: 'rgb(255,255,255)',
+                    shadowColor: '#000000',
+                    shadowOffset: {
+                        width: 0,
+                        height: 1
+                    },
+                    shadowRadius: 5,
+                    shadowOpacity: 0.2,
+                    paddingLeft: 2,
+                    paddingRight: 2,
+                    zIndex: 2,
+                }
+            });
         }
     }, [navigation, route]);
     return (
