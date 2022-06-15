@@ -17,7 +17,7 @@ const SavingGoalCard = props => {
                 <Text style={{ fontSize: FONTSIZE.header1, fontWeight: '600' }}> {formatMoney(props.item.savingValue)}</Text>
             </View>
             <View style={{ paddingHorizontal: 5, paddingVertical: 10, flexDirection: 'row' }}>
-                <Progress.Bar progress={progress_perc} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} borderColor={'black'} />
+                <Progress.Bar progress={progress_perc > 1 ? 1 : progress_perc} width={280} unfilledColor={'rgb(248,248,248)'} height={15} color={'rgb(61,186,171)'} borderColor={'black'} />
                 <Text style={{ paddingHorizontal: 10, fontSize: 15 }}>{progress_perc.toFixed(2) * 100} %</Text>
             </View>
             <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center' }}>

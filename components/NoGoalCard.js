@@ -8,8 +8,8 @@ const NoGoalCard = props => {
     return (
         <View style={styles.container} >
             <Image source={require('../icon/finance.png')} />
-            <Text style={{ padding: 10, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>NO GOAL YET.</Text>
-            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)' }}>Let's saving money by create new goal!!!</Text>
+            <Text style={{ padding: 10, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>HIỆN TẠI CHƯA CÓ MỤC TIÊU.</Text>
+            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)' }}>Hãy tạo một mục tiêu để tiết kiệm tiền nào !!!</Text>
 
 
         </View>

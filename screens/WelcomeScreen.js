@@ -13,15 +13,15 @@ const WelcomeScreen = (props) => {
                 justifyContent: 'center', alignItems: 'center',
                 marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
             }}>
-                <View style={{ position: 'absolute', bottom: '16%' }}>
+                <View style={{ position: 'absolute', top: '40%' }}>
                     <Image source={require('../icon/presentation.png')} />
                 </View>
 
-                <View style={{ position: 'absolute', top: '10%', right: '10%' }}>
+                <View style={{ position: 'absolute', top: '10%', right: '2%' }}>
                     <Image source={require('../icon/finance.png')} />
                 </View>
 
-                <View style={{ position: 'absolute', top: '-2%', left: '-5%' }}>
+                <View style={{ position: 'absolute', top: '-2%', left: '-2%' }}>
                     <Image source={require('../icon/budget.png')} />
                 </View>
             </View>
@@ -40,10 +40,10 @@ const WelcomeScreen = (props) => {
 
                 <View style={{ width: '100%', justifyContent: 'center', padding: 20 }}>
                     <View style={{ width: '85%' }}>
-                        <Text style={{ padding: 10, fontSize: FONTSIZE.header1, fontWeight: 'bold', color: 'rgb(12,60,78)', textAlign: 'left' }}>Track your expense and plan for financial goals!</Text>
+                        <Text style={{ padding: 10, fontSize: FONTSIZE.header1, fontWeight: 'bold', color: 'rgb(12,60,78)', textAlign: 'left' }}>Theo dõi chi tiêu và xây dựng mục tiêu cho riêng bạn!</Text>
                     </View>
 
-                    <Text style={{ paddingHorizontal: 10, fontSize: FONTSIZE.header2, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'left' }}>See what you're spending, track your bills, manage your bank account and build your goals. </Text>
+                    <Text style={{ paddingHorizontal: 10, fontSize: FONTSIZE.header2, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'left' }}>Thêm giao dịch, theo dõi hóa đơn, quản lý tiêu dùng và xây dựng cho mình những mục tiêu. </Text>
                 </View>
                 <View style={{ flex: 1, width: '100%', alignItems: 'flex-end' }}>
                     <TouchableOpacity
@@ -60,7 +60,7 @@ const WelcomeScreen = (props) => {
                                     // ...
                                 });
                         }}>
-                        <Text style={{ fontSize: FONTSIZE.header2, color: 'white' }}>Let's begin</Text>
+                        <Text style={{ fontSize: FONTSIZE.header2, color: 'white' }}>Tiếp tục</Text>
                     </TouchableOpacity>
                 </View>
             </View>

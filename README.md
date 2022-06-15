@@ -9,11 +9,11 @@
 * 19522383 Nguyễn Thị Hiền Trang
 
 
-## Usage 
+## Usage 🚀
 ### Option 1: use app directly on expo
 ### Option 2: clone project and run on local
 
-## Base dependencies
+## Base dependencies  📦
 
 - [react-navigation](https://reactnavigation.org/) navigation library.
 - [firebase](https://firebase.google.com) for authentication and realtime data

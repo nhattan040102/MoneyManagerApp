@@ -15,9 +15,9 @@ const SavingInputModal = props => {
     const onChanged = (text, value) => {
         text = text.replace(/[^0-9]/g, '');
         if (value == "savingValue")
-            setSavingValue(text);
+            setSavingValue((text));
         else
-            setMinValue(text);
+            setMinValue((text));
     }
 
     const onChangeTime = (event, value) => {
@@ -104,30 +104,34 @@ const SavingInputModal = props => {
 
             </View>
 
+            <View style={{ justifyContent: 'flex-end', width: '100%', alignItems: 'flex-end' }}>
+                <View style={styles.buttonContainer}>
+                    <View style={{ paddingRight: 12, }}>
+                        <Button title='HỦY' color={'red'} onPress={() => props.onClose()} ></Button>
+                    </View>
 
-            <View style={styles.buttonContainer}>
-                <Button title='HỦY' color={'red'} onPress={() => props.onClose()} ></Button>
-                <Button
-                    title='TẠO'
-                    style={{ marginLeft: 5, backgroundColor: 'red' }}
-                    onPress={() => {
-                        if (goalName && savingValue && minValue)
-                            props.onCreate({ goalName, savingValue, minValue, date });
-                        else {
-                            Alert.alert(
-                                "Tin nhắn hệ thống",
-                                "Vui lòng nhập đầy đủ thông tin",
-                                [
-                                    {
-                                        text: "OK",
-                                        onPress: () => console.log("OK Pressed"),
-                                    },
-                                ]
-                            );
-                        }
+                    <Button
+                        title='TẠO'
+                        style={{ marginLeft: 5, backgroundColor: 'red' }}
+                        onPress={() => {
+                            if (goalName && savingValue && minValue)
+                                props.onCreate({ goalName, savingValue, minValue, date });
+                            else {
+                                Alert.alert(
+                                    "Tin nhắn hệ thống",
+                                    "Vui lòng nhập đầy đủ thông tin",
+                                    [
+                                        {
+                                            text: "OK",
+                                            onPress: () => console.log("OK Pressed"),
+                                        },
+                                    ]
+                                );
+                            }
 
-                    }}></Button>
+                        }}></Button>
 
+                </View>
             </View>
         </View>
     )

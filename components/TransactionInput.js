@@ -18,7 +18,7 @@ const TransactionInput = props => {
     const [categoryTitle, setCategoryTitle] = useState('Chọn');
     const [walletValue, setWalletValue] = useState('Chọn');
     const [note, setNote] = useState(null);
-    const text = null
+    // const text = null
 
     const choseCategory = (item) => {
         setCategoryValue(item);
@@ -32,15 +32,8 @@ const TransactionInput = props => {
     };
 
     const onSetMoney = (input) => {
-        if (input <= 0) {
-            input = null
-            setMoney(null)
-        }
-        else {
-            input = parseInt(input)
-            input = input.toString()
-            setMoney(input)
-        }
+        input = input.replace(/[^0-9]/g, '');
+        setMoney(input);
     };
     const onChangeTime = (event, value) => {
         setDate(value)
@@ -52,11 +45,9 @@ const TransactionInput = props => {
     const DatePicker = Platform.OS === "ios" ? <DateTimePicker mode="date" value={date} onChange={onChangeTime} /> :
         <Button
             title={date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}
+            color={'rgb(45,139, 126)'}
             onPress={() => setDateModal(true)}
         />
-
-
-
 
     const alertError = () => {
         Alert.alert('Lỗi', 'Bạn điền còn chưa đủ thông tin hoặc số tiền không hợp lệ!', [
@@ -65,9 +56,7 @@ const TransactionInput = props => {
     };
 
     const alertSuccess = () => {
-        Alert.alert('Thành công', 'Bạn đã thêm một giao dịch mới', [
-            { text: 'OK', onPress: props.onCreate({ money, walletValue, date, note, categoryValue }) }
-        ])
+        props.onCreate({ money, walletValue, date, note, categoryValue })
     };
 
     return (
@@ -92,6 +81,7 @@ const TransactionInput = props => {
                 </View>
                 <Button
                     title={categoryTitle}
+                    color={'rgb(45,139, 126)'}
                     onPress={() => { setCateModal(true) }}
                 />
             </View>
@@ -116,6 +106,7 @@ const TransactionInput = props => {
                 </View>
                 {<Button
                     title={walletValue}
+                    color={'rgb(45,139, 126)'}
                     onPress={() => { setWalletModal(true) }}
                 />}
             </View>
@@ -144,6 +135,7 @@ const TransactionInput = props => {
                 visible={dateModal}>
 
                 <DateTimePicker
+                    mode="date"
                     onChange={onChangeTime}
                     value={date} />
             </Modal>
@@ -163,21 +155,24 @@ const TransactionInput = props => {
                 </KeyboardAvoidingView>
             </View>
 
-            <View style={styles.buttonContainer}>
-                <Button title='Hủy' color={'skyblue'} onPress={() => props.onClose()}></Button>
-                <Button
-                    title='Tạo'
-                    color={'green'}
-                    onPress={() => {
-                        if (money != null && categoryValue != 'Chọn' && walletValue != 'Chọn') {
-                            { alertSuccess() }
-                        }
-                        else {
-                            { alertError() }
-                        }
-                    }}
-                ></Button>
+            <View style={{ justifyContent: 'flex-end', width: '100%', alignItems: 'flex-end' }}>
+                <View style={styles.buttonContainer}>
+
+                    <Button title='Hủy' color={'skyblue'} onPress={() => props.onClose()}></Button>
+                    <Button
+                        title='Tạo'
+                        color={'green'}
+                        onPress={() => {
+                            if (money == null || categoryValue == 'Chọn' || walletValue == 'Chọn') {
+                                { alertError() }
+                            }
+                            else { alertSuccess() }
+
+                        }}
+                    ></Button>
+                </View>
             </View>
+
 
         </View>
     )
@@ -232,8 +227,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 20,
         flex: 1,
-        width: '100%',
-        justifyContent: 'flex-end',
+        width: '30%',
+        justifyContent: 'space-between',
         alignItems: 'center'
     }
 

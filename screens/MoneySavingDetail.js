@@ -62,7 +62,7 @@ const SavingDetailScreen = props => {
                     style={[styles.category, { backgroundColor: currentState == "GOAL" ? '#F7FBFC' : 'rgb(45,139, 126)' }]}
                     onPress={() => setCurrentState('GOAL')}
                 >
-                    <Text style={[styles.cate_text, { color: currentState == "GOAL" ? 'rgb(45,139, 126)' : 'white' }]}>GOAL</Text>
+                    <Text style={[styles.cate_text, { color: currentState == "GOAL" ? 'rgb(45,139, 126)' : 'white' }]}>MỤC TIÊU</Text>
 
                 </TouchableOpacity>
                 <View style={{ width: 0.25, backgroundColor: 'white' }}></View>
@@ -70,7 +70,7 @@ const SavingDetailScreen = props => {
                     style={[styles.category, { backgroundColor: currentState == "RECORD" ? '#F7FBFC' : 'rgb(45,139, 126)' }]}
                     onPress={() => setCurrentState('RECORD')}
                 >
-                    <Text style={[styles.cate_text, { color: currentState == "RECORD" ? 'rgb(45,139, 126)' : 'white' }]}>RECORD</Text>
+                    <Text style={[styles.cate_text, { color: currentState == "RECORD" ? 'rgb(45,139, 126)' : 'white' }]}>GIAO DỊCH </Text>
 
                 </TouchableOpacity>
             </View>

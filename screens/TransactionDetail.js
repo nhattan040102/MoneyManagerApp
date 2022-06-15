@@ -1,7 +1,7 @@
-import { React, useLayoutEffect } from "react";
+import { React, useLayoutEffect, useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet, Platform, StatusBar, Alert } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { deleteTransaction } from "../Helper/firebaseAPI";
+import { deleteTransaction, loadTransaction } from "../Helper/firebaseAPI";
 import { FONTSIZE } from "../constants/constants";
 import { formatMoney } from "../Helper/helpers";
 
@@ -9,6 +9,7 @@ import { formatMoney } from "../Helper/helpers";
 const TransactionDetailScreen = props => {
     const item = props.route.params.item;
     const [day, month, year, hour, minute] = [item.dateCreated.toDate().getDate(), item.dateCreated.toDate().getMonth() + 1, item.dateCreated.toDate().getFullYear(), item.dateCreated.toDate().getHours(), item.dateCreated.toDate().getMinutes()]
+    const [deleteTrigger, setDeleteTrigger] = useState(false);
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -23,8 +24,8 @@ const TransactionDetailScreen = props => {
                                     { text: 'Hủy' },
                                     {
                                         text: 'Xóa', onPress: () => {
-                                            deleteTransaction(props.route.params.item)
-                                            props.navigation.goBack();
+                                            setDeleteTrigger(true);
+
                                         }
                                     }
                                 ]
@@ -38,6 +39,14 @@ const TransactionDetailScreen = props => {
             )
         });
     }, [props.navigation]);
+
+    useEffect(() => {
+        if (deleteTrigger) {
+            deleteTransaction(props.route.params.item)
+            props.navigation.navigate("Giao dịch", { "trigger": "true" });
+        }
+
+    }, [deleteTrigger])
     return (
         <View style={styles.screen}>
             <View style={styles.detailView}>
