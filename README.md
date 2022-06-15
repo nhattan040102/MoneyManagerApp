@@ -22,10 +22,10 @@
 - Budget limt: Limit your budget to fit your lifestyle and interest
 
 ## Built with 🛠
--[React native](https://reactnative.dev/)
--[Fire base](https://firebase.google.com/)
-    -[Anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth)
-    -[Firestore](https://firebase.google.com/docs/firestore/query-data/listen?hl=en&authuser=0)
+- [React native](https://reactnative.dev/)
+- [Fire base](https://firebase.google.com/)
+    - [Anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth)
+    - [Firestore](https://firebase.google.com/docs/firestore/query-data/listen?hl=en&authuser=0)
 
 ## App screenshots 🎨
 <details>
