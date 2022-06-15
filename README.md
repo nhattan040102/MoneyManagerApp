@@ -16,14 +16,14 @@
 - [react-native-datepicker](https://github.com/react-native-datetimepicker/datetimepicker) for date time picker component
 
 ## Features 📦
-- [Add transaction] Manage your budget by add transaction and keep track of your expense
-- [Saving money] Build your goal to start saving money
-- [Report] Visualize your expense 
-- [Budget limit] Limit your budget to fit your lifestyle and interest
+- Add Transaction: Manage your budget by add transaction and keep track of your expense
+- Saving: Build your goal to start saving money
+- Report: Visualize your expense 
+- Budget limt: Limit your budget to fit your lifestyle and interest
 
 ## Built with 🛠
--[React native]
--[Fire base]
+-[React native](https://reactnative.dev/)
+-[Fire base](https://firebase.google.com/)
     -[Anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth)
     -[Firestore](https://firebase.google.com/docs/firestore/query-data/listen?hl=en&authuser=0)
 
