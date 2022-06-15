@@ -62,9 +62,7 @@ const TransactionInput = props => {
     };
 
     const alertSuccess = () => {
-        Alert.alert('Thành công', 'Bạn đã thêm một giao dịch mới', [
-            { text: 'OK', onPress: props.onCreate({ money, walletValue, date, note, categoryValue }) }
-        ])
+        props.onCreate({ money, walletValue, date, note, categoryValue })
     };
 
     return (
@@ -141,6 +139,7 @@ const TransactionInput = props => {
                 visible={dateModal}>
 
                 <DateTimePicker
+                    mode="date"
                     onChange={onChangeTime}
                     value={date} />
             </Modal>
@@ -166,12 +165,11 @@ const TransactionInput = props => {
                     title='Tạo'
                     color={'green'}
                     onPress={() => {
-                        if (money != null && categoryValue != 'Chọn' && walletValue != 'Chọn') {
-                            { alertSuccess() }
-                        }
-                        else {
+                        if (money == null || categoryValue == 'Chọn' || walletValue == 'Chọn') {
                             { alertError() }
                         }
+                        else { alertSuccess() }
+
                     }}
                 ></Button>
             </View>

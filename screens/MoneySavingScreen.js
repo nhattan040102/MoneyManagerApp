@@ -106,7 +106,7 @@ const SavingScreen = props => {
             <View style={styles.CurrentGoalView}>
                 <View style={styles.title}>
                     <Image source={require('../icon/flag.png')} />
-                    <Text style={[styles.titleText, { color: '#151D3B' }]}>  CURRENT GOAL</Text>
+                    <Text style={[styles.titleText, { color: '#151D3B' }]}>  MỤC TIÊU HIỆN TẠI</Text>
                 </View>
 
                 {isLoadingCurrent ? GoalComponent : <ActivityIndicator size="large" color={'rgb(45,139, 126)'} />}
@@ -119,7 +119,7 @@ const SavingScreen = props => {
                 <View style={styles.title}>
 
                     <Image source={require('../icon/panel.png')} />
-                    <Text style={[styles.titleText, { color: '#D82148' }]}>   COMPLETED GOALS</Text>
+                    <Text style={[styles.titleText, { color: '#D82148' }]}>   MỤC TIÊU ĐÃ HOÀN THÀNH</Text>
                 </View>
 
                 <View style={{ width: '90%' }}>

@@ -8,8 +8,8 @@ const NoTransactionCard = props => {
     return (
         <View style={styles.container} >
             <Image source={require('../icon/transaction-sticker.png')} />
-            <Text style={{ paddingTop: 40, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>NO TRANSACTION YET.</Text>
-            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'center' }}>Let's manage your money by make the first transaction!!!</Text>
+            <Text style={{ paddingTop: 40, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>CHƯA CÓ GIAO DỊCH NÀO.</Text>
+            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'center' }}>Bắt đầu quản lý và theo dõi chi tiêu của bạn bằng cách thêm giao dịch!!!</Text>
 
 
         </View>

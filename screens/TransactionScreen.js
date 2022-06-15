@@ -5,11 +5,15 @@ import TransactionInput from '../components/TransactionInput';
 import TransactionCard from '../components/TransactionCard';
 import { Feather } from '@expo/vector-icons';
 import { FONTSIZE } from '../constants/constants';
-import { formatMoney } from '../Helper/helpers';
+import { formatMoney, createKeyFromDate } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
 import { AddTransactionToFirebase, loadTransaction } from '../Helper/firebaseAPI';
 import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
 import { auth } from '../firebase';
+import { LogBox } from 'react-native';
+
+
+LogBox.ignoreAllLogs();
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -30,21 +34,6 @@ const TransactionScreen = props => {
 
     const [refreshing, setRefreshing] = useState(false);
 
-    // const sortByDate = (list) => {
-    //     list.map(item => console.log(item.id));
-
-    //     list.sort(function (a, b) {
-    //         var keyA = a.id,
-    //             keyB = b.id;
-    //         // Compare the 2 dates
-    //         if (keyA < keyB) return 1;
-    //         if (keyA > keyB) return -1;
-    //         return 0;
-    //     });
-
-    //     list.map(item => console.log(item.id));
-    // }
-
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
@@ -56,14 +45,29 @@ const TransactionScreen = props => {
     }
 
 
+
+
     useEffect(() => {
+
         const unsubscribe = props.navigation.addListener('focus', () => {
             loadTransaction(setTransactionList, setIsLoading, setDisplayedMoney);
         })
-        console.log("use effect")
+
         return () => unsubscribe();
 
-    }, [props.route])
+    }, [props.route, props.navigation])
+
+    // useEffect(() => {
+    //     const unsubscribe = props.navigation.addListener('focus', () => {
+    //         console.log(props.route);
+
+    //         addTransaction(props.route.params);
+    //     })
+    //     console.log("pop");
+    //     return unsubscribe;
+
+
+    // }, [props.route])
 
     return (
         <View style={styles.screen}>
@@ -105,8 +109,7 @@ const TransactionScreen = props => {
             {/* {View for button adding transaction } */}
             <View style={styles.addView}>
                 <AddTransactionBtn onPress={() => {
-                    props.navigation.navigate('Nhập giao dịch', {
-                    })
+                    props.navigation.navigate('Nhập giao dịch')
 
                 }
                 } />

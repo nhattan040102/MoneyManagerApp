@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { doc, getDoc, setDoc, Timestamp, increment, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp, increment, deleteDoc, getDocs, } from "firebase/firestore";
 import { collection, query, where, onSnapshot, updateDoc, orderBy } from "firebase/firestore";
 import { auth } from '../firebase';
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
@@ -32,7 +32,6 @@ export const AddTransactionToFirebase = async (input) => {
         dateCreated: input.date,
         note: input.note,
         groupID: createKeyFromDate(input.date),
-        status: true,
     };
 
     var flag = false;
@@ -90,27 +89,26 @@ export const AddTransactionToFirebase = async (input) => {
         if (flag)
             return;
         await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
-    }, 1)
+    }, 1000)
 
-    // return () => unsubscribe();
+    return () => unsubscribe();
 
 }
 
 export const deleteTransaction = async (item) => {
-    const docRef = doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate()))
-
-    await updateDoc(docRef, {
-        status: false
-    })
+    await deleteDoc(doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate())));
 }
 
-export const loadTransaction = (setTransactionList, setLoading, setValue) => {
+export const loadTransaction = async (setTransactionList, setLoading, setValue) => {
     var transactionList = []
     var expenseValue = 0;
     var incomeValue = 0;
-    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
     const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
         querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
                 if (change.doc.data().categoryValue.type == "-")
@@ -133,12 +131,16 @@ export const loadTransaction = (setTransactionList, setLoading, setValue) => {
             }
         }
         );
+
+
+    });
+    setTimeout(() => {
         setLoading(true);
         setValue({ expenseValue, incomeValue });
+        // console.log(expenseValue);
         setTransactionList(transactionList);
-    });
+    }, 1000)
 
-    return () => unsubscribe();
 }
 
 export const AddSavingGoalToFirebase = async (input) => {

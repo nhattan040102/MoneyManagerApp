@@ -8,8 +8,8 @@ const NoCompletedGoals = props => {
     return (
         <View style={styles.container} >
             <Image source={require('../icon/no-goal.png')} />
-            <Text style={{ paddingVertical: 10, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>ACCOMPLISHED GOALS NOT FOUND...</Text>
-            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'center' }}>Don't give up, keep trying and complete your goal!!</Text>
+            <Text style={{ paddingVertical: 10, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>HỪM CHƯA TÌM THẤY MỤC TIÊU NÀO HOÀN THÀNH...</Text>
+            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'center' }}>Không sao cả, đừng từ bỏ và cố gắng hoàn thành mục tiêu của mình!!!</Text>
 
 
         </View>

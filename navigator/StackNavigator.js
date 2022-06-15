@@ -48,7 +48,6 @@ function SavingStackNavigator() {
                 component={SavingDetailScreen}
 
             />
-            <Stack.Screen name="Thống kê" component={ReportScreen} />
         </Stack.Navigator>
     );
 }

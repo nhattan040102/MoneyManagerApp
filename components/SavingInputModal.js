@@ -15,9 +15,9 @@ const SavingInputModal = props => {
     const onChanged = (text, value) => {
         text = text.replace(/[^0-9]/g, '');
         if (value == "savingValue")
-            setSavingValue(text);
+            setSavingValue((text));
         else
-            setMinValue(text);
+            setMinValue((text));
     }
 
     const onChangeTime = (event, value) => {

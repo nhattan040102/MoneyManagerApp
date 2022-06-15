@@ -8,20 +8,19 @@ const Tab = createBottomTabNavigator();
 
 const Navigator = () => {
     return (
-
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let url;
 
-                    if (route.name === 'Transactions')
-                        url = require('../icon/transaction.png');
-                    else if (route.name === 'Report')
+                    if (route.name === 'Quản lý')
+                        url = require('../icon/refund.png');
+                    else if (route.name === 'Báo cáo')
                         url = require('../icon/pie-chart.png');
-                    else if (route.name === 'Saving')
+                    else if (route.name === 'Tiết kiệm')
                         url = require('../icon/save-money.png');
-                    else if (route.name === 'Expense limit')
-                        url = require('../icon/limited.png');
+                    else if (route.name === 'Hạn chế')
+                        url = require('../icon/money-bag.png');
 
                     //return icon for each tab navgiator
                     return <Image
@@ -47,7 +46,7 @@ const Navigator = () => {
                     paddingLeft: 2,
                     paddingRight: 2,
                     zIndex: 2,
-
+                    display: "flex",
                 },
 
                 tabBarActiveTintColor: 'rgb(73,139,134)',
@@ -60,10 +59,10 @@ const Navigator = () => {
         >
 
             {/* Add tab navigator here!! */}
-            <Tab.Screen name="Transactions" component={TransactionsStackNavigator} />
-            <Tab.Screen name="Report" component={ReportStackNavigator} />
-            <Tab.Screen name="Saving" component={SavingStackNavigator} />
-            <Tab.Screen name="Expense limit" component={ExpenseControlStackNavigator} />
+            <Tab.Screen name="Quản lý" component={TransactionsStackNavigator} />
+            <Tab.Screen name="Báo cáo" component={ReportStackNavigator} />
+            <Tab.Screen name="Tiết kiệm" component={SavingStackNavigator} />
+            <Tab.Screen name="Hạn chế" component={ExpenseControlStackNavigator} />
 
 
         </Tab.Navigator>

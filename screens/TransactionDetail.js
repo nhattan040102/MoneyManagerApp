@@ -43,7 +43,7 @@ const TransactionDetailScreen = props => {
     useEffect(() => {
         if (deleteTrigger) {
             deleteTransaction(props.route.params.item)
-            props.navigation.navigate("Giao dịch", { "trigger": "true" })
+            props.navigation.navigate("Giao dịch", { "trigger": "true" });
         }
 
     }, [deleteTrigger])

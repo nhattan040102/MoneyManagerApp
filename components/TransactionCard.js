@@ -39,7 +39,7 @@ const TransactionCard = props => {
                             _expenseValue -= parseInt(item.moneyValue);
                         else
                             _incomeValue += parseInt(item.moneyValue);
-                        // console.log(EXPENSE_DATA.indexOf(item.categoryValue)
+
                         return (<CategoryCard item={item}
                             title={item.categoryValue.title}
                             img={item.categoryValue.img}
