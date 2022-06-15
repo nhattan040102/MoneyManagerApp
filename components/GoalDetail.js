@@ -13,7 +13,7 @@ const Card = props => {
             <Text style={{ fontSize: FONTSIZE.body, fontWeight: '400', color: '#006E7F' }}>{props.title}</Text>
             <View style={{ flexDirection: 'row' }}>
                 <MaterialIcons name="attach-money" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '500' }}>{props.value > 0 ? props.value : 0} VND</Text>
+                <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '500' }}>{props.value} VND</Text>
             </View>
 
         </View>
