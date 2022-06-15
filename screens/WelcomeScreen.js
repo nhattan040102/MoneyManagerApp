@@ -13,15 +13,15 @@ const WelcomeScreen = (props) => {
                 justifyContent: 'center', alignItems: 'center',
                 marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
             }}>
-                <View style={{ position: 'absolute', bottom: '16%' }}>
+                <View style={{ position: 'absolute', top: '40%' }}>
                     <Image source={require('../icon/presentation.png')} />
                 </View>
 
-                <View style={{ position: 'absolute', top: '10%', right: '10%' }}>
+                <View style={{ position: 'absolute', top: '10%', right: '2%' }}>
                     <Image source={require('../icon/finance.png')} />
                 </View>
 
-                <View style={{ position: 'absolute', top: '-2%', left: '-5%' }}>
+                <View style={{ position: 'absolute', top: '-2%', left: '-2%' }}>
                     <Image source={require('../icon/budget.png')} />
                 </View>
             </View>
