@@ -1,12 +1,17 @@
-import { db } from '../firebase';
-import { doc, getDoc, setDoc, Timestamp, increment, deleteDoc } from "firebase/firestore";
-import { collection, query, where, onSnapshot, updateDoc, orderBy } from "firebase/firestore";
-import { auth } from '../firebase';
+import { db } from "../firebase";
+import { doc, getDoc, setDoc, Timestamp, increment } from "firebase/firestore";
+import {
+    collection,
+    query,
+    where,
+    onSnapshot,
+    updateDoc,
+    orderBy,
+} from "firebase/firestore";
+import { auth } from "../firebase";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { createKeyID, createKeyFromDate } from './helpers';
-import { Alert } from 'react-native'
-
-
+import { createKeyID, createKeyFromDate } from "./helpers";
+import { Alert } from "react-native";
 
 export const autoSignIn = () => {
     signInAnonymously(auth)
@@ -20,8 +25,7 @@ export const autoSignIn = () => {
             console.log(errorMessage);
             // ...
         });
-}
-
+};
 
 export const AddTransactionToFirebase = async (input) => {
     const docData = {
@@ -31,7 +35,7 @@ export const AddTransactionToFirebase = async (input) => {
         walletValue: input.walletValue,
         dateCreated: input.date,
         note: input.note,
-        groupID: createKeyFromDate(input.date)
+        groupID: createKeyFromDate(input.date),
     };
 
     var flag = false;
@@ -41,24 +45,24 @@ export const AddTransactionToFirebase = async (input) => {
         var doc_id = null;
         var currentMoney = 0;
         var goalMoney = 0;
-        const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "current"));
+        const q = query(
+            collection(db, "SavingGoal"),
+            where("userID", "==", auth.currentUser.uid.toString()),
+            where("status", "==", "current")
+        );
         // console.log(q.get());
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            if (querySnapshot.empty)
-                flag = true;
+            if (querySnapshot.empty) flag = true;
 
             querySnapshot.forEach((doc) => {
                 if (doc.exists) {
-                    doc_id = doc.id
-                    currentMoney = doc.data().currentMoney
-                    goalMoney = doc.data().savingValue
-                    docData['goalID'] = doc_id;
+                    doc_id = doc.id;
+                    currentMoney = doc.data().currentMoney;
+                    goalMoney = doc.data().savingValue;
+                    docData["goalID"] = doc_id;
                 }
-
             });
-
-        })
-
+        });
 
         setTimeout(async () => {
             if (flag) {
@@ -68,79 +72,73 @@ export const AddTransactionToFirebase = async (input) => {
                     [
                         {
                             text: "OK",
-                            onPress: () => console.log("OK")
+                            onPress: () => console.log("OK"),
                         },
                     ]
-                )
+                );
                 return;
             }
 
-            if (parseInt(currentMoney) + parseInt(docData.moneyValue) >= parseInt(goalMoney))
+            if (
+                parseInt(currentMoney) + parseInt(docData.moneyValue) >=
+                parseInt(goalMoney)
+            )
                 updateSavingGoalStatus(doc_id);
             const docRef = doc(db, "SavingGoal", doc_id);
             await updateDoc(docRef, {
                 currentMoney: increment(parseInt(docData.moneyValue)),
-            })
+            });
         }, 1000);
-
-
     }
     setTimeout(async () => {
-        if (flag)
-            return;
+        if (flag) return;
         console.log("exec");
-        await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
-    }, 1000)
+        await setDoc(
+            doc(db, "transaction", createKeyID(docData.userID, input.date)),
+            docData
+        );
+    }, 1000);
 
     // return () => unsubscribe();
+};
 
-}
-
-export const deleteTransaction = async (item) => {
-    await deleteDoc(doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate())));
-}
-
-export const loadTransaction = (setTransactionList, setLoading, setValue) => {
-    var transactionList = []
-    var expenseValue = 0;
-    var incomeValue = 0;
-    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
+export const loadTransaction = (setTransactionList) => {
+    var transactionList = [];
+    const q = query(
+        collection(db, "transaction"),
+        where("userID", "==", auth.currentUser.uid.toString()),
+        orderBy("groupID", "desc"),
+        orderBy("dateCreated", "desc")
+    );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
-                if (change.doc.data().categoryValue.type == "-")
-                    expenseValue += parseInt(change.doc.data().moneyValue)
-                else
-                    incomeValue += parseInt(change.doc.data().moneyValue)
-
-
-
-                if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
-                    transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
-
+                if (
+                    transactionList.length == 0 ||
+                    transactionList.filter((item) => item.id == change.doc.data().groupID)
+                        .length == 0
+                )
+                    transactionList.push({
+                        id: change.doc.data().groupID,
+                        data: [change.doc.data()],
+                    });
                 else {
                     transactionList.map((item) => {
                         if (item.id == change.doc.data().groupID)
                             item.data.push(change.doc.data());
-                    })
-
+                    });
                 }
             }
-        }
-        );
-        setLoading(true);
-        setValue({ expenseValue, incomeValue });
-        console.log(expenseValue);
+        });
         setTransactionList(transactionList);
-
     });
     // return () => unsubscribe();
-}
+};
 
 export const AddSavingGoalToFirebase = async (input) => {
     const docData = {
-        goalID: createKeyID(auth.currentUser.uid, input.date),
+        limitID: createKeyID(auth.currentUser.uid, input.date),
         userID: auth.currentUser.uid,
         goalName: input.goalName,
         savingValue: input.savingValue,
@@ -150,10 +148,14 @@ export const AddSavingGoalToFirebase = async (input) => {
         currentMoney: 0,
     };
     await setDoc(doc(db, "SavingGoal", docData.goalID), docData);
-}
+};
 
-export const loadSavingGoalData = (setCurrentGoalInput, setGoalState, setLoading) => {
-    const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "current"));
+export const loadSavingGoalData = (setCurrentGoalInput, setGoalState) => {
+    const q = query(
+        collection(db, "SavingGoal"),
+        where("userID", "==", auth.currentUser.uid.toString()),
+        where("status", "==", "current")
+    );
     setCurrentGoalInput(null);
     setGoalState(false);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -161,62 +163,82 @@ export const loadSavingGoalData = (setCurrentGoalInput, setGoalState, setLoading
             if (doc.exists) {
                 setCurrentGoalInput(doc.data());
                 setGoalState(true);
-
-            }
-
-            else
-                console.log("Can not load data from firebase");
+            } else console.log("Can not load data from firebase");
         });
-        setLoading(true);
     });
+};
 
-}
+export const addExpenseLimitsToFirebase = async (limitValue, category) => {
+    const uuid = auth.currentUser.uid + category.id;
+    const docData = {
+        userID: auth.currentUser.uid,
+        limitValue: limitValue,
+        categoryId: category.id,
+    };
 
+    await setDoc(doc(db, "expense_limits", uuid), docData);
+};
+
+export const loadExpenseLimitValueByCategoryId = (
+    categoryId,
+    setLimitValue
+) => {
+    const q = query(
+        collection(db, "expense_limits"),
+        where("userID", "==", auth.currentUser.uid),
+        where("categoryId", "==", categoryId)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            if (doc.exists() && parseInt(doc.data().limitValue) > 0)
+                setLimitValue(doc.data().limitValue);
+        });
+    });
+};
 
 export const loadSavingTransaction = (setSavingList, goalID) => {
-    var savingList = []
+    var savingList = [];
     const q = query(collection(db, "transaction"), where("goalID", "==", goalID));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
-            if (change.type === "added")
-                savingList.push(change.doc.data());
-
+            if (change.type === "added") savingList.push(change.doc.data());
         });
         setSavingList(savingList);
     });
-}
+};
 
 export const loadDoneSavingGoal = (setCompletedGoals) => {
-    var completedGoals = []
-    const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "done"));
+    var completedGoals = [];
+    const q = query(
+        collection(db, "SavingGoal"),
+        where("userID", "==", auth.currentUser.uid.toString()),
+        where("status", "==", "done")
+    );
 
     const unsubcribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
-            if (change.type === "added")
-                completedGoals.push(change.doc.data());
-
+            if (change.type === "added") completedGoals.push(change.doc.data());
         });
         setCompletedGoals(completedGoals);
     });
 
     // unsubcribe();
-
-
-}
+};
 
 export const deleteSavingGoal = async (goalID) => {
     const docRef = doc(db, "SavingGoal", goalID);
 
     await updateDoc(docRef, {
-        status: "deleted"
-    })
-}
+        status: "deleted",
+    });
+};
 
 export const updateSavingGoalStatus = async (goalID) => {
     const docRef = doc(db, "SavingGoal", goalID);
 
     await updateDoc(docRef, {
-        status: "done"
-    })
-}
+        status: "done",
+    });
+};
