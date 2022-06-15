@@ -8,6 +8,11 @@
 * 20521924 Trần Thành
 * 19522383 Nguyễn Thị Hiền Trang
 
+
+## Usage 
+### Option 1: use app directly on expo
+### Option 2: clone project and run on local
+
 ## Base dependencies
 
 - [react-navigation](https://reactnavigation.org/) navigation library.
@@ -16,10 +21,10 @@
 - [react-native-datepicker](https://github.com/react-native-datetimepicker/datetimepicker) for date time picker component
 
 ## Features 📦
-- Add Transaction: Manage your budget by add transaction and keep track of your expense
-- Saving: Build your goal to start saving money
-- Report: Visualize your expense 
-- Budget limt: Limit your budget to fit your lifestyle and interest
+- [Add Transaction](): Manage your budget by add transaction and keep track of your expense
+- [Saving](): Build your goal to start saving money
+- [Report](): Visualize your expense 
+- [Budget limt](): Limit your budget to fit your lifestyle and interest
 
 ## Built with 🛠
 - [React native](https://reactnative.dev/)
