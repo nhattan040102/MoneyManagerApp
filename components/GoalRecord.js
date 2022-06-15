@@ -1,71 +1,22 @@
-import { React, } from 'react';
+import { React, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, Dimensions } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Progress from 'react-native-progress';
-
+import { loadSavingTransaction } from '../Helper/firebaseAPI';
+import { formatMoney } from '../Helper/helpers';
 const dv_width = Dimensions.get('window').width;
-
-const DATA = [
-    {
-        id: 1,
-        date: '27/3/2022',
-        value: '30,000 VND',
-    },
-
-    {
-        id: 2,
-        date: '28/3/2022',
-        value: '40,000 VND',
-    },
-
-    {
-        id: 3,
-        date: '29/3/2022',
-        value: '32,000 VND',
-    },
-
-    {
-        id: 4,
-        date: '30/3/2022',
-        value: '30,000 VND',
-    },
-
-    {
-        id: 5,
-        date: '27/4/2022',
-        value: '30,000 VND',
-    },
-
-    {
-        id: 6,
-        date: '28/4/2022',
-        value: '40,000 VND',
-    },
-
-    {
-        id: 7,
-        date: '29/4/2022',
-        value: '32,000 VND',
-    },
-
-    {
-        id: 8,
-        date: '30/4/2022',
-        value: '30,000 VND',
-    }
-]
 
 const Record = (props) => {
     return (
         <TouchableOpacity style={styles.record}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="date-range" size={28} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '600' }}> {props.date}</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '600' }}> {props.date.toDate().getDate()}/{props.date.toDate().getMonth()}/{props.date.toDate().getFullYear()}</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="attach-money" size={24} color="black" />
-                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '600' }}> {props.value}</Text>
+                <Text style={{ fontSize: FONTSIZE.body, fontWeight: '600' }}>{formatMoney(props.value)} VND</Text>
             </View>
 
         </TouchableOpacity>
@@ -73,9 +24,16 @@ const Record = (props) => {
 }
 
 const GoalRecord = props => {
+    const [savingList, setSavingList] = useState([])
+
     const renderItem = ({ item }) => {
-        return <Record date={item.date} value={item.value} />
+        return <Record date={item.dateCreated} value={item.moneyValue} />
     }
+
+
+    useEffect(() => {
+        loadSavingTransaction(setSavingList, props.item.data.goalID);
+    }, [])
 
     return (
         <View style={{ width: '100%', height: '100%' }}>
@@ -92,9 +50,9 @@ const GoalRecord = props => {
             </View>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                 <FlatList
-                    data={DATA}
+                    data={savingList}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.dateCreated}
                 />
 
             </View>

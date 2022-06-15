@@ -1,5 +1,6 @@
 import { React } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { FONTSIZE } from '../constants/constants';
 
 const AddGoalBtn = props => {
     return (
@@ -11,8 +12,8 @@ const AddGoalBtn = props => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         borderRadius: 100,
         backgroundColor: 'rgb(45,139, 126)',
         justifyContent: 'center',
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontSize: 50,
+        fontSize: FONTSIZE.extraLarge,
         fontWeight: '300',
         color: 'white',
 

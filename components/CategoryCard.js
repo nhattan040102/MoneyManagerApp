@@ -1,11 +1,11 @@
 import { React } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 
 const CategoryCard = props => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
+        <TouchableOpacity style={styles.container} onPress={() => {props.onPress()}}>
             <View style={styles.icon}>
                 <Image source={props.img} />
             </View>
@@ -40,9 +40,12 @@ const styles = StyleSheet.create({
     },
 
     icon: {
-        width: '15%',
         justifyContent: 'center',
+        alignItems: 'center',
         padding: 10,
+        borderRadius: 100,
+        backgroundColor: '#A1E3D8',
+        marginRight: 10,
         // alignItems: 'center',
     },
 

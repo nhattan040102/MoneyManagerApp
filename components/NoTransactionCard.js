@@ -8,8 +8,8 @@ const NoTransactionCard = props => {
     return (
         <View style={styles.container} >
             <Image source={require('../icon/transaction-sticker.png')} />
-            <Text style={{ padding: 10, fontSize: FONTSIZE.header1, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>NO TRANSACTION YET.</Text>
-            <Text style={{ fontSize: FONTSIZE.header2, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'center' }}>Let's manage your money by make the first transaction!!!</Text>
+            <Text style={{ paddingTop: 40, fontSize: FONTSIZE.header2, fontWeight: 'bold', color: 'rgb(12,60,78)' }}>NO TRANSACTION YET.</Text>
+            <Text style={{ fontSize: FONTSIZE.body, fontWeight: '500', color: 'rgb(12,60,78)', textAlign: 'center' }}>Let's manage your money by make the first transaction!!!</Text>
 
 
         </View>
@@ -20,13 +20,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         borderRadius: 15,
+        height: '100%',
         padding: 20,
-        height: '60%',
         borderColor: 'rgb(12,60,78)',
         borderWidth: 3,
-        // justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
+
 
     }
 });

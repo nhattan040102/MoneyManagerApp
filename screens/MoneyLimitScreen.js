@@ -1,6 +1,6 @@
 import { React } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import ExpenseLimit from "../components/ExpenseLimit";
+import { View, Text, StyleSheet, StatusBar, Platform } from "react-native";
+import NoBudgetLimitCard from "../components/NoBudgetLimitCard";
 
 const MoneyLimitScreen = (props) => {
   return (
@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
 

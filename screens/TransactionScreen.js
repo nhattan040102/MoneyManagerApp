@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList } from 'react-native';
+import { React, useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl, Platform, StatusBar } from 'react-native';
 import AddTransactionBtn from '../components/AddTransactionBtn';
 import TransactionInput from '../components/TransactionInput';
 import TransactionCard from '../components/TransactionCard';
@@ -7,19 +7,31 @@ import { Feather } from '@expo/vector-icons';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
-import { AddTransactionToFirebase } from '../Helper/firebaseAPI';
+import { AddTransactionToFirebase, loadTransaction } from '../Helper/firebaseAPI';
 import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
+import { auth } from '../firebase';
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 
 const TransactionScreen = props => {
     const [modalVisible, setModalVisible] = useState(false); //state to show modal and hide modal for transaction input
-    const [input, setInput] = useState(null); // save transaction input value
+    const [trigger, setTrigger] = useState(true); // save transaction input value
     const [transactionList, setTransactionList] = useState([]); // a list of transaction of a particular date
     const [currentExpense, setCurrentExpense] = useState(0);
     const [currentIncome, setCurrentIncome] = useState(0);
     const [currentMoney, setCurrentMoney] = useState(currentIncome - currentExpense);
 
     const currentDate = new Date();
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
     {/* render item for flat list */ }
     const renderItem = ({ item }) => {
@@ -34,50 +46,24 @@ const TransactionScreen = props => {
     {/* function to add a transaction and close input modal */ }
     const createHandler = (input) => {
         setModalVisible(false);
-        console.log(input);
-        setInput(input);
+        setTrigger(!trigger);
         AddTransactionToFirebase(input);
-
-        if (input.categoryValue.type == "-") {
-            setCurrentExpense(parseInt(currentExpense) + parseInt(input.money));
-            setCurrentMoney(parseInt(currentMoney) - parseInt(input.money))
-        }
-
-        else {
-            setCurrentIncome(parseInt(currentIncome) + parseInt(input.money));
-            setCurrentMoney(parseInt(currentMoney) + parseInt(input.money))
-        }
-
-        // setTransactionList([...transactionList, input]);
-        setTransactionList((preData) => {
-
-            // console.log(preData.filter(item => item.id == id).length)
-            var id = input.date.getDate().toString() + "%" + input.date.getMonth().toString() + "%" + input.date.getFullYear().toString();
-
-            if (preData.length == 0 || preData.filter(item => item.id == id).length == 0)
-                return [{ id: id, data: [input] }, ...preData]
-
-            else {
-                let _preData = preData;
-                _preData.map((item) => {
-                    if (item.id == id)
-                        item.data.unshift(input);
-                })
-                return _preData;
-            }
-
-        })
     }
 
     useEffect(() => {
-        autoSignIn();
-        // _onAuthStateChanged();
-    })
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            loadTransaction(setTransactionList);
+            // transactionList.map(item => console.log(item.date.toDate()))
+            console.log(transactionList.length);
+        })
+        // loadTransaction(setTransactionList);
+
+        return () => unsubscribe();
+
+    }, [])
 
     return (
-
         <View style={styles.screen}>
-
             {/* {Header bar} */}
             <SafeAreaView style={styles.headerBar}>
                 <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
@@ -87,26 +73,26 @@ const TransactionScreen = props => {
                 </View>
                 <View>
                     <Text style={{ fontSize: FONTSIZE.extraLarge, color: 'white', paddingLeft: 15, }}>
-                        {formatMoney(currentMoney)}
+                        {formatMoney(currentMoney)} VND
                     </Text>
                 </View>
 
                 <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 5, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
-                            Chi tiêu:
+                            Tổng chi tiêu  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentExpense)}
+                            {formatMoney(currentExpense)} VND
                         </Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
-                            Thu nhập:
+                            Tổng thu nhập  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
-                            {formatMoney(currentIncome)}
+                            {formatMoney(currentIncome)} VND
                         </Text>
                     </View>
 
@@ -131,50 +117,41 @@ const TransactionScreen = props => {
 
             <View style={styles.listView}>
                 <FlatList
-                    contentContainerStyle={{ paddingBottom: 10, width: '100%', height: 1000, }}
+                    contentContainerStyle={{ paddingBottom: transactionList.length == 0 ? 100 : 300, width: '100%', flexGrow: 1, }}
                     data={transactionList}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={NoTransactionCard}
                 />
             </View>
-
-
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     screen: {
-        // flex: 1,
-        // width: 400,
+        flex: 1,
         width: '100%',
-        height: '100%',
-
     },
 
     headerBar: {
         width: '100%',
-        // height: '15%',
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         backgroundColor: 'rgb(45,139, 126)',
     },
 
     addView: {
         position: 'absolute',
         width: '100%',
-        bottom: 120,
-        zIndex: 3,
+        bottom: "11%",
+        zIndex: 100,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     listView: {
-        // alignItems: 'center',
-        // width: 600,
-        // backgroundColor: 'red',
-        // justifyContent: 'center',
-        // flex: 1,
-        // backgroundColor: 'red'
+        flex: 1,
+        // height: '100%',
         padding: 10,
     }
 })

@@ -5,10 +5,12 @@ import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 
 
+
 const TransactionCard = props => {
     const [expenseValue, setExpenseValue] = useState(0);
     const [incomeValue, setIncomeValue] = useState(0);
-    const [day, month, year] = props.id.split("%");
+    const [day, month, year] = [props.itemList[0].dateCreated.toDate().getDate(), props.itemList[0].dateCreated.toDate().getMonth() + 1, props.itemList[0].dateCreated.toDate().getFullYear()]
+    // console.log(props)
 
     let _expenseValue = parseInt(0);
     let _incomeValue = parseInt(0);
@@ -22,29 +24,27 @@ const TransactionCard = props => {
         return (
             <View style={styles.card}>
                 <View style={styles.info_view}>
-                    <View>
-                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>{day} Th{parseInt(month) + 1} {year}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1, paddingHorizontal: 5 }}>
-                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Chi tiêu:{formatMoney(expenseValue)}</Text>
-                        <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>  Thu nhập:+{formatMoney(incomeValue)}</Text>
-                    </View>
+                    <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Giao dịch ngày {day}/{parseInt(month) + 1}/{year}</Text>
+                </View>
+                <View style={styles.info_view}>
+                    <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Chi tiêu trong ngày  :{formatMoney(expenseValue)} VND</Text>
+                </View>
+                <View style={styles.info_view}>
+                    <Text style={{ color: 'white', fontSize: FONTSIZE.small, fontWeight: '400' }}>Thu nhập trong ngày  :+{formatMoney(incomeValue)} VND</Text>
                 </View>
 
                 <View style={styles.item_list} >
                     {props.itemList.map(item => {
 
                         if (item.categoryValue.type == '-')
-                            _expenseValue -= parseInt(item.money);
+                            _expenseValue -= parseInt(item.moneyValue);
                         else
-                            _incomeValue += parseInt(item.money);
+                            _incomeValue += parseInt(item.moneyValue);
                         // console.log(EXPENSE_DATA.indexOf(item.categoryValue)
-                        return (<CategoryCard title={item.categoryValue.title} img={item.categoryValue.img} key={props.itemList.indexOf(item)} type={item.categoryValue.type} onPress={() => { }} moneyValue={item.money} />);
+                        return (<CategoryCard title={item.categoryValue.title} img={item.categoryValue.img} key={props.itemList.indexOf(item)} type={item.categoryValue.type} onPress={() => { }} moneyValue={item.moneyValue} />);
                     })}
 
                 </View>
-
-
             </View>
         )
     else
