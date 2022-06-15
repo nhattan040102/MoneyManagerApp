@@ -1,68 +1,45 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal, Alert, SafeAreaView, Platform, StatusBar, Image, ActivityIndicator } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import SavingGoalCard from '../components/SavingGoalCard';
 import AddGoalBtn from '../components/AddGoalBtn';
 import AchievedGoalCard from '../components/AchievedGoalCard';
 import SavingInputModal from '../components/SavingInputModal';
 import NoGoalCard from '../components/NoGoalCard';
-import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal } from '../Helper/firebaseAPI';
+import NoCompletedGoals from '../components/NoCompletedGoals';
+import { AddSavingGoalToFirebase, loadSavingGoalData, deleteSavingGoal, loadDoneSavingGoal } from '../Helper/firebaseAPI';
 import { auth } from '../firebase';
-
-{/*     Fake data just for testing  */ }
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Mua quà tặng mẹ 20/3',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Mua laptop mới',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Mua lambogini',
-    },
-];
 
 
 const SavingScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
     const [goalState, setGoalState] = useState(false);
     const [currentGoalInput, setCurrentGoalInput] = useState(null);
+    const [completedGoals, setCompletedGoals] = useState([])
+    const [renderTrigger, setRenderTrigger] = useState(false);
+    const [isLoadingCurrent, setIsLoadingCurrent] = useState(false);
+    const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
     {/* render item for flatlist */ }
     const renderItem = ({ item }) => (
-        <AchievedGoalCard title={item.title} onPress={() => props.navigation.navigate('Chi tiết')} />
+        <AchievedGoalCard item={item} onPress={() => {
+            setIsLoadingComplete(false);
+            setIsLoadingCurrent(false);
+            props.navigation.navigate('Chi tiết', { data: item })
+        }
+        } />
     );
 
     useEffect(() => {
-        loadSavingGoalData(setCurrentGoalInput, setGoalState);
-        console.log(currentGoalInput);
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            loadSavingGoalData(setCurrentGoalInput, setGoalState, setIsLoadingCurrent);
+            loadDoneSavingGoal(setCompletedGoals);
+        })
 
-        // If there is already a saving goal, raise alert to user
-        if (props.route.params && goalState == true) {
-            Alert.alert(
-                "Tin nhắn hệ thống",
-                "Bạn có chắc muốn hủy mục tiêu tiết kiệm hiện tại hay không?",
-                [
-                    {
-                        text: "Hủy bỏ",
-                        onPress: () => console.log("Cancel Pressed"),
-                    },
-                    {
-                        text: "Chấp nhận", onPress: () => {
-                            console.log("OK Pressed");
-                            deleteSavingGoal(currentGoalInput.date.toDate());
-                            setGoalState(props.route.params.status);
-                        }
-                    }
-                ]
-            );
+        return unsubscribe;
 
-
-        }
-    }, [props.route.params]);
+        // setDeleteTrigger(false);
+    }, [props.route]);
 
     {/* function to close saving goal input modal*/ }
     const closeHandler = () => {
@@ -73,8 +50,6 @@ const SavingScreen = props => {
     const createHandler = (input) => {
         setModalVisible(false);
         AddSavingGoalToFirebase(input);
-        console.log(input);
-        setGoalState(true);
     }
 
     {/* function to open saving goal input modal */ }
@@ -97,7 +72,10 @@ const SavingScreen = props => {
     }
 
     {/* if there is'nt a goal, display no goal card, else display current saving goal card */ }
-    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => props.navigation.navigate('Chi tiết')} /> : <NoGoalCard />;
+    const GoalComponent = goalState == true ? <SavingGoalCard item={currentGoalInput} onPress={() => {
+        setIsLoadingCurrent(false);
+        props.navigation.navigate('Chi tiết', { data: currentGoalInput })
+    }} /> : <NoGoalCard />;
 
 
     return (
@@ -127,9 +105,11 @@ const SavingScreen = props => {
             {/* View for displaying current saving goal info */}
             <View style={styles.CurrentGoalView}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>CURRENT GOAL</Text>
+                    <Image source={require('../icon/flag.png')} />
+                    <Text style={[styles.titleText, { color: '#151D3B' }]}>  CURRENT GOAL</Text>
                 </View>
-                {GoalComponent}
+
+                {isLoadingCurrent ? GoalComponent : <ActivityIndicator size="large" color={'rgb(45,139, 126)'} />}
 
 
             </View>
@@ -137,15 +117,18 @@ const SavingScreen = props => {
             {/* View for displaying your saving goal that have been achieved  */}
             <View style={styles.PastGoalView}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>DONE</Text>
+
+                    <Image source={require('../icon/panel.png')} />
+                    <Text style={[styles.titleText, { color: '#D82148' }]}>   COMPLETED GOALS</Text>
                 </View>
 
                 <View style={{ width: '90%' }}>
                     <FlatList
                         contentContainerStyle={{ paddingBottom: 120 }}
-                        data={DATA}
+                        data={completedGoals}
                         renderItem={renderItem}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item.date.toDate()}
+                        ListEmptyComponent={<NoCompletedGoals />}
                     />
                 </View>
 
@@ -160,29 +143,27 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-
+        marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
 
-    text: {
-        fontSize: FONTSIZE.header1,
-    },
 
     title: {
         width: '100%',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         padding: 10,
+        flexDirection: 'row',
     },
 
     titleText: {
-        fontSize: FONTSIZE.header1,
-        fontWeight: '700',
+        fontSize: FONTSIZE.header2,
+        fontWeight: '600',
     },
 
     GoalBtn: {
         alignItems: 'flex-end',
         position: 'absolute',
         right: 15,
-        top: '10%',
+        top: Platform.OS == 'ios' ? '10%' : '5%',
         zIndex: 3,
     },
 

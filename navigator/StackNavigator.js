@@ -7,6 +7,8 @@ import SavingScreen from '../screens/MoneySavingScreen';
 import ReportScreen from '../screens/ReportScreen';
 import TransactionScreen from '../screens/TransactionScreen';
 import SavingDetailScreen from '../screens/MoneySavingDetail';
+import TransactionDetailScreen from '../screens/TransactionDetail';
+import TransactionInputScreen from '../screens/TransactionInputScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -30,6 +32,8 @@ function TransactionsStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Giao dịch" component={TransactionScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Nhập giao dịch" component={TransactionInputScreen} />
+            <Stack.Screen name="Chi tiết giao dịch" component={TransactionDetailScreen} />
         </Stack.Navigator>
     );
 }

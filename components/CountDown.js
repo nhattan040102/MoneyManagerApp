@@ -1,30 +1,33 @@
 import { React } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { useState } from 'react/cjs/react.production.min';
 import { FONTSIZE } from '../constants/constants';
+import { getDateDifference } from '../Helper/helpers';
 
 const CountDown = props => {
+
     return (
         <View style={styles.block}>
             <View style={{ marginLeft: 10, width: 80, }}>
                 <View style={styles.timeValue}>
-                    <Text style={styles.time}>01</Text>
+                    <Text style={styles.time}>{props.date[2] >= 0 ? props.date[2] : 0}</Text>
                 </View>
-                <Text style={{ textAlign: 'center', fontSize: FONTSIZE.header2 }}>Years</Text>
+                <Text style={{ textAlign: 'center', fontSize: FONTSIZE.small }}>Years</Text>
             </View>
 
 
             <View style={{ marginLeft: 10, width: 80 }}>
                 <View style={styles.timeValue}>
-                    <Text style={styles.time}>03</Text>
+                    <Text style={styles.time}>{props.date[1] >= 0 ? props.date[1] : 0}</Text>
                 </View>
-                <Text style={{ textAlign: 'center', fontSize: FONTSIZE.header2 }}>Months</Text>
+                <Text style={{ textAlign: 'center', fontSize: FONTSIZE.small }}>Months</Text>
             </View>
 
             <View style={{ marginLeft: 10, width: 80 }}>
                 <View style={styles.timeValue}>
-                    <Text style={styles.time}>20</Text>
+                    <Text style={styles.time}>{props.date[0] >= 0 ? props.date[0] : 0}</Text>
                 </View>
-                <Text style={{ textAlign: 'center', fontSize: FONTSIZE.header2 }}>Days</Text>
+                <Text style={{ textAlign: 'center', fontSize: FONTSIZE.small }}>Days</Text>
             </View>
         </View>
     );
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     },
 
     time: {
-        fontSize: FONTSIZE.header2,
+        fontSize: FONTSIZE.small,
         fontWeight: '600',
     }
 });
