@@ -8,11 +8,16 @@ const CategoryCard = props => {
 
     const seeInfo_Del = item => {
         console.log(item)
+        const temp = item.note==null?'Không có ghi chú':item.note
+        const info = 'Số tiền: ' + item.money + '  VND' + '\n' + 
+                        'Hạng mục: ' + item.categoryValue.title + '\n'+
+                        'Loại ví: ' + item.walletValue + '\n' +
+                        'Thời  điểm: ' + item.date.getDate() + '/' + item.date.getMonth() + '/' + item.date.getFullYear()+ '\n'+ 'Ghi chú: ' + temp
+        console.log(info)
         return (    <View>
                         {Alert.alert(
-                            'Ghi chú', 
-                            item.note==null?'Không có ghi chú':item.note
-                            ,
+                            'Thông tin giao dịch', 
+                            info,
                             [
                                 {text: 'OK'},
                                 {text: 'Xóa giao dịch', onPress: ()=>{Alert.alert(
