@@ -186,7 +186,7 @@ export const loadExpenseLimitValueByCategoryId = (category, setLimitValue) => {
     where("categoryId", "==", category.id)
   );
 
-  setLimitValue(`Nhập giới hạn cho mục ${category.name}`);
+  setLimitValue(`Nhập giới hạn cho mục ${category.title}`);
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     querySnapshot.forEach((doc) => {
       if (doc.exists() && parseInt(doc.data().limitValue) > 0)
