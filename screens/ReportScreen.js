@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import FinancePieChart from '../components/PieChart';
 import FinanceBarChart from '../components/BarChart';
-import { getTransactionByExpense, getTransactionByIncome, getTransactionByType } from '../Helper/firebaseAPI';
+import { getMonthExpense, getMonthIncome, getTransactionByExpense, getTransactionByIncome, getTransactionByType } from '../Helper/firebaseAPI';
 
 const data = [
     {
@@ -108,13 +108,18 @@ const ReportScreen = props => {
     const [typeData, setTypeData] = useState([])
     const [expenseData, setExpenseData] = useState([])
     const [incomeData, setIncomeData] = useState([])
-    // const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Thống kê')} />
+    const [monthExpense, setMonthExpense] = useState([])
+    const [monthIncome, setMonthIncome] = useState([])
+
+
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             getTransactionByType(setTypeData);
             console.log(typeData)
             getTransactionByExpense(setExpenseData);
             getTransactionByIncome(setIncomeData);
+            getMonthExpense(setMonthExpense)
+            getMonthIncome(setMonthIncome);
         })
 
         return unsubscribe;
@@ -158,13 +163,13 @@ const ReportScreen = props => {
                             <Text style={{ fontSize: FONTSIZE.header2, color: '#3BACB6', fontWeight: '500' }}>Chi tiêu hàng tháng</Text>
                         </View>
 
-                        <FinanceBarChart title={"Chi tiêu hàng tháng"} fillShadowGradient={"#3BACB6"} data={data2} />
+                        <FinanceBarChart title={"Chi tiêu hàng tháng"} fillShadowGradient={"#3BACB6"} data={monthExpense} />
 
 
                         <View style={{ width: '100%', alignItems: 'center' }}>
                             <Text style={{ fontSize: FONTSIZE.header2, color: '#2F8F9D', fontWeight: '500' }}>Chi tiêu hàng tháng</Text>
                         </View>
-                        <FinanceBarChart title={"Thu nhập hàng tháng"} fillShadowGradient={"#2F8F9D"} data={data2} />
+                        <FinanceBarChart title={"Thu nhập hàng tháng"} fillShadowGradient={"#2F8F9D"} data={monthIncome} />
 
                     </ScrollView>
                 }

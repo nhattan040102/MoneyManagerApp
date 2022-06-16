@@ -49,7 +49,7 @@ function FinanceBarChart({ title, fillShadowGradient, data }) {
             <ScrollView horizontal={true} contentContainerStyle={{ paddingRight: 100 }}>
                 <BarChart
                     data={chartData}
-                    width={600}
+                    width={800}
                     height={220}
                     chartConfig={chartConfig}
                     showBarTops={false}

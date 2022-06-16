@@ -544,3 +544,177 @@ export const getTransactionByIncome = (getDataByIncome) => {
 
     return unsubscribe;
 }
+
+export const getMonthExpense = (getData) => {
+    const data = [
+        {
+            label: "Tháng 1      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 2      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 3      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 4      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 5      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 6      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 7      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 8      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 9      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 10      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 11      ",
+            value: 0,
+        },
+        {
+            label: "Tháng 12      ",
+            value: 0,
+        },
+
+    ];
+
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true));
+
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added" && change.doc.data().categoryValue.type == "-") {
+
+                data[change.doc.data().dateCreated.toDate().getMonth()].value += parseInt(change.doc.data().moneyValue);
+
+
+
+            }
+
+        }
+        );
+
+        getData(data);
+    });
+
+
+
+    return unsubscribe;
+}
+
+export const getMonthIncome = (getData) => {
+    const data = [
+        {
+            label: "Tháng 1      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 2      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 3      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 4      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 5      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 6      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 7      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 8      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 9      ",
+            value: 0,
+        },
+
+        {
+            label: "Tháng 10      ",
+            value: 0,
+
+        },
+        {
+            label: "Tháng 11      ",
+            value: 0,
+        },
+        {
+            label: "Tháng 12      ",
+            value: 0,
+        },
+
+    ];
+
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true));
+
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added" && change.doc.data().categoryValue.type == "+") {
+                data[change.doc.data().dateCreated.toDate().getMonth()].value += parseInt(change.doc.data().moneyValue);
+            }
+
+        }
+        );
+
+        getData(data);
+    });
+
+
+
+    return unsubscribe;
+}
