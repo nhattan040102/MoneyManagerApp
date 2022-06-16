@@ -10,6 +10,8 @@ import TransactionScreen from '../screens/TransactionScreen';
 import SavingDetailScreen from '../screens/MoneySavingDetail';
 import TransactionDetailScreen from '../screens/TransactionDetail';
 import TransactionInputScreen from '../screens/TransactionInputScreen';
+import DeletedTransactionScreen from '../screens/DeletedTransactionScreen';
+import WalletMoneyDetail from '../screens/WalletMoneyDetail';
 
 
 const Stack = createNativeStackNavigator();
@@ -59,6 +61,9 @@ function TransactionsStackNavigator({ navigation, route }) {
             <Stack.Screen name="Giao dịch" component={TransactionScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Nhập giao dịch" component={TransactionInputScreen} />
             <Stack.Screen name="Chi tiết giao dịch" component={TransactionDetailScreen} />
+            <Stack.Screen name="Chi tiết ví" component={WalletMoneyDetail} />
+            <Stack.Screen name="Giao dịch đã xóa" component={DeletedTransactionScreen} />
+
         </Stack.Navigator>
     );
 }
@@ -118,9 +123,34 @@ function SavingStackNavigator({ navigation, route }) {
 
 {/* configuring screen related to "Thống kê" tab */ }
 function ReportStackNavigator({ navigation, route }) {
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === "") {
+            navigation.setOptions({ tabBarStyle: { display: 'none' } });
+        } else {
+            navigation.setOptions({
+                tabBarStyle: {
+                    display: 'flex', display: 'flex', height: Platform.OS === 'ios' ? '10%' : '8%',
+                    position: 'absolute',
+                    backgroundColor: 'rgb(255,255,255)',
+                    shadowColor: '#000000',
+                    shadowOffset: {
+                        width: 0,
+                        height: 1
+                    },
+                    shadowRadius: 5,
+                    shadowOpacity: 0.2,
+                    paddingLeft: 2,
+                    paddingRight: 2,
+                    zIndex: 2,
+                }
+            });
+        }
+    }, [navigation, route]);
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Thống kê" component={ReportScreen} options={{ headerShown: false }} />
+
         </Stack.Navigator>
     );
 }

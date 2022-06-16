@@ -12,7 +12,7 @@ const ReportScreen = props => {
         <View style={styles.screen}>
 
             {/* view for displaying header bar: COLUMN CHAT and PIE CHART */}
-            <SafeAreaView style={styles.headerBar}>
+            {/* <SafeAreaView style={styles.headerBar}>
                 <TouchableOpacity
                     style={styles.category}
                     onPress={() => setCurrentState('COLUMN CHART')}
@@ -30,7 +30,7 @@ const ReportScreen = props => {
                     <Text style={[styles.cate_text]}>BIỂU ĐỒ TRÒN</Text>
                     <View style={{ width: '98%', borderWidth: currentState == "PIE CHART" ? 2 : 0, borderColor: '#00C897', position: 'absolute', bottom: -3 }}></View>
                 </TouchableOpacity>
-            </SafeAreaView>
+            </SafeAreaView> */}
 
 
         </View>

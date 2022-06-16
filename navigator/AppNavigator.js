@@ -59,7 +59,7 @@ const Navigator = () => {
             <Tab.Screen name="Quản lý" component={TransactionsStackNavigator} options={({ route }) => ({
                 // tabBarStyle: { display: this.getTabBarVisibility(route) ? 'none' : ''}
             })} />
-            {/* <Tab.Screen name="Báo cáo" component={ReportStackNavigator} /> */}
+            <Tab.Screen name="Báo cáo" component={ReportStackNavigator} />
             <Tab.Screen name="Tiết kiệm" component={SavingStackNavigator} />
             <Tab.Screen name="Hạn chế chi tiêu" component={ExpenseControlStackNavigator} />
 

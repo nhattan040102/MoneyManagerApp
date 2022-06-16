@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl, Platform, StatusBar, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Modal, SafeAreaView, FlatList, RefreshControl, Platform, StatusBar, ActivityIndicator, TouchableOpacity } from 'react-native';
 import AddTransactionBtn from '../components/AddTransactionBtn';
 import TransactionInput from '../components/TransactionInput';
 import TransactionCard from '../components/TransactionCard';
@@ -13,7 +13,7 @@ import { auth } from '../firebase';
 import { LogBox } from 'react-native';
 
 
-LogBox.ignoreAllLogs();
+// LogBox.ignoreAllLogs();
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -73,6 +73,7 @@ const TransactionScreen = props => {
         <View style={styles.screen}>
             {/* {Header bar} */}
             <SafeAreaView style={styles.headerBar}>
+
                 <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
                     <Feather name="calendar" size={24} color="white" />
                     <Text style={{ fontSize: FONTSIZE.small, color: 'white' }}>  {currentDate.getFullYear()}-{currentDate.getMonth() + 1}</Text>
@@ -94,13 +95,22 @@ const TransactionScreen = props => {
                         </Text>
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15, paddingLeft: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingLeft: 10 }}>
                         <Text style={{ fontSize: FONTSIZE.small, color: 'white', fontWeight: '500' }}>
                             Tổng thu nhập  :
                         </Text>
                         <Text style={{ fontSize: FONTSIZE.header1, color: 'white' }}>
                             {displayedMoney ? formatMoney(displayedMoney.incomeValue) : 0} VND
                         </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingLeft: 10 }}>
+                        <TouchableOpacity style={styles.walletDetail} onPress={() => props.navigation.navigate("Chi tiết ví")}>
+                            <Text style={{ color: 'rgb(45,139, 126)', fontSize: FONTSIZE.small }}>Chi tiết ví</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.deleteView} onPress={() => props.navigation.navigate("Giao dịch đã xóa")}>
+                            <Text style={{ color: 'rgb(45,139, 126)', fontSize: FONTSIZE.small }}>Giao dịch đã xóa</Text>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
@@ -156,7 +166,21 @@ const styles = StyleSheet.create({
         flex: 1,
         // height: '100%',
         padding: 10,
-    }
+    },
+
+    walletDetail: {
+        marginRight: 10,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 5,
+
+    },
+
+    deleteView: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 5,
+    },
 })
 
 export default TransactionScreen;
