@@ -151,14 +151,12 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
         }
         );
 
-
-    });
-    setTimeout(() => {
         setLoading(true);
         setValue({ expenseValue, incomeValue, cash, debit_card });
         // console.log(expenseValue);
         setTransactionList(transactionList);
-    }, 1000)
+    });
+
 
 }
 
