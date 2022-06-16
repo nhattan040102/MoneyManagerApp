@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(45,139, 126)',
         // paddingVertical: 5,
         flexDirection: 'row',
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
 
     category: {

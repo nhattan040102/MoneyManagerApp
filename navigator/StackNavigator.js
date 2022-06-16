@@ -12,6 +12,7 @@ import TransactionDetailScreen from '../screens/TransactionDetail';
 import TransactionInputScreen from '../screens/TransactionInputScreen';
 import DeletedTransactionScreen from '../screens/DeletedTransactionScreen';
 import WalletMoneyDetail from '../screens/WalletMoneyDetail';
+import DeletedTransactionDetail from '../screens/DeletedTransactionDetail';
 
 
 const Stack = createNativeStackNavigator();
@@ -63,7 +64,7 @@ function TransactionsStackNavigator({ navigation, route }) {
             <Stack.Screen name="Chi tiết giao dịch" component={TransactionDetailScreen} />
             <Stack.Screen name="Chi tiết ví" component={WalletMoneyDetail} />
             <Stack.Screen name="Giao dịch đã xóa" component={DeletedTransactionScreen} />
-
+            <Stack.Screen name="Chi tiết đã xóa" component={DeletedTransactionDetail} />
         </Stack.Navigator>
     );
 }
