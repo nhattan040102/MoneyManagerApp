@@ -44,7 +44,6 @@ const TransactionScreen = props => {
         return <TransactionCard itemList={item.data} id={item.id} navigation={props.navigation} refresh={() => setIsLoading(false)} />
     }
 
-
     useEffect(() => {
 
         const unsubscribe = props.navigation.addListener('focus', () => {
