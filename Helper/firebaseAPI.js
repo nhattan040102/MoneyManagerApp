@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc, Timestamp, increment, deleteDoc, getDocs, } from "
 import { collection, query, where, onSnapshot, updateDoc, orderBy } from "firebase/firestore";
 import { auth } from '../firebase';
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { createKeyID, createKeyFromDate } from './helpers';
+import { createKeyID, createKeyFromDate, DecryptData, EncryptData } from './helpers';
 import { Alert } from 'react-native'
 
 
@@ -89,7 +89,7 @@ export const AddTransactionToFirebase = async (input) => {
     setTimeout(async () => {
         if (flag)
             return;
-        await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), docData);
+        await setDoc(doc(db, "transaction", createKeyID(docData.userID, input.date)), EncryptData(docData));
     }, 1000)
 
     return () => unsubscribe();
@@ -121,29 +121,27 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
     var debit_card = 0;
     const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
-    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
-        if (querySnapshot.metadata.fromCache) {
-            return;
-        }
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
+            const decrypted_data = DecryptData(change.doc.data())
             if (change.type === "added") {
-                if (change.doc.data().categoryValue.type == "-")
-                    expenseValue += parseInt(change.doc.data().moneyValue)
+                if (decrypted_data.categoryValue.type == "-")
+                    expenseValue += parseInt(decrypted_data.moneyValue)
                 else
-                    incomeValue += parseInt(change.doc.data().moneyValue)
+                    incomeValue += parseInt(decrypted_data.moneyValue)
 
-                if (change.doc.data().walletValue == "Tiền mặt")
-                    cash += parseInt(change.doc.data().moneyValue)
+                if (decrypted_data.walletValue == "Tiền mặt")
+                    cash += parseInt(decrypted_data.moneyValue)
                 else
-                    debit_card += parseInt(change.doc.data().moneyValue)
+                    debit_card += parseInt(decrypted_data.moneyValue)
 
-                if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
-                    transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
+                if (transactionList.length == 0 || transactionList.filter(item => item.id == decrypted_data.groupID).length == 0)
+                    transactionList.push({ id: decrypted_data.groupID, data: [decrypted_data] });
 
                 else {
                     transactionList.map((item) => {
-                        if (item.id == change.doc.data().groupID)
-                            item.data.push(change.doc.data());
+                        if (item.id == decrypted_data.groupID)
+                            item.data.push(decrypted_data);
                     })
 
                 }
@@ -151,13 +149,15 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
         }
         );
 
+
+    });
+
+    setTimeout(() => {
         setLoading(true);
         setValue({ expenseValue, incomeValue, cash, debit_card });
         // console.log(expenseValue);
         setTransactionList(transactionList);
-    });
-
-
+    }, 1000)
 }
 
 export const loadDeletedTransaction = async (setTransactionList, setLoading, setValue) => {
@@ -171,21 +171,22 @@ export const loadDeletedTransaction = async (setTransactionList, setLoading, set
             return;
         }
         querySnapshot.docChanges().forEach((change) => {
+            const decrypted_data = DecryptData(change.doc.data())
             if (change.type === "added") {
-                if (change.doc.data().categoryValue.type == "-")
-                    expenseValue += parseInt(change.doc.data().moneyValue)
+                if (decrypted_data.categoryValue.type == "-")
+                    expenseValue += parseInt(decrypted_data.moneyValue)
                 else
-                    incomeValue += parseInt(change.doc.data().moneyValue)
+                    incomeValue += parseInt(decrypted_data.moneyValue)
 
 
 
-                if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
-                    transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
+                if (transactionList.length == 0 || transactionList.filter(item => item.id == decrypted_data.groupID).length == 0)
+                    transactionList.push({ id: decrypted_data.groupID, data: [decrypted_data] });
 
                 else {
                     transactionList.map((item) => {
-                        if (item.id == change.doc.data().groupID)
-                            item.data.push(change.doc.data());
+                        if (item.id == decrypted_data.groupID)
+                            item.data.push(decrypted_data);
                     })
 
                 }
@@ -193,14 +194,14 @@ export const loadDeletedTransaction = async (setTransactionList, setLoading, set
         }
         );
 
+
+    });
+    setTimeout(() => {
         setLoading(true);
         setValue({ expenseValue, incomeValue });
         // console.log(expenseValue);
         setTransactionList(transactionList);
-    });
-    // setTimeout(() => {
-
-    // }, 1000)
+    }, 1000)
 
 }
 
@@ -222,7 +223,10 @@ export const loadSavingGoalData = (setCurrentGoalInput, setGoalState, setLoading
     const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "current"));
     setCurrentGoalInput(null);
     setGoalState(false);
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
         querySnapshot.forEach((doc) => {
             if (doc.exists) {
                 setCurrentGoalInput(doc.data());
@@ -243,10 +247,14 @@ export const loadSavingTransaction = (setSavingList, goalID) => {
     var savingList = []
     const q = query(collection(db, "transaction"), where("goalID", "==", goalID));
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
         querySnapshot.docChanges().forEach((change) => {
+            const decrypted_data = DecryptData(change.doc.data())
             if (change.type === "added")
-                savingList.push(change.doc.data());
+                savingList.push(decrypted_data);
 
         });
         setSavingList(savingList);
@@ -257,7 +265,10 @@ export const loadDoneSavingGoal = (setCompletedGoals) => {
     var completedGoals = []
     const q = query(collection(db, "SavingGoal"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", "done"));
 
-    const unsubcribe = onSnapshot(q, (querySnapshot) => {
+    const unsubcribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
         querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added")
                 completedGoals.push(change.doc.data());
@@ -320,7 +331,10 @@ export const loadExpensesByCategoryList = (categoriesData) => {
         where("userID", "==", auth.currentUser.uid)
     );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
         querySnapshot.forEach((doc) => {
             if (doc.exists() && doc.data().status == true) {
                 const dateString = doc.data().dateCreated.toString();
@@ -368,9 +382,10 @@ export const getTransactionByType = (getDataByType) => {
             return;
         }
         querySnapshot.docChanges().forEach((change) => {
+            const decrypted_data = DecryptData(change.doc.data())
             if (change.type === "added") {
 
-                if (change.doc.data().categoryValue.type == "-")
+                if (decrypted_data.categoryValue.type == "-")
                     transactionData[0].value += parseInt(1);
                 else
                     transactionData[1].value += parseInt(1);
@@ -462,31 +477,32 @@ export const getTransactionByExpense = (getDataByExpense) => {
             return;
         }
         querySnapshot.docChanges().forEach((change) => {
+            const decrypted_data = DecryptData(change.doc.data())
             if (change.type === "added") {
 
-                if (change.doc.data().categoryValue.title == "Ăn uống")
+                if (decrypted_data.categoryValue.title == "Ăn uống")
                     transactionData[0].value += parseInt(1);
-                else if (change.doc.data().categoryValue.title == "Quần áo")
+                else if (decrypted_data.categoryValue.title == "Quần áo")
                     transactionData[1].value += parseInt(1);
-                else if (change.doc.data().categoryValue.title == "Mua sắm")
+                else if (decrypted_data.categoryValue.title == "Mua sắm")
                     transactionData[2].value += parseInt(1);
 
-                else if (change.doc.data().categoryValue.title == "Nhà ở")
+                else if (decrypted_data.categoryValue.title == "Nhà ở")
                     transactionData[3].value += parseInt(1);
 
-                else if (change.doc.data().categoryValue.title == "Giải trí")
+                else if (decrypted_data.categoryValue.title == "Giải trí")
                     transactionData[4].value += parseInt(1);
 
-                else if (change.doc.data().categoryValue.title == "Sức khỏe")
+                else if (decrypted_data.categoryValue.title == "Sức khỏe")
                     transactionData[5].value += parseInt(1);
 
-                else if (change.doc.data().categoryValue.title == "Đi chuyển")
+                else if (decrypted_data.categoryValue.title == "Đi chuyển")
                     transactionData[6].value += parseInt(1);
 
-                else if (change.doc.data().categoryValue.title == "Hóa đơn điện nước")
+                else if (decrypted_data.categoryValue.title == "Hóa đơn điện nước")
                     transactionData[7].value += parseInt(1);
 
-                else if (change.doc.data().categoryValue.title == "Giáo dục")
+                else if (decrypted_data.categoryValue.title == "Giáo dục")
                     transactionData[8].value += parseInt(1);
 
 
@@ -529,17 +545,16 @@ export const getTransactionByIncome = (getDataByIncome) => {
         }
         querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
-
-                if (change.doc.data().categoryValue.title == "Tiền lương")
+                const decrypted_data = DecryptData(change.doc.data())
+                if (decrypted_data.categoryValue.title == "Tiền lương")
                     transactionData[0].value += parseInt(1);
-                else if (change.doc.data().categoryValue.title == "Tiền thưởng")
+                else if (decrypted_data.categoryValue.title == "Tiền thưởng")
                     transactionData[1].value += parseInt(1);
 
             }
 
         }
         );
-        console.log(transactionData);
         getDataByIncome(transactionData);
     });
 
@@ -618,17 +633,12 @@ export const getMonthExpense = (getData) => {
             return;
         }
         querySnapshot.docChanges().forEach((change) => {
-            if (change.type === "added" && change.doc.data().categoryValue.type == "-") {
-
-                data[change.doc.data().dateCreated.toDate().getMonth()].value += parseInt(change.doc.data().moneyValue);
-
-
-
+            const decrypted_data = DecryptData(change.doc.data())
+            if (change.type === "added" && decrypted_data.categoryValue.type == "-") {
+                data[decrypted_data.dateCreated.toDate().getMonth()].value += parseInt(decrypted_data.moneyValue);
             }
-
         }
         );
-
         getData(data);
     });
 
@@ -707,8 +717,9 @@ export const getMonthIncome = (getData) => {
             return;
         }
         querySnapshot.docChanges().forEach((change) => {
-            if (change.type === "added" && change.doc.data().categoryValue.type == "+") {
-                data[change.doc.data().dateCreated.toDate().getMonth()].value += parseInt(change.doc.data().moneyValue);
+            const decrypted_data = DecryptData(change.doc.data())
+            if (change.type === "added" && decrypted_data.categoryValue.type == "+") {
+                data[decrypted_data.dateCreated.toDate().getMonth()].value += parseInt(decrypted_data.moneyValue);
             }
 
         }
