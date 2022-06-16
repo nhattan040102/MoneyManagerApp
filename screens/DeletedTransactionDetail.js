@@ -41,7 +41,7 @@ const DeletedTransactionDetail = props => {
     }, [props.navigation]);
 
     useEffect(() => {
-        if (undoTriggerTrigger) {
+        if (undoTrigger) {
             undoTransaction(props.route.params.item)
             props.navigation.navigate("Giao dịch", { "trigger": "true" });
         }

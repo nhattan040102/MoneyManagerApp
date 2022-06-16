@@ -117,7 +117,7 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
     var transactionList = []
     var expenseValue = 0;
     var incomeValue = 0;
-    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
     const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
         if (querySnapshot.metadata.fromCache) {

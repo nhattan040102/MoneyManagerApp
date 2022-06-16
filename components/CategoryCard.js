@@ -9,7 +9,7 @@ const CategoryCard = props => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => {
             // props.refresh();
-            props.moneyValue ? props.navigation.navigate(props.status == true ? "Chi tiết giao dịch" : "Chi tiết đã xóa", { item: props.item }) : props.onPress()
+            props.moneyValue ? props.navigation.navigate(props.item.status == true ? "Chi tiết giao dịch" : "Chi tiết đã xóa", { item: props.item }) : props.onPress()
         }}>
             <View style={styles.icon}>
                 <Image source={props.img} />
