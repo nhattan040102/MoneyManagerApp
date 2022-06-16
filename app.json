@@ -1,10 +1,12 @@
 {
   "expo": {
-    "name": "MoneyApp",
-    "slug": "MoneyApp",
+    "name": "MoneyManager",
+    "slug": "MoneyManager",
+    "privacy": "public",
+    "description": "An app to manage your daily expense and track your spending",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./icon/piggy-bank.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

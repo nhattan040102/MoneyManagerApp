@@ -13,7 +13,7 @@ import { auth } from '../firebase';
 import { LogBox } from 'react-native';
 
 
-// LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
