@@ -109,6 +109,7 @@ const SavingScreen = props => {
                     <Text style={[styles.titleText, { color: '#151D3B' }]}>  MỤC TIÊU HIỆN TẠI</Text>
                 </View>
 
+
                 {isLoadingCurrent ? GoalComponent : <ActivityIndicator size="large" color={'rgb(45,139, 126)'} />}
 
 

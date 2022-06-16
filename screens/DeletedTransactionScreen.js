@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney, createKeyFromDate } from '../Helper/helpers';
 import NoTransactionCard from '../components/NoTransactionCard';
-import { AddTransactionToFirebase, loadTransaction } from '../Helper/firebaseAPI';
+import { AddTransactionToFirebase, loadDeletedTransaction, loadTransaction } from '../Helper/firebaseAPI';
 import { loadSavingGoalData, autoSignIn, _onAuthStateChanged } from '../Helper/firebaseAPI';
 import { auth } from '../firebase';
 import { LogBox } from 'react-native';
@@ -42,7 +42,7 @@ const DeletedTransactionScreen = (props) => {
     useEffect(() => {
 
         const unsubscribe = props.navigation.addListener('focus', () => {
-            loadTransaction(setTransactionList, setIsLoading, setDisplayedMoney);
+            loadDeletedTransaction(setTransactionList, setIsLoading, setDisplayedMoney);
         })
 
         return () => unsubscribe();
@@ -70,7 +70,6 @@ const DeletedTransactionScreen = (props) => {
                         data={transactionList}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
-                        ListEmptyComponent={NoTransactionCard}
                     />}
 
             </View>

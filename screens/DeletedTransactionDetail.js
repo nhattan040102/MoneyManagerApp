@@ -1,7 +1,7 @@
 import { React, useLayoutEffect, useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet, Platform, StatusBar, Alert } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { deleteTransaction, loadTransaction } from "../Helper/firebaseAPI";
+import { deleteTransaction, loadTransaction, undoTransaction } from "../Helper/firebaseAPI";
 import { FONTSIZE } from "../constants/constants";
 import { formatMoney } from "../Helper/helpers";
 import { FontAwesome } from '@expo/vector-icons';
@@ -9,7 +9,7 @@ import { FontAwesome } from '@expo/vector-icons';
 const DeletedTransactionDetail = props => {
     const item = props.route.params.item;
     const [day, month, year, hour, minute] = [item.dateCreated.toDate().getDate(), item.dateCreated.toDate().getMonth() + 1, item.dateCreated.toDate().getFullYear(), item.dateCreated.toDate().getHours(), item.dateCreated.toDate().getMinutes()]
-    const [deleteTrigger, setDeleteTrigger] = useState(false);
+    const [undoTrigger, setUndoTrigger] = useState(false);
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -24,7 +24,7 @@ const DeletedTransactionDetail = props => {
                                     { text: 'Hủy' },
                                     {
                                         text: 'Khôi phục', onPress: () => {
-                                            // setDeleteTrigger(true);
+                                            setUndoTrigger(true);
 
                                         }
                                     }
@@ -41,12 +41,12 @@ const DeletedTransactionDetail = props => {
     }, [props.navigation]);
 
     useEffect(() => {
-        if (deleteTrigger) {
-            deleteTransaction(props.route.params.item)
+        if (undoTriggerTrigger) {
+            undoTransaction(props.route.params.item)
             props.navigation.navigate("Giao dịch", { "trigger": "true" });
         }
 
-    }, [deleteTrigger])
+    }, [undoTrigger])
     return (
         <View style={styles.screen}>
             <View style={styles.detailView}>

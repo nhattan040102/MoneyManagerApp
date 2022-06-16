@@ -32,6 +32,7 @@ export const AddTransactionToFirebase = async (input) => {
         dateCreated: input.date,
         note: input.note,
         groupID: createKeyFromDate(input.date),
+        status: true,
     };
 
     var flag = false;
@@ -96,14 +97,71 @@ export const AddTransactionToFirebase = async (input) => {
 }
 
 export const deleteTransaction = async (item) => {
-    await deleteDoc(doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate())));
+    const docRef = doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate()));
+
+    await updateDoc(docRef, {
+        status: false,
+    })
 }
+
+export const undoTransaction = async (item) => {
+    const docRef = doc(db, "transaction", createKeyID(auth.currentUser.uid.toString(), item.dateCreated.toDate()));
+
+    await updateDoc(docRef, {
+        status: true,
+    })
+}
+
 
 export const loadTransaction = async (setTransactionList, setLoading, setValue) => {
     var transactionList = []
     var expenseValue = 0;
     var incomeValue = 0;
     const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
+
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+                if (change.doc.data().categoryValue.type == "-")
+                    expenseValue += parseInt(change.doc.data().moneyValue)
+                else
+                    incomeValue += parseInt(change.doc.data().moneyValue)
+
+
+
+                if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
+                    transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
+
+                else {
+                    transactionList.map((item) => {
+                        if (item.id == change.doc.data().groupID)
+                            item.data.push(change.doc.data());
+                    })
+
+                }
+            }
+        }
+        );
+
+
+    });
+    setTimeout(() => {
+        setLoading(true);
+        setValue({ expenseValue, incomeValue });
+        // console.log(expenseValue);
+        setTransactionList(transactionList);
+    }, 1000)
+
+}
+
+export const loadDeletedTransaction = async (setTransactionList, setLoading, setValue) => {
+    var transactionList = []
+    var expenseValue = 0;
+    var incomeValue = 0;
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", false), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
     const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
         if (querySnapshot.metadata.fromCache) {
