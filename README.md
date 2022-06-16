@@ -21,18 +21,22 @@
 
 ### Option 2: clone project and run on local
 - Requirements: expo, npm, nodejs, react native
-- 
+    - ```
+    npm install -g expo-cli
+    ```
+    - 
+- Clone project to your local
 ```
 git clone git@github.com:nhattan040102/MoneyManagerApp.git
 ```
 
 
-- 
+- Install all packages in package.json
 ```
 npm install
 ```
 
-- 
+- Run the server to start the app
 ```
 npm start 
 ```
