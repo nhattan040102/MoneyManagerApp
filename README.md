@@ -17,6 +17,32 @@
 ![Screenshot]('./screenshot/QR_app.png)
 
 ### Option 2: clone project and run on local
+- Requirements: expo, npm, nodejs, react native
+- 
+```
+git clone git@github.com:nhattan040102/MoneyManagerApp.git
+```
+
+
+- 
+```
+npm install
+```
+
+- 
+```
+npm start 
+```
+or 
+```
+npm run android
+```
+or 
+```
+npm run ios
+```
+
+
 
 ## Base dependencies  📦
 
