@@ -117,7 +117,7 @@ function SavingStackNavigator({ navigation, route }) {
 }
 
 {/* configuring screen related to "Thống kê" tab */ }
-function ReportStackNavigator() {
+function ReportStackNavigator({ navigation, route }) {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Thống kê" component={ReportScreen} options={{ headerShown: false }} />
@@ -126,7 +126,31 @@ function ReportStackNavigator() {
 }
 
 {/* configuring screen related to "Giới hạn chi tiêu" tab */ }
-function ExpenseControlStackNavigator() {
+function ExpenseControlStackNavigator({ navigation, route }) {
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === "Chi tiết") {
+            navigation.setOptions({ tabBarStyle: { display: 'none' } });
+        } else {
+            navigation.setOptions({
+                tabBarStyle: {
+                    display: 'flex', display: 'flex', height: Platform.OS === 'ios' ? '10%' : '8%',
+                    position: 'absolute',
+                    backgroundColor: 'rgb(255,255,255)',
+                    shadowColor: '#000000',
+                    shadowOffset: {
+                        width: 0,
+                        height: 1
+                    },
+                    shadowRadius: 5,
+                    shadowOpacity: 0.2,
+                    paddingLeft: 2,
+                    paddingRight: 2,
+                    zIndex: 2,
+                }
+            });
+        }
+    }, [navigation, route]);
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Giới hạn chi tiêu" component={MoneyLimitScreen} options={{ headerShown: false }} />
