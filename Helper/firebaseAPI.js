@@ -117,6 +117,8 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
     var transactionList = []
     var expenseValue = 0;
     var incomeValue = 0;
+    var cash = 0;
+    var debit_card = 0;
     const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true), orderBy("groupID", "desc"), orderBy("dateCreated", "desc"));
 
     const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
@@ -130,7 +132,10 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
                 else
                     incomeValue += parseInt(change.doc.data().moneyValue)
 
-
+                if (change.doc.data().walletValue == "Tiền mặt")
+                    cash += parseInt(change.doc.data().moneyValue)
+                else
+                    debit_card += parseInt(change.doc.data().moneyValue)
 
                 if (transactionList.length == 0 || transactionList.filter(item => item.id == change.doc.data().groupID).length == 0)
                     transactionList.push({ id: change.doc.data().groupID, data: [change.doc.data()] });
@@ -150,7 +155,7 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
     });
     setTimeout(() => {
         setLoading(true);
-        setValue({ expenseValue, incomeValue });
+        setValue({ expenseValue, incomeValue, cash, debit_card });
         // console.log(expenseValue);
         setTransactionList(transactionList);
     }, 1000)
@@ -190,14 +195,14 @@ export const loadDeletedTransaction = async (setTransactionList, setLoading, set
         }
         );
 
-
-    });
-    setTimeout(() => {
         setLoading(true);
         setValue({ expenseValue, incomeValue });
         // console.log(expenseValue);
         setTransactionList(transactionList);
-    }, 1000)
+    });
+    // setTimeout(() => {
+
+    // }, 1000)
 
 }
 

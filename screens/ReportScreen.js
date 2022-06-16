@@ -115,7 +115,6 @@ const ReportScreen = props => {
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             getTransactionByType(setTypeData);
-            console.log(typeData)
             getTransactionByExpense(setExpenseData);
             getTransactionByIncome(setIncomeData);
             getMonthExpense(setMonthExpense)

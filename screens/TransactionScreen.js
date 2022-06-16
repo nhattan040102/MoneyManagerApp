@@ -45,8 +45,6 @@ const TransactionScreen = props => {
     }
 
 
-
-
     useEffect(() => {
 
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -105,7 +103,7 @@ const TransactionScreen = props => {
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingLeft: 10 }}>
-                        <TouchableOpacity style={styles.walletDetail} onPress={() => props.navigation.navigate("Chi tiết ví")}>
+                        <TouchableOpacity style={styles.walletDetail} onPress={() => props.navigation.navigate("Chi tiết ví", { money: displayedMoney })}>
                             <Text style={{ color: 'rgb(45,139, 126)', fontSize: FONTSIZE.small }}>Chi tiết ví</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.deleteView} onPress={() => props.navigation.navigate("Giao dịch đã xóa")}>
