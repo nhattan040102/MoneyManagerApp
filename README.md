@@ -14,7 +14,10 @@
 - Requirement: download expo app on google store or app store
 - This app has been published on Expo, go to this [link](https://expo.dev/@nhattana/MoneyManager?serviceType=classic&distribution=expo-go) to scan qr to access the app
 - Or you can scan this QR right here
-![Screenshot]('./screenshot/QR_app.png)
+<p align="center">
+  <img src="./screenshot/QR_app.png" width="350" title="QR for app">
+
+</p>
 
 ### Option 2: clone project and run on local
 
