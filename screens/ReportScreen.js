@@ -4,6 +4,7 @@ import { FONTSIZE } from '../constants/constants';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import FinancePieChart from '../components/PieChart';
+import FinanceBarChart from '../components/BarChart';
 
 const data = [
     {
@@ -43,6 +44,64 @@ const data = [
     }
 ];
 
+const data2 = [
+    {
+        label: "Tháng 1",
+        value: 20,
+
+    },
+    {
+        label: "Tháng 2",
+        value: 2800000,
+    },
+
+    {
+        label: "Tháng 3",
+        value: 20,
+
+    },
+    {
+        label: "Tháng 4",
+        value: 2800000,
+    },
+
+    {
+        label: "Tháng 5",
+        value: 20,
+
+    },
+    {
+        label: "Tháng 6",
+        value: 2800000,
+    },
+
+    {
+        label: "Tháng 7",
+        value: 2800000,
+    },
+
+    {
+        label: "Tháng 8",
+        value: 20,
+
+    },
+    {
+        label: "Tháng 9",
+        value: 2800000,
+    },
+
+    {
+        label: "Tháng 10",
+        value: 20,
+
+    },
+    {
+        label: "Tháng 11",
+        value: 2800000,
+    },
+
+];
+
 const ReportScreen = props => {
     const [currentState, setCurrentState] = useState('COLUMN CHART');
     // const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Thống kê')} />
@@ -70,13 +129,30 @@ const ReportScreen = props => {
                     <View style={{ width: '98%', borderWidth: currentState == "PIE CHART" ? 2 : 0, borderColor: '#00C897', position: 'absolute', bottom: -3 }}></View>
                 </TouchableOpacity>
             </SafeAreaView>
-            {
-                currentState == "PIE CHART" ? <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-                    <FinancePieChart title={"Loại giao dịch"} data={data} />
-                    <FinancePieChart title={"Chi tiêu"} data={data} />
-                    <FinancePieChart title={"Thu nhập"} data={data} />
-                </ScrollView> : <View></View>
-            }
+            <View style={{ marginTop: 20, padding: 10, }}>
+                {
+                    currentState == "PIE CHART" ? <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+                        <FinancePieChart title={"Loại giao dịch"} data={data} />
+                        <FinancePieChart title={"Chi tiêu"} data={data} />
+                        <FinancePieChart title={"Thu nhập"} data={data} />
+                    </ScrollView> : <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text style={{ fontSize: FONTSIZE.header2, color: '#3BACB6', fontWeight: '500' }}>Chi tiêu hàng tháng</Text>
+                        </View>
+
+                        <FinanceBarChart title={"Chi tiêu hàng tháng"} fillShadowGradient={"#3BACB6"} data={data2} />
+
+
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text style={{ fontSize: FONTSIZE.header2, color: '#2F8F9D', fontWeight: '500' }}>Chi tiêu hàng tháng</Text>
+                        </View>
+                        <FinanceBarChart title={"Thu nhập hàng tháng"} fillShadowGradient={"#2F8F9D"} data={data2} />
+
+                    </ScrollView>
+                }
+            </View>
+
 
 
 
