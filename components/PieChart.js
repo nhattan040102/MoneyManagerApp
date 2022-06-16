@@ -35,10 +35,11 @@ function FinancePieChart({ title, data }) {
                         width={screenWidth}
                         height={200}
                         chartConfig={chartConfig}
-                        accessor={"population"}
+                        accessor={"value"}
                         backgroundColor={'transparent'}
                         center={[0, 0]}
                         hasLegend={true}
+                    // avoidFalseZero={true}
                     />
                 </View>
 

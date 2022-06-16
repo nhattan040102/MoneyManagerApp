@@ -1,10 +1,11 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Platform, StatusBar, ScrollView } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import FinancePieChart from '../components/PieChart';
 import FinanceBarChart from '../components/BarChart';
+import { getTransactionByExpense, getTransactionByIncome, getTransactionByType } from '../Helper/firebaseAPI';
 
 const data = [
     {
@@ -104,7 +105,23 @@ const data2 = [
 
 const ReportScreen = props => {
     const [currentState, setCurrentState] = useState('COLUMN CHART');
+    const [typeData, setTypeData] = useState([])
+    const [expenseData, setExpenseData] = useState([])
+    const [incomeData, setIncomeData] = useState([])
     // const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail /> : <GoalRecord onPress={() => props.navigation.navigate('Thống kê')} />
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            getTransactionByType(setTypeData);
+            console.log(typeData)
+            getTransactionByExpense(setExpenseData);
+            getTransactionByIncome(setIncomeData);
+        })
+
+        return unsubscribe;
+
+        // setDeleteTrigger(false);
+    }, [props.navigation]);
+
 
     return (
         <View style={styles.screen}>
@@ -132,9 +149,9 @@ const ReportScreen = props => {
             <View style={{ marginTop: 20, padding: 10, }}>
                 {
                     currentState == "PIE CHART" ? <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-                        <FinancePieChart title={"Loại giao dịch"} data={data} />
-                        <FinancePieChart title={"Chi tiêu"} data={data} />
-                        <FinancePieChart title={"Thu nhập"} data={data} />
+                        <FinancePieChart title={"Loại giao dịch"} data={typeData} />
+                        <FinancePieChart title={"Chi tiêu"} data={expenseData} />
+                        <FinancePieChart title={"Thu nhập"} data={incomeData} />
                     </ScrollView> : <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
 
                         <View style={{ width: '100%', alignItems: 'center' }}>

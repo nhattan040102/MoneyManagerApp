@@ -341,3 +341,206 @@ export const loadExpensesByCategoryList = (categoriesData) => {
 };
 
 
+export const getTransactionByType = (getDataByType) => {
+    var transactionData = [
+        {
+            name: "Chi tiêu",
+            value: 0,
+            color: "#e3342f",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Thu nhập",
+            value: 0,
+            color: "#F8B400",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        }]
+
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true));
+
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+
+                if (change.doc.data().categoryValue.type == "-")
+                    transactionData[0].value += parseInt(1);
+                else
+                    transactionData[1].value += parseInt(1);
+
+            }
+
+        }
+        );
+
+        getDataByType(transactionData);
+    });
+
+
+
+    return unsubscribe;
+}
+
+export const getTransactionByExpense = (getDataByExpense) => {
+    var transactionData = [
+        {
+            name: "Ăn uống",
+            value: 0,
+            color: "#e3342f",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Quần áo",
+            value: 0,
+            color: "#f6993f",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Mua sắm",
+            value: 0,
+            color: "#ffed4a",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Nhà ở",
+            value: 0,
+            color: "#38c172",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Giải trí",
+            value: 0,
+            color: "#4dc0b5",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Sức khỏe",
+            value: 0,
+            color: "#3490dc",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Di chuyên",
+            value: 0,
+            color: "#6574cd",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Điện nước",
+            value: 0,
+            color: "#9561e2",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Giáo dục",
+            value: 0,
+            color: "#f66d9b",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        }
+    ]
+
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true));
+
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+
+                if (change.doc.data().categoryValue.title == "Ăn uống")
+                    transactionData[0].value += parseInt(1);
+                else if (change.doc.data().categoryValue.title == "Quần áo")
+                    transactionData[1].value += parseInt(1);
+                else if (change.doc.data().categoryValue.title == "Mua sắm")
+                    transactionData[2].value += parseInt(1);
+
+                else if (change.doc.data().categoryValue.title == "Nhà ở")
+                    transactionData[3].value += parseInt(1);
+
+                else if (change.doc.data().categoryValue.title == "Giải trí")
+                    transactionData[4].value += parseInt(1);
+
+                else if (change.doc.data().categoryValue.title == "Sức khỏe")
+                    transactionData[5].value += parseInt(1);
+
+                else if (change.doc.data().categoryValue.title == "Đi chuyển")
+                    transactionData[6].value += parseInt(1);
+
+                else if (change.doc.data().categoryValue.title == "Hóa đơn điện nước")
+                    transactionData[7].value += parseInt(1);
+
+                else if (change.doc.data().categoryValue.title == "Giáo dục")
+                    transactionData[8].value += parseInt(1);
+
+
+            }
+
+        }
+        );
+
+        getDataByExpense(transactionData);
+    });
+
+
+
+    return unsubscribe;
+}
+
+
+export const getTransactionByIncome = (getDataByIncome) => {
+    var transactionData = [
+        {
+            name: "Tiền lương",
+            value: 0,
+            color: "#e3342f",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        },
+        {
+            name: "Tiền thưởng",
+            value: 0,
+            color: "#38c172",
+            legendFontColor: "#3BACB6",
+            legendFontSize: 15
+        }]
+
+    const q = query(collection(db, "transaction"), where("userID", "==", auth.currentUser.uid.toString()), where("status", "==", true));
+
+    const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
+        if (querySnapshot.metadata.fromCache) {
+            return;
+        }
+        querySnapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+
+                if (change.doc.data().categoryValue.title == "Tiền lương")
+                    transactionData[0].value += parseInt(1);
+                else if (change.doc.data().categoryValue.title == "Tiền thưởng")
+                    transactionData[1].value += parseInt(1);
+
+            }
+
+        }
+        );
+        console.log(transactionData);
+        getDataByIncome(transactionData);
+    });
+
+
+
+    return unsubscribe;
+}
