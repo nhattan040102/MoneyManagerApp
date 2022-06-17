@@ -1,15 +1,19 @@
 import { React, useState, } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, FlatList, Modal } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import CategoryCard from '../components/CategoryCard';
 import { EXPENSE_DATA, INCOME_DATA } from '../model/data';
 import { SAVING_DATA } from '../model/data';
+import { AddSavingGoalToFirebase } from '../Helper/firebaseAPI';
+import AddNew_DeleteCategory from './AddNew_DeleteCategory';
+
 
 
 const TransactionCategory = props => {
     const [cateType, setCateType] = useState('CHI TIÊU');
+    const [addNew, setAddNew] = useState(false)
     const DATA = cateType == "CHI TIÊU" ? EXPENSE_DATA : (cateType == "TIẾT KIỆM" ? SAVING_DATA : INCOME_DATA);
-
+    
     {/* render item for flatlist of transaction items */ }
     const renderItem = ({ item }) => {
         return <CategoryCard
@@ -23,10 +27,23 @@ const TransactionCategory = props => {
 
     return (
         <View style={styles.container}>
-
+            {addNew?<AddNew_DeleteCategory addType = {cateType} onPress = {addNew=>setAddNew(!addNew)}/>:null} 
             {/* Close button */}
-            <View style={{ position: 'absolute', right: 0, top: -20 }}>
-                <Button title=" X " onPress={() => props.onClose()}></Button>
+            <View style={styles.rightBtt}>
+                <Button 
+                    color = 'green'
+                    title=" Thoát " 
+                    onPress={() => props.onClose()}
+                />
+            </View>
+
+            {/* Add new category button */}
+            <View style={styles.leftBtt}>
+                <Button
+                    color = 'green'
+                    title = " Thêm "
+                    onPress = {()=>setAddNew(!addNew)}                
+                />
             </View>
 
             {/* {Header view} */}
@@ -57,24 +74,22 @@ const TransactionCategory = props => {
             </View>
 
             {/* List of transaction item  */}
-            <View>
-                <FlatList
-                    contentContainerStyle={{ paddingBottom: 50 }}
-                    data={DATA}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                />
-            </View>
-
+            <FlatList
+                contentContainerStyle={{}}
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+            />
         </View>
     )
 };
+
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         width: '100%',
-        height: '40%',
+        height: '50%',
         // height: 100,
         // padding: 10,
         shadowColor: '#000000',
@@ -92,6 +107,17 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3
     },
 
+    rightBtt: { 
+        position: 'absolute', 
+        right: 0, 
+        top: '-10%' , 
+    },
+    
+    leftBtt: {
+        position: 'absolute', 
+        left: 0, 
+        top: '-10%' , 
+    },
 });
 
 export default TransactionCategory;

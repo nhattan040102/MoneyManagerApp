@@ -1,6 +1,8 @@
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 
-export const EXPENSE_DATA = [
+
+
+export var EXPENSE_DATA = [
   {
     id: "e1",
     title: "Ăn uống",
@@ -92,7 +94,7 @@ export const EXPENSE_DATA = [
   },
 ];
 
-export const SAVING_DATA = [
+export var SAVING_DATA = [
   {
     id: "s1",
     title: "Sổ tiết kiệm",
@@ -101,7 +103,7 @@ export const SAVING_DATA = [
   },
 ];
 
-export const INCOME_DATA = [
+export var INCOME_DATA = [
   {
     id: "i1",
     title: "Tiền lương",
@@ -124,7 +126,7 @@ export const INCOME_DATA = [
   // },
 ];
 
-export const IN_CASH_DATA = [
+export var IN_CASH_DATA = [
   {
     id: "ch1",
     title: "Tiền mặt",
@@ -132,7 +134,7 @@ export const IN_CASH_DATA = [
   },
 ];
 
-export const IN_CARD_DATA = [
+export var IN_CARD_DATA = [
   {
     id: "cd1",
     title: "Thẻ ngân hàng",

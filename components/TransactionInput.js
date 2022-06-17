@@ -33,7 +33,7 @@ const TransactionInput = props => {
 
     const onSetMoney = (input) => {
         input = input.replace(/[^0-9]/g, '');
-        setMoney(input);
+        setMoney(parseInt(input));
     };
     const onChangeTime = (event, value) => {
         setDate(value)
@@ -148,7 +148,6 @@ const TransactionInput = props => {
                 <KeyboardAvoidingView>
                     <TextInput
                         placeholder='Hiện không có ghi chú'
-                        keyboardAvoiding
                         onChangeText={text => setNote(text)}
                         value={note}
                         style={styles.textInput} />
