@@ -3,13 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-na
 import { FONTSIZE } from '../constants/constants';
 import { formatMoney } from '../Helper/helpers';
 import { deleteTransaction } from '../Helper/firebaseAPI';
+import {EXPENSE_DATA, INCOME_DATA , SAVING_DATA, IN_CARD_DATA, IN_CASH_DATA} from '../model/data'
+
+
 
 const CategoryCard = props => {
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => {
+        <TouchableOpacity style={styles.container} onPress={() => {         
             // props.refresh();
-            props.moneyValue ? props.navigation.navigate(props.item.status == true ? "Chi tiết giao dịch" : "Chi tiết đã xóa", { item: props.item }) : props.onPress()
+            props.isDelete? onAlert(props.id):props.moneyValue ? props.navigation.navigate(props.item.status == true ? "Chi tiết giao dịch" : "Chi tiết đã xóa", { item: props.item }) : props.onPress()
         }}>
             <View style={styles.icon}>
                 <Image source={props.img} />
@@ -24,6 +27,47 @@ const CategoryCard = props => {
             </View>
         </TouchableOpacity>
     )
+}
+
+// The DELETE CATEGORY FUNCTION
+const onAlert = id =>{
+    Alert.alert(    'Thông báo', 
+                    'Bạn chắc chắn muốn xóa nội dung này vĩnh viễn và không thể khôi phục',[
+                        {text: 'Hủy'},
+                        {text: 'Chắc chắn', onPress: DeleteCategory(id)}
+                    ])
+}
+
+const DeleteCategory = id =>{
+    console.log(' I am in Del, id is :'+ id)
+
+    const checkId = (object, x)=>{
+        for(let i=0; i<object.length; i++){
+            if (object[i].id==x)
+                return i;
+        }
+    }
+    switch(id.slice(0, 1)){
+        case 'e':
+            EXPENSE_DATA.splice(checkId(EXPENSE_DATA, id), 1)
+            break
+        case 's':
+            SAVING_DATA.splice(checkId(SAVING_DATA, id), 1)
+            break
+        case 'i':
+            INCOME_DATA.splice(checkId(INCOME_DATA, id), 1)
+            break
+        default:
+            switch(id.slice(0, 2)){
+                case 'ch':
+                    IN_CASH_DATA.splice(checkId(IN_CASH_DATA, id), 1)  
+                    break
+                case 'cd':
+                    IN_CARD_DATA.splice(checkId(IN_CARD_DATA, id), 1)  
+                    break
+            }
+    }
+    
 }
 
 const styles = StyleSheet.create({

@@ -2,10 +2,10 @@ import { React, useState, } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, Button, Alert, TouchableOpacity, FlatList, Modal } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import CategoryCard from '../components/CategoryCard';
-import { EXPENSE_DATA, INCOME_DATA } from '../model/data';
-import { SAVING_DATA } from '../model/data';
 import { AddSavingGoalToFirebase } from '../Helper/firebaseAPI';
-import AddNew_DeleteCategory from './AddNew_DeleteCategory';
+import AddNewCategory, {DeleteCategory} from './AddNew_DeleteCategory';
+import {EXPENSE_DATA, INCOME_DATA , SAVING_DATA} from '../model/data';
+
 
 
 
@@ -14,11 +14,16 @@ const TransactionCategory = props => {
     const [addNew, setAddNew] = useState(false)
     const DATA = cateType == "CHI TIÊU" ? EXPENSE_DATA : (cateType == "TIẾT KIỆM" ? SAVING_DATA : INCOME_DATA);
     
+
+
     {/* render item for flatlist of transaction items */ }
     const renderItem = ({ item }) => {
         return <CategoryCard
-            img={item.img}
-            title={item.title}
+            isDelete = {addNew}
+            id = {item.id}
+
+            img = {item.img}
+            title = {item.title}
             onPress={() => {
                 props.choseItem({ id: item.id, title: item.title, img: item.img, type: item.type })
             }}
@@ -27,7 +32,7 @@ const TransactionCategory = props => {
 
     return (
         <View style={styles.container}>
-            {addNew?<AddNew_DeleteCategory addType = {cateType} onPress = {addNew=>setAddNew(!addNew)}/>:null} 
+            {addNew?<AddNewCategory addType = {cateType} onPress = {addNew=>setAddNew(!addNew)}/>:null} 
             {/* Close button */}
             <View style={styles.rightBtt}>
                 <Button 

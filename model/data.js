@@ -1,7 +1,5 @@
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 
-
-
 export var EXPENSE_DATA = [
   {
     id: "e1",
