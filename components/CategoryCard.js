@@ -43,20 +43,35 @@ const DeleteCategory = id =>{
 
     const checkId = (object, x)=>{
         for(let i=0; i<object.length; i++){
-            if (object[i].id==x)
+            if (object[i].id==x){
+                if(object[i].canDelete ==false){
+                    Alert.alert('Thông báo', 'Bạn không thể xóa nội dung mặc định của nhà phát triển')
+                    return -1
+                }
                 return i;
+            }
+                
         }
     }
     switch(id.slice(0, 1)){
         case 'e':
+            if(checkId(EXPENSE_DATA, id)==-1) 
+                break;
             EXPENSE_DATA.splice(checkId(EXPENSE_DATA, id), 1)
             break
+
         case 's':
+            if(checkId(SAVING_DATA, id)==-1) 
+                break;
             SAVING_DATA.splice(checkId(SAVING_DATA, id), 1)
             break
+
         case 'i':
+            if(checkId(INCOME_DATA, id)==-1) 
+            break;
             INCOME_DATA.splice(checkId(INCOME_DATA, id), 1)
             break
+
         default:
             switch(id.slice(0, 2)){
                 case 'ch':

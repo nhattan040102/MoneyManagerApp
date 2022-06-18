@@ -46,7 +46,7 @@ const TransactionCategory = props => {
             <View style={styles.leftBtt}>
                 <Button
                     color = 'green'
-                    title = " Thêm "
+                    title='Chỉnh'
                     onPress = {()=>setAddNew(!addNew)}                
                 />
             </View>

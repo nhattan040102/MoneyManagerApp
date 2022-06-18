@@ -33,7 +33,7 @@ const TransactionInput = props => {
 
     const onSetMoney = (input) => {
         input = input.replace(/[^0-9]/g, '');
-        setMoney(parseInt(input));
+        setMoney(parseInt(input).toString());
     };
     const onChangeTime = (event, value) => {
         setDate(value)

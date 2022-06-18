@@ -16,8 +16,10 @@ const WalletType = props => {
     return (
 
         <View style={styles.container}>
-            <View style={{ position: 'absolute', right: 0, top: -20 }}>
-                <Button title=" X " onPress={() => props.onClose()}></Button>
+            <View style={{ position: 'absolute', right: 0, top: '-10%'}}>
+                <Button title=" Thoát " 
+                onPress={() => props.onClose()}
+                color = 'green'/>
             </View>
             <View style={{ height: '15%', flexDirection: 'row', justifyContent: 'space-around', padding: 10, }}>
                 <TouchableOpacity style={[styles.category_types, { borderBottomWidth: cateType == "TIỀN MẶT" ? 3 : 0 }]} onPress={() => setCateType('TIỀN MẶT')}>
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         width: '100%',
-        height: '40%',
+        height: '50%',
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,

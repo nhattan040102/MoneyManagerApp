@@ -38,7 +38,7 @@ export const AddTransactionToFirebase = async (input) => {
     var flag = false;
 
     // if the transaction is saving category, then update value in Saving Goal data
-    if (docData.categoryValue.id == "s1") {
+    if (docData.categoryValue.id.slice(0, 1) == "s") {
         var doc_id = null;
         var currentMoney = 0;
         var goalMoney = 0;
