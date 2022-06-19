@@ -131,9 +131,9 @@ export const loadTransaction = async (setTransactionList, setLoading, setValue) 
                     incomeValue += parseInt(decrypted_data.moneyValue)
 
                 if (decrypted_data.walletValue == "Tiền mặt")
-                    cash += parseInt(decrypted_data.moneyValue)
+                    cash += decrypted_data.categoryValue.type == "-" ? - parseInt(decrypted_data.moneyValue) : parseInt(decrypted_data.moneyValue);
                 else
-                    debit_card += parseInt(decrypted_data.moneyValue)
+                    debit_card += decrypted_data.categoryValue.type == "-" ? -parseInt(decrypted_data.moneyValue) : parseInt(decrypted_data.moneyValue);
 
                 if (transactionList.length == 0 || transactionList.filter(item => item.id == decrypted_data.groupID).length == 0)
                     transactionList.push({ id: decrypted_data.groupID, data: [decrypted_data] });
