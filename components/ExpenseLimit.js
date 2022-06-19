@@ -496,7 +496,7 @@ const ExpenseLimit = () => {
   return (
     <View style={{ backgroundColor: COLORS.lightGray2 }}>
       {/* Header section */}
-      {renderHeader()}
+      {/* {renderHeader()} */}
 
       {/* Category Header Section */}
       {renderCategoryHeaderSection()}
