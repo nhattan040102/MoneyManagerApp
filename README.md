@@ -11,7 +11,47 @@
 
 ## Usage 🚀
 ### Option 1: use app directly on expo
+- Requirement: download expo app on google store or app store
+- This app has been published on Expo, go to this [link](https://expo.dev/@nhattana/MoneyManager?serviceType=classic&distribution=expo-go) to scan qr to access the app
+- Or you can scan this QR right here
+<p align="center">
+  <img src="./screenshot/QR_app.png" width="350" title="QR for app">
+
+</p>
+
 ### Option 2: clone project and run on local
+- Requirements: expo, npm, nodejs, react native
+    - Download [nodejs](https://nodejs.org/en/download/) 
+    - Install the Expo CLI command line utility:
+    ```
+    npm install -g expo-cli
+    ```
+    
+- Clone project to your local
+```
+git clone git@github.com:nhattan040102/MoneyManagerApp.git
+```
+
+
+- Install all packages in package.json
+```
+npm install
+```
+
+- Run the server to start the app
+```
+npm start 
+```
+or 
+```
+npm run android
+```
+or 
+```
+npm run ios
+```
+
+
 
 ## Base dependencies  📦
 
@@ -24,14 +64,14 @@
 - [Add Transaction](): Manage your budget by add transaction and keep track of your expense
 - [Saving](): Build your goal to start saving money
 - [Report](): Visualize your expense 
-- [Budget limt](): Limit your budget to fit your lifestyle and interest
+
 
 ## Built with 🛠
 - [React native](https://reactnative.dev/)
 - [Fire base](https://firebase.google.com/)
     - [Anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth)
     - [Firestore](https://firebase.google.com/docs/firestore/query-data/listen?hl=en&authuser=0)
-
+- [crypto-js](https://github.com/brix/crypto-js) library for hash data before load to the cloud storage
 ## App screenshots 🎨
 <details>
   <summary>Expand for screenshots</summary>

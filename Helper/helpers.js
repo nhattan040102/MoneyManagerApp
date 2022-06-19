@@ -1,5 +1,6 @@
 // ----------DEFIND YOUR HELPER FUNCTIONS HERE !!!! ----------
-
+import CryptoES from "crypto-es";
+import { auth } from "../firebase";
 // convert string into money formated string
 export const formatMoney = (money) => {
     if (money == undefined)
@@ -31,3 +32,19 @@ export const getDateDifference = (date) => {
     return [days, months, years];
 
 }
+
+export const EncryptData = (data) => {
+    var C = require("crypto-js");
+    data.categoryValue = CryptoES.AES.encrypt(JSON.stringify(data.categoryValue), auth.currentUser.uid).toString();
+    data.moneyValue = CryptoES.AES.encrypt((data.moneyValue), auth.currentUser.uid).toString();
+    data.walletValue = CryptoES.AES.encrypt((data.walletValue), auth.currentUser.uid).toString();
+    return data;
+}
+
+export const DecryptData = (data) => {
+    var C = require("crypto-js");
+    data.categoryValue = JSON.parse(CryptoES.AES.decrypt(data.categoryValue, auth.currentUser.uid).toString(C.enc.Utf8));
+    data.moneyValue = CryptoES.AES.decrypt(data.moneyValue, auth.currentUser.uid).toString(C.enc.Utf8)
+    data.walletValue = CryptoES.AES.decrypt(data.walletValue, auth.currentUser.uid).toString(C.enc.Utf8)
+    return data;
+}   

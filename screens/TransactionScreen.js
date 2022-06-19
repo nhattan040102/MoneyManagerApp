@@ -13,7 +13,7 @@ import { auth } from '../firebase';
 import { LogBox } from 'react-native';
 
 
-// LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -43,7 +43,6 @@ const TransactionScreen = props => {
     const renderItem = ({ item }) => {
         return <TransactionCard itemList={item.data} id={item.id} navigation={props.navigation} refresh={() => setIsLoading(false)} />
     }
-
 
     useEffect(() => {
 
