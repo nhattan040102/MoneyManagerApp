@@ -61,7 +61,7 @@ const Navigator = () => {
             })} />
             <Tab.Screen name="Báo cáo" component={ReportStackNavigator} />
             <Tab.Screen name="Tiết kiệm" component={SavingStackNavigator} />
-            {/* <Tab.Screen name="Hạn chế chi tiêu" component={ExpenseControlStackNavigator} /> */}
+            <Tab.Screen name="Hạn chế chi tiêu" component={ExpenseControlStackNavigator} />
 
 
         </Tab.Navigator>
