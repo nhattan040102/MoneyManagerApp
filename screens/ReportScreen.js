@@ -7,102 +7,6 @@ import FinancePieChart from '../components/PieChart';
 import FinanceBarChart from '../components/BarChart';
 import { getMonthExpense, getMonthIncome, getTransactionByExpense, getTransactionByIncome, getTransactionByType } from '../Helper/firebaseAPI';
 
-const data = [
-    {
-        name: "Seoul",
-        population: 0,
-        color: "rgba(131, 167, 234, 1)",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Toronto",
-        population: 2800000,
-        color: "#F00",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Beijing",
-        population: 527612,
-        color: "red",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "New York",
-        population: 8538000,
-        color: "#ffffff",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Moscow",
-        population: 11920000,
-        color: "rgb(0, 0, 255)",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    }
-];
-
-const data2 = [
-    {
-        label: "Tháng 1",
-        value: 20,
-
-    },
-    {
-        label: "Tháng 2",
-        value: 2800000,
-    },
-
-    {
-        label: "Tháng 3",
-        value: 20,
-
-    },
-    {
-        label: "Tháng 4",
-        value: 2800000,
-    },
-
-    {
-        label: "Tháng 5",
-        value: 20,
-
-    },
-    {
-        label: "Tháng 6",
-        value: 2800000,
-    },
-
-    {
-        label: "Tháng 7",
-        value: 2800000,
-    },
-
-    {
-        label: "Tháng 8",
-        value: 20,
-
-    },
-    {
-        label: "Tháng 9",
-        value: 2800000,
-    },
-
-    {
-        label: "Tháng 10",
-        value: 20,
-
-    },
-    {
-        label: "Tháng 11",
-        value: 2800000,
-    },
-
-];
-
 const ReportScreen = props => {
     const [currentState, setCurrentState] = useState('COLUMN CHART');
     const [typeData, setTypeData] = useState([])
@@ -166,7 +70,7 @@ const ReportScreen = props => {
 
 
                         <View style={{ width: '100%', alignItems: 'center' }}>
-                            <Text style={{ fontSize: FONTSIZE.header2, color: '#2F8F9D', fontWeight: '500' }}>Chi tiêu hàng tháng</Text>
+                            <Text style={{ fontSize: FONTSIZE.header2, color: '#2F8F9D', fontWeight: '500' }}>Thu nhập hàng tháng</Text>
                         </View>
                         <FinanceBarChart title={"Thu nhập hàng tháng"} fillShadowGradient={"#2F8F9D"} data={monthIncome} />
 

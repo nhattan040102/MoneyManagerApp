@@ -1,12 +1,18 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FONTSIZE } from '../constants/constants';
 import * as Progress from 'react-native-progress';
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { formatMoney } from '../Helper/helpers';
+import { updateSavingGoalStatus } from '../Helper/firebaseAPI';
 
 const SavingGoalCard = props => {
     const progress_perc = (props.item.currentMoney) / (props.item.savingValue);
+
+    useEffect(() => {
+        if (progress_perc >= 1)
+            updateSavingGoalStatus(props.item.goalID);
+    }, [progress_perc])
     return (
         <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <View style={{ padding: 5 }}>

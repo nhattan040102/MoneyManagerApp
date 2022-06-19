@@ -33,22 +33,12 @@ const GoalRecord = props => {
 
     useEffect(() => {
         loadSavingTransaction(setSavingList, props.item.data.goalID);
-    }, [])
+    }, [savingList])
 
     return (
         <View style={{ width: '100%', height: '100%' }}>
-            <View style={{ width: '100%', height: '10%', justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity
-                    style={{ backgroundColor: '#006E7F', padding: 12, margin: 10, borderRadius: 10, }}
-                    onPress={() => {
-                        console.log(props);
-                        props.onPress();
-                    }}
-                >
-                    <Text style={{ fontSize: FONTSIZE.body, color: 'white' }}>Xem chi tiết thống kê</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                 <FlatList
                     data={savingList}
                     renderItem={renderItem}
