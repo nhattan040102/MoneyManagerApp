@@ -50,7 +50,7 @@ export const AddTransactionToFirebase = async (input) => {
   var flag = false;
 
   // if the transaction is saving category, then update value in Saving Goal data
-  if (docData.categoryValue.id == "s1") {
+  if (docData.categoryValue.id.slice(0, 1) == "s") {
     var doc_id = null;
     var currentMoney = 0;
     var goalMoney = 0;
@@ -72,6 +72,32 @@ export const AddTransactionToFirebase = async (input) => {
         }
       });
     });
+
+    setTimeout(async () => {
+      if (flag) {
+        Alert.alert(
+          "Tin nhắn hệ thống",
+          "Hiện tại bạn chưa có mục tiêu tiết kiệm nào nên không thể thêm giao dịch",
+          [
+            {
+              text: "OK",
+              onPress: () => console.log("OK"),
+            },
+          ]
+        );
+        return;
+      }
+
+      if (
+        parseInt(currentMoney) + parseInt(docData.moneyValue) >=
+        parseInt(goalMoney)
+      )
+        updateSavingGoalStatus(doc_id);
+      const docRef = doc(db, "SavingGoal", doc_id);
+      await updateDoc(docRef, {
+        currentMoney: increment(parseInt(docData.moneyValue)),
+      });
+    }, 2000);
 
     setTimeout(async () => {
       if (flag) {

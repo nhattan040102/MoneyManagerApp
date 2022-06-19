@@ -52,7 +52,7 @@ const TransactionInput = (props) => {
 
   const onSetMoney = (input) => {
     input = input.replace(/[^0-9]/g, "");
-    setMoney(parseInt(input));
+    setMoney(parseInt(input).toString());
   };
   const onChangeTime = (event, value) => {
     setDate(value);
@@ -86,19 +86,24 @@ const TransactionInput = (props) => {
     );
   };
 
+  const alertSuccess = () => {
+    props.onCreate({ money, walletValue, date, note, categoryValue });
+  };
+
   const alertLimit = () => {
     Alert.alert(
       "Nhắc nhở",
       "Bạn đang vượt mốc giới hạn đề ra cho hạng mục này. Bạn có muốn tiếp tục?",
       [
-        { text: "Bỏ qua", onPress: () => {} },
-        { text: "Tiếp tục", onPress: () => {} },
+        { text: "Quay lại", onPress: () => {} },
+        {
+          text: "Tiếp tục",
+          onPress: () => {
+            alertSuccess();
+          },
+        },
       ]
     );
-  };
-
-  const alertSuccess = () => {
-    props.onCreate({ money, walletValue, date, note, categoryValue });
   };
 
   useEffect(() => {
@@ -264,7 +269,7 @@ const TransactionInput = (props) => {
               if (!bLimit) {
                 alertLimit();
               } else {
-                //alertSuccess();
+                alertSuccess();
               }
             }}
           ></Button>

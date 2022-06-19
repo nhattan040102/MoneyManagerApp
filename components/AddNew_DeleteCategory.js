@@ -18,7 +18,7 @@ export const AddNewCategory = props =>{
                 onChangeText={(text)=>{setNewCate(text)}}
             />
             <Button 
-                style = {{color: 'green'}}
+                color = 'green'
                 onPress = {(newCate)=>{Alert.alert( 'Thông báo', 
                                                     'Bạn chắc chắn muốn thêm một nội dung mới vào ' + props.addType + ' chứ', [
                                                     {text: 'Hủy', onPress: ()=>{}},
@@ -51,6 +51,7 @@ const AddNewCate = props =>{
                     title: props.newCate,
                     img: require("../icon/new.png"),
                     type: "-",
+                    canDelete: true,
                 }   
             );
             break;
@@ -65,6 +66,7 @@ const AddNewCate = props =>{
                 type: "-",
                 color: '',
                 expenses: [],
+                canDelete: true,
             });
             break;
   
@@ -75,6 +77,7 @@ const AddNewCate = props =>{
                     title: props.newCate,
                     img: require("../icon/new.png"),
                     type: "+",
+                    canDelete: true,
                 }
             );
             break;
@@ -85,6 +88,7 @@ const AddNewCate = props =>{
                     id: 'ch' + (parseInt(IN_CASH_DATA[IN_CASH_DATA.length-1].id.slice(2)) + 1).toString(),
                     title: props.newCate,
                     img: require("../icon/new.png"),
+                    canDelete: false,
                 }
             );
             break;
@@ -95,6 +99,7 @@ const AddNewCate = props =>{
                     id: 'cd' + (parseInt(IN_CARD_DATA[IN_CARD_DATA.length-1].id.slice(2)) + 1).toString(),
                     title: props.newCate,
                     img: require("../icon/new.png"),
+                    canDelete: false,
                 },
             )
             break;
@@ -111,12 +116,7 @@ const AddNewCate = props =>{
 
   
 //   The DELETE FUNCTION is built in CategoryCard
-export const DeleteCategory = props =>{
-    console.log(' I am in Del, id is :'+ props.id)
-    return (
-        Alert.alert('Yep', 'HI')
-    )
-}
+
 export default AddNewCategory ;
 
 

@@ -9,6 +9,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.gray,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -19,6 +20,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.lightBlue,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -29,6 +31,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.darkgreen,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -39,6 +42,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.peach,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -49,6 +53,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.purple,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -59,6 +64,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.red,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -69,6 +75,7 @@ export var EXPENSE_DATA = [
     type: "-",
     icon: icons.car,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -79,6 +86,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.black,
     expenses: [],
+    canDelete: false,
   },
 
   {
@@ -89,6 +97,7 @@ export var EXPENSE_DATA = [
     type: "-",
     color: COLORS.blue,
     expenses: [],
+    canDelete: false,
   },
 ];
 
@@ -98,6 +107,7 @@ export var SAVING_DATA = [
     title: "Sổ tiết kiệm",
     img: require("../icon/salary-2.png"),
     type: "-",
+    canDelete: false,
   },
 ];
 
@@ -107,6 +117,7 @@ export var INCOME_DATA = [
     title: "Tiền lương",
     img: require("../icon/salary.png"),
     type: "+",
+    canDelete: false,
   },
 
   {
@@ -114,6 +125,7 @@ export var INCOME_DATA = [
     title: "Tiền thưởng",
     img: require("../icon/bonus.png"),
     type: "+",
+    canDelete: false,
   },
 
   // {
@@ -129,6 +141,7 @@ export var IN_CASH_DATA = [
     id: "ch1",
     title: "Tiền mặt",
     img: require("../icon/money-2.png"),
+    canDelete: false,
   },
 ];
 
@@ -137,5 +150,6 @@ export var IN_CARD_DATA = [
     id: "cd1",
     title: "Thẻ ngân hàng",
     img: require("../icon/debit-card.png"),
+    canDelete: false,
   },
 ];
