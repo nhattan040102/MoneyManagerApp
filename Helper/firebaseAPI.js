@@ -434,22 +434,25 @@ export const checkExpenseLimitForCategory = (
     where("status", "==", true)
   );
 
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      if (
-        doc.exists() &&
-        doc.data().categoryValue.categoryId == categoryData.id
-      ) {
-        totalValue += parseInt(doc.data().moneyValue);
+  const unsubscribe = onSnapshot(
+    q,
+    { includeMetadataChanges: true },
+    (querySnapshot) => {
+      if (querySnapshot.metadata.fromCache) {
+        return;
       }
-    });
-  });
-
-  if (categoryLimit != null && totalValue > categoryLimit) {
-    setLimitCheck(false);
-  } else {
-    setLimitCheck(true);
-  }
+      querySnapshot.forEach((doc) => {
+        if (doc.exists() && doc.data().categoryValue.id == categoryData.id) {
+          totalValue += parseInt(doc.data().moneyValue);
+        }
+      });
+      if (categoryLimit != null && totalValue > categoryLimit) {
+        setLimitCheck(false);
+      } else {
+        setLimitCheck(true);
+      }
+    }
+  );
 };
 
 export const getTransactionByType = (getDataByType) => {
