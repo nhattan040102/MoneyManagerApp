@@ -12,7 +12,7 @@ const SavingDetailScreen = props => {
     const [currentState, setCurrentState] = useState('GOAL');
     const [deleteTrigger, setDeleteTrigger] = useState(false);
 
-    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail item={props.route.params} /> : <GoalRecord item={props.route.params} onPress={() => props.navigation.navigate('Thống kê')} />
+    const CurrentScreen = currentState == 'GOAL' ? <GoalDeTail item={props.route.params} /> : <GoalRecord item={props.route.params} navigation={props.navigation} />
     useLayoutEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
