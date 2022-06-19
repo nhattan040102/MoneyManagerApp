@@ -34,6 +34,7 @@ const SavingScreen = props => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             loadSavingGoalData(setCurrentGoalInput, setGoalState, setIsLoadingCurrent);
             loadDoneSavingGoal(setCompletedGoals);
+            console.log(currentGoalInput);
         })
 
         return unsubscribe;

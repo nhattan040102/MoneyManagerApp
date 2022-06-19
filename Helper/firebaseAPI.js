@@ -76,11 +76,12 @@ export const AddTransactionToFirebase = async (input) => {
                 return;
             }
 
-            if (parseInt(currentMoney) + parseInt(docData.moneyValue) >= parseInt(goalMoney))
+            if (parseInt(currentMoney) + parseInt(input.money) >= parseInt(goalMoney))
                 updateSavingGoalStatus(doc_id);
             const docRef = doc(db, "SavingGoal", doc_id);
             await updateDoc(docRef, {
-                currentMoney: increment(parseInt(docData.moneyValue)),
+                currentMoney: increment(parseInt(input.money)),
+
             })
         }, 2000);
 

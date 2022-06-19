@@ -25,10 +25,7 @@ const TransactionInputScreen = props => {
                                 "trigger": "true"
                             })
                         },
-                        {
-                            text: "Ở lại",
 
-                        }
                     ]
                 )
 
